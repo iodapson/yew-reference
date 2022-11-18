@@ -1,0 +1,769 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Passing properties to struct components - Yew Reference</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="chapter_1.html"><strong aria-hidden="true">1.</strong> Hello world yew app!</a></li><li class="chapter-item expanded "><a href="chapter_2.html"><strong aria-hidden="true">2.</strong> Hello world yew app (multi-dir)</a></li><li class="chapter-item expanded "><a href="chapter_3.html"><strong aria-hidden="true">3.</strong> Log to console (using gloo dependency)</a></li><li class="chapter-item expanded "><a href="chapter_4.html"><strong aria-hidden="true">4.</strong> Log complex data type, e.g, struct to console (using gloo, serde, serde_json)</a></li><li class="chapter-item expanded "><a href="chapter_5.html"><strong aria-hidden="true">5.</strong> Html-Rust variable templating</a></li><li class="chapter-item expanded "><a href="chapter_6.html"><strong aria-hidden="true">6.</strong> Fragments (common parent element ancestory)</a></li><li class="chapter-item expanded "><a href="chapter_7.html"><strong aria-hidden="true">7.</strong> Conditional rendering (if-else, if-let, if-let-else blocks)</a></li><li class="chapter-item expanded "><a href="chapter_8.html"><strong aria-hidden="true">8.</strong> Looping (for lists)</a></li><li class="chapter-item expanded "><a href="chapter_9.html"><strong aria-hidden="true">9.</strong> Using crate 'stylist' to style yew apps (ideal for styling fragments and parent elements or components)</a></li><li class="chapter-item expanded "><a href="chapter_10.html"><strong aria-hidden="true">10.</strong> Inline styling with css! macro</a></li><li class="chapter-item expanded "><a href="chapter_11.html"><strong aria-hidden="true">11.</strong> External .css stylesheet with Yew</a></li><li class="chapter-item expanded "><a href="chapter_12.html"><strong aria-hidden="true">12.</strong> Embedding a component inside another component</a></li><li class="chapter-item expanded "><a href="chapter_13.html"><strong aria-hidden="true">13.</strong> Passing properties into an embedded component</a></li><li class="chapter-item expanded "><a href="chapter_14.html"><strong aria-hidden="true">14.</strong> Defining optional properties for an embedded component</a></li><li class="chapter-item expanded "><a href="chapter_15.html"><strong aria-hidden="true">15.</strong> Using passed in properties to a child component inside the child component itself</a></li><li class="chapter-item expanded "><a href="chapter_16.html"><strong aria-hidden="true">16.</strong> Creating enum property value(s) inside a component</a></li><li class="chapter-item expanded "><a href="chapter_17.html"><strong aria-hidden="true">17.</strong> Passing data from child component to parent component</a></li><li class="chapter-item expanded "><a href="chapter_18.html"><strong aria-hidden="true">18.</strong> Creating form components (including a form assembler)</a></li><li class="chapter-item expanded "><a href="chapter_19.html"><strong aria-hidden="true">19.</strong> Handling text input in an input component</a></li><li class="chapter-item expanded "><a href="chapter_20.html"><strong aria-hidden="true">20.</strong> Using Callback for handling (sending-recieving) text input data</a></li><li class="chapter-item expanded "><a href="chapter_21.html"><strong aria-hidden="true">21.</strong> Hook 'use_state'</a></li><li class="chapter-item expanded "><a href="chapter_22.html"><strong aria-hidden="true">22.</strong> Buttons and counters for an up to date view</a></li><li class="chapter-item expanded "><a href="chapter_23.html"><strong aria-hidden="true">23.</strong> Singular complex struct state versus multiple individual states</a></li><li class="chapter-item expanded "><a href="chapter_24.html"><strong aria-hidden="true">24.</strong> Enhanced singular complex struct state versus multiple individual states</a></li><li class="chapter-item expanded "><a href="chapter_25.html"><strong aria-hidden="true">25.</strong> Forms 1 - inputs and buttons with a struct 'use_state'</a></li><li class="chapter-item expanded "><a href="chapter_26.html"><strong aria-hidden="true">26.</strong> Forms 2 - submitting form data</a></li><li class="chapter-item expanded "><a href="chapter_27.html"><strong aria-hidden="true">27.</strong> Hook 'use_context' (immutable sharing)</a></li><li class="chapter-item expanded "><a href="chapter_28.html"><strong aria-hidden="true">28.</strong> Hook 'use_context' (mutable sharing by both parent and sub-components)</a></li><li class="chapter-item expanded "><a href="chapter_29.html"><strong aria-hidden="true">29.</strong> Hook 'use_effect'</a></li><li class="chapter-item expanded "><a href="chapter_30.html"><strong aria-hidden="true">30.</strong> Yew router - 'BrowserRouter'</a></li><li class="chapter-item expanded "><a href="chapter_31.html"><strong aria-hidden="true">31.</strong> Link to another component without any page refresh using 'Link'</a></li><li class="chapter-item expanded "><a href="chapter_32.html"><strong aria-hidden="true">32.</strong> Hook 'use_history' for programmatic linking between components</a></li><li class="chapter-item expanded "><a href="chapter_33.html"><strong aria-hidden="true">33.</strong> Creating a component with a struct</a></li><li class="chapter-item expanded "><a href="chapter_34.html"><strong aria-hidden="true">34.</strong> Styling a struct component</a></li><li class="chapter-item expanded "><a href="chapter_35.html" class="active"><strong aria-hidden="true">35.</strong> Passing properties to struct components</a></li><li class="chapter-item expanded "><a href="chapter_36.html"><strong aria-hidden="true">36.</strong> The struct component lifecycle methods</a></li><li class="chapter-item expanded "><a href="chapter_37.html"><strong aria-hidden="true">37.</strong> Struct component messages</a></li><li class="chapter-item expanded "><a href="chapter_38.html"><strong aria-hidden="true">38.</strong> Yewdux with struct-based components</a></li><li class="chapter-item expanded "><a href="chapter_39.html"><strong aria-hidden="true">39.</strong> Yewdux with a collecting-summarizing struct-based component</a></li><li class="chapter-item expanded "><a href="chapter_40.html"><strong aria-hidden="true">40.</strong> Yewdux with function component, includes a collecting-summarizing function component as well</a></li><li class="chapter-item expanded "><a href="chapter_41.html"><strong aria-hidden="true">41.</strong> Yewdux for persistent storage in functional components</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Yew Reference</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="passing-a-prop-object-to-a-struct-component"><a class="header" href="#passing-a-prop-object-to-a-struct-component">Passing a prop object to a struct component</a></h2>
+<p>You may want to jump to file: &quot;yew_project_name/src/components/struct_based_components/struct_component_one.rs&quot; for a quick look!</p>
+<p>Yew folder structure::</p>
+<pre>
+  |-yew_project_name
+   |-dist
+   |-src
+    |-components
+     |-mod.rs
+     |-level_one_a
+      |-level_one_a_component_1.rs
+     |-form_components
+      |-form_input_component
+      |-form_button_component
+      |-form_assembly_component
+      |-mod.rs
+     |-routes
+      |-mod.rs
+      |-home.rs
+      |-route_one.rs
+      |-route_two.rs
+     |-struct_based_components
+      |-struct_component_one.rs
+      |-mod.rs
+    |-lib.rs
+    |-main.rs
+    |-router.rs
+    |-main.css
+   |-target
+   |-Cargo.lock
+   |-Cargo.toml
+   |-index.html
+</pre>
+<pre>INSIDE 'Cargo.toml'</pre>
+<code>
+<pre>
+[package]
+name = "yew_project_name"
+version = "0.1.0"
+edition = "2021"
+<p>[dependencies]
+yew = &quot;0.19.3&quot;
+stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
+wasm-bindgen = &quot;0.2.79&quot;
+web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] }
+gloo = &quot;0.6.1&quot;
+</pre>
+</code></p>
+<pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub mod level-one-a;
+pub mod form-components;
+// Expose newly created &quot;routes&quot; DIR
+pub mod routes;
+//* Expose newly created &quot;struct_based_components&quot; DIR
+pub mod struct_based_components;
+<span class="boring">}
+</span></code></pre></pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/mod.rs'</pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub mod form_input_component;
+pub mod form_button_component;
+pub mod form_assembler_component;
+<span class="boring">}
+</span></code></pre></pre>
+<pre>INSIDE 'yew_project_name/src/components/struct_based_components/mod.rs'</pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//* Expose file 'yew_project_name::src::components::struct_based_components::struct_component_one;
+pub mod struct_component_one;
+<span class="boring">}
+</span></code></pre></pre>
+<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub mod level_one_a_component_1;
+<span class="boring">}
+</span></code></pre></pre>
+<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use yew::prelude::*;
+
+<span class="boring">derive(Properties, PartialEq)]
+</span>pub struct Props {
+  pub prop_one: String,
+  pub prop_two: Option&lt;String&gt;,
+}
+
+#[function_component(LevelOneAComponent1)]
+pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+
+  html! {
+    &lt;div&gt;
+
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
+
+    &lt;/div&gt;
+  }
+
+}
+<span class="boring">}
+</span></code></pre></pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component'</pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use yew::prelude::*;
+use wasm_bindgen::JsCast;
+use web_sys::HtmlInputElement;
+
+#[derive(Properties, PartialEq)]
+pub struct Props {
+  pub input: String,
+  pub handle_call_to_action: Callback&lt;String&gt;,
+}
+
+#[function_component(FormInputComponent)]
+fn form_input_component(props: &amp;Props) -&gt; Html {
+
+  let handle_call_to_action_clone = props.handle_call_to_action.clone();
+
+  let call_to_action = Callback::from(
+
+    move | input_event | {
+      let input_event_target = input_event.target().unwrap();
+      let current_input_text = input_event_target.unchecked_into::&lt;HtmlInputElement&gt;();
+      handle_call_to_action_clone.emit(current_input_text.value());
+    }
+
+  );
+
+  html! {
+    &lt;input type=&quot;text&quot; name={props.input.clone()} onchange={call_to_action} placeholder={props.input.clone} /&gt;
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_button_component'</pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use yew::prelude::*;
+
+#[derive(Properties, PartialEq)]
+pub struct Props {
+  pub button_one: String,
+}
+
+#[function_component(FormButtonComponent)]
+fn form_button_component(props: &amp;Props) -&gt; Html {
+
+  html! {
+    &lt;button&gt;{&amp;props.button_one}&lt;/button&gt;
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_assembler_component'</pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use yew::prelude::*;
+use crate::components::form_components::form_input_component;
+use crate::components::form_components::form_button_component;
+
+#[derive(Properties, PartialEq)]
+pub struct Props {
+  pub input_one_value: String,
+  pub input_two_value: String,
+  pub button_name: String,
+  pub on_submit_callback_property: Callback&lt;StatesData&gt;
+}
+
+// A struct &quot;StatesData&quot; to be managed as a state
+#[derive(Default, Clone)]
+pub struct StatesData {
+  pub state_one: String,
+  pub state_two: String,
+}
+
+#[function_component(FormAssemblerComponent)]
+pub fn function_assembler(props: &amp;Props) -&gt; Html {
+
+  let states_data_as_state = use_state( || StatesData::default() );
+
+  let use_context_for_context_data = use_context::&lt;ContextData&gt;(); // This component will automatically now have access to &quot;ContextData&quot; because you opted in for access.
+
+  let states_data_as_state_clone = states_data_as_state.clone(); // For &quot;input_callback_receipient&quot;
+
+  let input_1_callback_receipient = Callback::from(
+    move |received_current_input_text| {
+
+      let mut states_data = states_data_as_state_clone.deref().clone();
+      states_data.state_one = received_current_input_text;
+      states_data_as_state_clone.set(states_data);
+
+    }
+  );
+
+  let states_data_as_state_clone = states_data_as_state.clone(); // For &quot;input_2_callback_receipient&quot;
+
+  let input_2_callback_receipient = Callback::from(
+    move |received_current_input_text| {
+
+      let mut states_data = states_data_as_state_clone.deref().clone();
+      states_data.state_two = received_current_input_text;
+      states_data_as_state_clone.set(states_data);
+
+    }
+  );
+
+  // &quot;on_submit_callback_property&quot; is a Callback' type property
+  let on_submit_callback_property_clone = props.on_submit_callback_property.clone();
+
+  // To be .deref() and cloned later
+  let states_data_as_state_clone = states_data_as_state.clone();
+
+  // The callback function here is sensitive to an 'onsubmit' event, which causes it do send (emit) data up to its parent
+  let on_submit_callback = Callback::from(
+
+    move |onsubmit_event_trigger: FocusEvent| {
+
+      onsubmit_event_trigger.preventDefault();
+      let states_data = states_data_as_state_clone.deref().clone();
+      // emit &quot;states_data&quot;
+      on_submit_callback_property_clone.emit(states_data);
+
+    }
+  );
+
+  html! {
+    &lt;form onsubmit={on_submit_callback}&gt;
+
+      &lt;FormInputComponent input={&amp;props.input_one_value.clone()} handle_call_back_action={input_1_callback_receipient} /&gt;
+      &lt;FormInputComponent input={&amp;props.input_two_value.clone()} handle_call_back_action={input_2_callback_receipient} /&gt;
+      &lt;FormButtonComponent button_one={&amp;props.button_name.clone()} /&gt;
+
+      {
+        // Time to use context data trickled down from parent component
+        //..and remember calling 'unwrap_or_default()' on &quot;use_context_for_context_data&quot; 's clone
+      }
+      &lt;p&gt;
+        {&quot;use_context_for_context_data's context_data_one is: &quot;}
+        {use_context_for_context_data.clone().unwrap_or_default().context_data_one}
+      &lt;/p&gt;
+      &lt;p&gt;
+        {&quot;use_context_for_context_data's context_data_two is: &quot;}
+        {use_context_for_context_data.clone().unwrap_or_default().context_data_two}
+      &lt;/p&gt;
+
+    &lt;/form&gt;
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<pre>INSIDE 'yew_project_name/src/components/routes/mod.rs'</pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub mod home.rs;
+pub mod route_one.rs;
+pub mod route_two.rs;
+<span class="boring">}
+</span></code></pre></pre>
+<pre>INSIDE 'yew_project_name/src/components/routes/home.rs'</pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Create Home component
+
+use yew::prelude::*;
+
+// 'Since Link is inside 'yew_router::prelude::*', you must use it
+use yew_router::prelude::*;
+// You must also use the actual &quot;Route&quot; enum which Link would wrap around
+use crate::router::Route;
+
+#[function_component(Home)]
+pub fn home() -&gt; Html {
+  html! {
+    &lt;div&gt;
+      &lt;p&gt;{&quot;You are inside the landing homepage!&quot;}&lt;/p&gt;
+      {
+        // Time to make a Link to another component without refreshing the page
+      }
+      &lt;div&gt;
+        &lt;Link&lt;Route&gt;
+          to={Route::RouteOne}&gt;{ &quot;Go to 'RouteOne' with no page refresh&quot; }
+        &lt;/Link&lt;Route&gt;&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<pre>INSIDE 'yew_project_name/src/components/routes/router_one.rs'</pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Create RouterOne component
+
+use yew::prelude::*;
+
+#[function_component(RouterOne)]
+pub fn router_one() -&gt; Html {
+  html! {
+    &lt;p&gt;{&quot;You are inside router-one&quot;}&lt;/p&gt;
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<pre>INSIDE 'yew_project_name/src/components/routes/route_two.rs'</pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Create RouterTwo component
+
+use yew::prelude::*;
+// In order to apply 'use_history', you need to use 'yew_router::prelude::*;'
+// ..and 'use_history' itself
+use yew_router::{prelude::*, history};
+
+#[function_component(RouterTwo)]
+pub fn router_two() -&gt; Html {
+
+  // Time to apply 'use_history'
+  let history = use_history().unwrap();
+
+  // Clone the applied history in cas you may use &quot;history&quot; multiple times
+  let history_clone = history.clone();
+
+  // Create a callback function to respond to a click and handle it
+  let click_handler = Callback::from(
+    move |_| {
+      // Push a route into &quot;history_clone&quot;
+      history_clone.push(Route::Home);
+    }
+  );
+
+  html! {
+    &lt;div&gt;
+      &lt;p&gt;{&quot;You are inside router-two&quot;}&lt;/p&gt;
+      &lt;button onclick={click_handler}&gt;{&quot;Go back to Home (Landing Page)&quot;}&lt;/button&gt;
+    &lt;/div&gt;
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<pre>INSIDE 'yew_project_name/src/router.rs'</pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Create &quot;router.rs&quot;
+
+use yew::prelude::*;
+// You must use 'yew_router' crate prelude to be able to create public enum &quot;Route&quot; which must implement 'Routable'
+use yew_router::prelude;
+
+// use the components which are your routes, e.g, home.rs's Home component
+use crate::components::router::home::Home;
+use crate::components::router::route_one::RouteOne;
+use crate::components::router::route_two::RouteTwo;
+
+// Create a public enum &quot;Route&quot; to map your router links (i.e, routing by name)
+// ..and &quot;Route&quot; must implement 'Routable', Clone, and 'PartialEq'
+#[derive(Debug, Clone, PartialEq, Routable)]
+pub enum Route {
+  #[at(&quot;/&quot;)]
+  LandingPage,
+  #[at(&quot;/route-one&quot;)]
+  RouteOne,
+  #[at(&quot;/route-two&quot;)]
+  RouteTwo,
+}
+
+// You need to create a function 'switch' to return proper component based on enum 'Route'
+pub fn switch(route: &amp;Route) -&gt; Html {
+  match route {
+    Route::Home =&gt; html! { &lt;Home /&gt; },
+    Route::RouteOne =&gt; html! { &lt;RouterOne /&gt; },
+    Route::RouteTwo =&gt; html! { RouterTwo /&gt; },
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<pre>INSIDE 'yew_project_name/src/components/struct_based_components/struct_component_one.rs'</pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//* Demo code below. Take Note.
+
+// Use essential files/libraries
+use yew::prelude::*;
+
+// You need to use stylist's 'style' and 'Style' to style a struct component too
+use stylist::{style, Style};
+
+use crate::components::level_one_a::level_one_a_component_1::LevelOneAComponent1;
+
+//* Create prop object (struct) that would be used in/with &quot;StructComponentOne&quot;
+#[derive(Properties, PartialEq)]
+pub struct StructComponentOneProp {
+  pub prop_one: String,
+}
+
+// Creation of a struct-based component called &quot;StructComponentOne&quot;
+pub struct StructComponentOne {
+  pub content_one: String,
+  // Your style has to be a property of your struct component
+  struct_component_style: Style,
+}
+
+// You can impl StructComponentOne such that it has a function which returns a 'style!' string
+impl StructComponentOne {
+
+  fn styler() -&gt; Style {
+    style!(
+      r#&quot;
+        color: yellow;
+
+        .p-class: {
+          color: brown;
+        }
+
+      &quot;#
+    ).unwrap();
+  }
+}
+
+// Implement 'Component' for your struct component
+impl Component for StructComponentOne {
+
+  type Message = (); //* empty tuple/unit for now
+  //* Replace: type Properties = (); //* empty tuple/unit for now
+  //* ..with:
+  type Properties = StructComponentOneProp
+
+  // Constructs the component
+  fn create(_ctx: &amp;Context&lt;Self&gt;) -&gt; Self {
+    Self {
+
+      content_one: &quot;Hey, I am of StructComponentOne! Just like a state, without the need for a 'use_state' :-)&quot;.to_onwed(),
+      // Remember to assign a value to &quot;struct_component_style&quot; too
+      struct_component_style: Self::styler(),
+
+    }
+  }
+
+  // This function is what renders 'HTML' or one or components to the screen
+  //* &quot;ctx&quot; is short for &quot;context&quot;
+  //* You can access properties here via &quot;ctx&quot;
+  fn view(&amp;self, ctx: &amp;Context&lt;Self&gt;) -&gt; Html {
+    html! {
+      {
+        // Apply a clone of the style property of the struct component to any element or component's class value
+        // ..in order for style to take effect
+      }
+      &lt;div class={self.struct_component_style.clone()}&gt;
+        &lt;LevelOneAComponent1 prop_one={&quot;StructComponentOne has rendered LevelOneAComponent1!&quot;} /&gt;
+        {
+          //* We'll be accessing property &quot;prop_one&quot; and make use of it here
+          //* ..via a &quot;&amp;ctx.props().prop_one&quot;
+        }
+        &lt;p class=&quot;p-class&quot;&gt;{&quot;I, StructComponentOne, have a property &quot;prop_one&quot; in my prop object, with value: &quot;}{&amp;ctx.props().prop_one}&lt;/p&gt;
+        &lt;p class=&quot;p-class&quot;&gt;{&quot;I, StructComponentOne, have the following content_one: &quot;}{&amp;self.content_one}&lt;/p&gt;
+      &lt;/div&gt;
+    }
+  }
+
+}
+<span class="boring">}
+</span></code></pre></pre>
+<pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use yew::prelude::*;
+use stylist::yew::{styled_component, Style};
+use crate::components::level_one_a::LevelOneAComponent1;
+use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
+use crate::components::form_components::form_assembler_component::StatesData;
+
+// Use &quot;crate::components::struct_based_components::struct_component_one::StructComponentOne&quot;
+use crate::components::struct_based_components::struct_component_one::StructComponentOne;
+
+// Use &quot;switch&quot; function and &quot;Route&quot; enum inside &quot;yew_project_name/src/router.rs&quot;
+use crate::router::{Router, switch};
+
+// You create a 'ContextProvider' at the place where you want to create a context data / object.
+use yew::ContextProvider;
+
+// You must use 'yew_router::prelude::*' in order to be able to use '&lt;Switch /&gt;' nested inside '&lt;BrowserRouter&gt;&lt;/BrowserRouter&gt;'
+use yew_router::prelude::*;
+
+// DIR &quot;struct_based_components&quot; can be found here
+pub mod components;
+
+// &quot;router&quot; is a Rust file not a dir, unlike &quot;components&quot;
+pub mod router;
+
+const EXTERNAL_STYLE = include_str!(&quot;main.css&quot;);
+
+// &quot;ContextData&quot; will be used as a context object
+#[derive(Clone, PartialEq, Default)]
+pub struct ContextData {
+  pub context_data_one: String,
+  pub context_data_two: String,
+}
+
+#[styled_component(App)]
+pub fn app() -&gt; Html {
+
+  let external_style = Style::new(EXTERNAL_STYLE).unwrap();
+
+  let context_data_as_state = use_state(ContextData::default); // or 'use_state( || ContextData::default() ) '
+
+  let first_run = use_state( || true);
+
+  use_effect(
+    move || {
+      if *first_run {
+        first_run.set(false);
+      }
+      || {} // Note that you could destroy/drop data inside this closure as well
+    }
+  );
+
+  let on_submit_callback_property_receipient = Callback::from(
+    |received_states_data: StatesData| {
+      let mut context_data = context_data_as_state.deref().clone();
+      context_data.context_data_one = recieved_states_data.state_one;
+      context_data.context_data_two = received_states_data.state_two;
+      context_data_as_state.set(context_data);
+    }
+  );
+
+  html! {
+    &lt;&gt;
+      &lt;div class={external_style}&gt;
+
+        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; /&gt;
+
+        &lt;ContextProvider&lt;ContextData&gt; context={context_data_as_state.deref().clone()}&gt;
+          &lt;FormAssemblerComponent
+            input_one_value = &quot;Input 1&quot;
+            input_two_value =&quot;Input 2&quot;
+            button_one = &quot;Button 1&quot;
+            prop_on_submit_callback_property = {on_submit_callback_property_receipient}
+          /&gt;
+          {
+            // Time to use 'BrowserRouter'. IMPORTANT: There is no way to pass properties into a Yew router, i.e 'BrowserRouter',
+            // ..but.. you can use a Context as a proxy to pass data. Mind you every sibling component of the 'BrowserRouter' would also have access
+            // ..to the data as well which may be undesireable.
+            // Also, imagine sibling component &quot;LevelOneAComponent1&quot; plausibly being used as a nav-menu component ;-)
+            // &quot;Route&quot; here is an enum, &quot;switch&quot; is a function which matches a &quot;Route&quot; variant to an actual route component.
+          }
+          &lt;BrowserRouter&gt;
+            &lt;Switch&lt;Route&gt;
+              render={Switch::render{switch}}
+            /&gt;
+          &lt;BrowserRouter&gt;
+        &lt;/ContextProvider&lt;ContextData&gt;&gt;
+
+        {
+          //* Time to apply StructComponentOne
+          //* You must now provide a value for every &quot;StructComponentOne&quot; prop-object-properties
+          //* ...which in this case is just one called &quot;prop_one&quot;
+        }
+        &lt;StructComponentOne prop_one={&quot;StructComponentOne's prop_one property acknowledged!&quot;.to_owned()} /&gt;
+
+      &lt;/div&gt;
+    &lt;/&gt;
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<pre>INSIDE 'yew_project_name/src/main.rs'</pre>
+<pre><pre class="playground"><code class="language-rust">use yew_project_name::App;
+
+fn main() {
+  yew::start_app::&lt;App&gt;();
+}
+</code></pre></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="chapter_34.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="chapter_36.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="chapter_34.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="chapter_36.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
