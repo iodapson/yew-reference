@@ -159,7 +159,9 @@ yew = &quot;0.19.3&quot;
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
-<pre><code>use yew::prelude::*;
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use yew::prelude::*;
 
 #[function_component(App)]
 pub fn app() -&gt; Html {
@@ -187,14 +189,15 @@ pub fn app() -&gt; Html {
     &lt;/&gt;
   }
 }
-</code></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <pre>INSIDE 'yew-project-name/src/main.rs'</pre>
-<pre><code>use yew_project_name::App;
+<pre><pre class="playground"><code class="language-rust">use yew_project_name::App;
 
 fn main() {
   yew::start_app::&lt;App&gt;();
 }
-</code></pre>
+</code></pre></pre>
 
                     </main>
 

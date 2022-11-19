@@ -168,17 +168,25 @@ stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code>pub mod level-one-a;
-</code></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub mod level-one-a;
+<span class="boring">}
+</span></code></pre></pre>
 <pre>INSIDE 'yew_project_name/src/components/level-one-a/mod.rs'</pre>
-<pre><code>pub mod level_one_a_component_1;
-</code></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub mod level_one_a_component_1;
+<span class="boring">}
+</span></code></pre></pre>
 <pre>INSIDE 'yew_project_name/src/components/level-one-a/level_one_a_component_1.rs'</pre>
-<pre><code>use yew::prelude::*;
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use yew::prelude::*;
 
 //* The callback's to-be-sent data must be present inside the prop object (ie, struct) for the child element
-#derive(Properties, PartialEq)]
-pub struct Props {
+<span class="boring">derive(Properties, PartialEq)]
+</span>pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
   //* Here we are defining the to-be-sent data for our callback
@@ -198,16 +206,19 @@ pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;Hi! I am from component file 'src/components/level-one-a/level_one_a_component_1.rs'&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level-one-a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
       &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
   }
 
 }
-</code></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
-<pre><code>use yew::prelude::*;
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use yew::prelude::*;
 // Use the stylist functions/macros/namespaces required
 use stylist::yew::{styled_component, Style};
 
@@ -247,14 +258,15 @@ pub fn app() -&gt; Html {
     &lt;/&gt;
   }
 }
-</code></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <pre>INSIDE 'yew-project-name/src/main.rs'</pre>
-<pre><code>use yew_project_name::App;
+<pre><pre class="playground"><code class="language-rust">use yew_project_name::App;
 
 fn main() {
   yew::start_app::&lt;App&gt;();
 }
-</code></pre>
+</code></pre></pre>
 
                     </main>
 
