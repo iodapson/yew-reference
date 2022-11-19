@@ -1,0 +1,733 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Yewdux with a collecting-summarizing struct-based component - Yew Reference</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="chapter_1.html"><strong aria-hidden="true">1.</strong> Hello world yew app!</a></li><li class="chapter-item expanded "><a href="chapter_2.html"><strong aria-hidden="true">2.</strong> Hello world yew app (multi-dir)</a></li><li class="chapter-item expanded "><a href="chapter_3.html"><strong aria-hidden="true">3.</strong> Log to console (using gloo dependency)</a></li><li class="chapter-item expanded "><a href="chapter_4.html"><strong aria-hidden="true">4.</strong> Log complex data type, e.g, struct to console (using gloo, serde, serde_json)</a></li><li class="chapter-item expanded "><a href="chapter_5.html"><strong aria-hidden="true">5.</strong> Html-Rust variable templating</a></li><li class="chapter-item expanded "><a href="chapter_6.html"><strong aria-hidden="true">6.</strong> Fragments (common parent element ancestory)</a></li><li class="chapter-item expanded "><a href="chapter_7.html"><strong aria-hidden="true">7.</strong> Conditional rendering (if-else, if-let, if-let-else blocks)</a></li><li class="chapter-item expanded "><a href="chapter_8.html"><strong aria-hidden="true">8.</strong> Looping (for lists)</a></li><li class="chapter-item expanded "><a href="chapter_9.html"><strong aria-hidden="true">9.</strong> Using crate 'stylist' to style yew apps (ideal for styling fragments and parent elements or components)</a></li><li class="chapter-item expanded "><a href="chapter_10.html"><strong aria-hidden="true">10.</strong> Inline styling with css! macro</a></li><li class="chapter-item expanded "><a href="chapter_11.html"><strong aria-hidden="true">11.</strong> External .css stylesheet with Yew</a></li><li class="chapter-item expanded "><a href="chapter_12.html"><strong aria-hidden="true">12.</strong> Embedding a component inside another component</a></li><li class="chapter-item expanded "><a href="chapter_13.html"><strong aria-hidden="true">13.</strong> Passing properties into an embedded component</a></li><li class="chapter-item expanded "><a href="chapter_14.html"><strong aria-hidden="true">14.</strong> Defining optional properties for an embedded component</a></li><li class="chapter-item expanded "><a href="chapter_15.html"><strong aria-hidden="true">15.</strong> Using passed in properties to a child component inside the child component itself</a></li><li class="chapter-item expanded "><a href="chapter_16.html"><strong aria-hidden="true">16.</strong> Creating enum property value(s) inside a component</a></li><li class="chapter-item expanded "><a href="chapter_17.html"><strong aria-hidden="true">17.</strong> Passing data from child component to parent component</a></li><li class="chapter-item expanded "><a href="chapter_18.html"><strong aria-hidden="true">18.</strong> Creating form components (including a form assembler)</a></li><li class="chapter-item expanded "><a href="chapter_19.html"><strong aria-hidden="true">19.</strong> Handling text input in an input component</a></li><li class="chapter-item expanded "><a href="chapter_20.html"><strong aria-hidden="true">20.</strong> Using Callback for handling (sending-recieving) text input data</a></li><li class="chapter-item expanded "><a href="chapter_21.html"><strong aria-hidden="true">21.</strong> Hook 'use_state'</a></li><li class="chapter-item expanded "><a href="chapter_22.html"><strong aria-hidden="true">22.</strong> Buttons and counters for an up to date view</a></li><li class="chapter-item expanded "><a href="chapter_23.html"><strong aria-hidden="true">23.</strong> Singular complex struct state versus multiple individual states</a></li><li class="chapter-item expanded "><a href="chapter_24.html"><strong aria-hidden="true">24.</strong> Enhanced singular complex struct state versus multiple individual states</a></li><li class="chapter-item expanded "><a href="chapter_25.html"><strong aria-hidden="true">25.</strong> Forms 1 - inputs and buttons with a struct 'use_state'</a></li><li class="chapter-item expanded "><a href="chapter_26.html"><strong aria-hidden="true">26.</strong> Forms 2 - submitting form data</a></li><li class="chapter-item expanded "><a href="chapter_27.html"><strong aria-hidden="true">27.</strong> Hook 'use_context' (immutable sharing)</a></li><li class="chapter-item expanded "><a href="chapter_28.html"><strong aria-hidden="true">28.</strong> Hook 'use_context' (mutable sharing by both parent and sub-components)</a></li><li class="chapter-item expanded "><a href="chapter_29.html"><strong aria-hidden="true">29.</strong> Hook 'use_effect'</a></li><li class="chapter-item expanded "><a href="chapter_30.html"><strong aria-hidden="true">30.</strong> Yew router - 'BrowserRouter'</a></li><li class="chapter-item expanded "><a href="chapter_31.html"><strong aria-hidden="true">31.</strong> Link to another component without any page refresh using 'Link'</a></li><li class="chapter-item expanded "><a href="chapter_32.html"><strong aria-hidden="true">32.</strong> Hook 'use_history' for programmatic linking between components</a></li><li class="chapter-item expanded "><a href="chapter_33.html"><strong aria-hidden="true">33.</strong> Creating a component with a struct</a></li><li class="chapter-item expanded "><a href="chapter_34.html"><strong aria-hidden="true">34.</strong> Styling a struct component</a></li><li class="chapter-item expanded "><a href="chapter_35.html"><strong aria-hidden="true">35.</strong> Passing properties to struct components</a></li><li class="chapter-item expanded "><a href="chapter_36.html"><strong aria-hidden="true">36.</strong> The struct component lifecycle methods</a></li><li class="chapter-item expanded "><a href="chapter_37.html"><strong aria-hidden="true">37.</strong> Struct component messages</a></li><li class="chapter-item expanded "><a href="chapter_38.html"><strong aria-hidden="true">38.</strong> Yewdux with struct-based components</a></li><li class="chapter-item expanded "><a href="chapter_39.html" class="active"><strong aria-hidden="true">39.</strong> Yewdux with a collecting-summarizing struct-based component</a></li><li class="chapter-item expanded "><a href="chapter_40.html"><strong aria-hidden="true">40.</strong> Yewdux with function component, includes a collecting-summarizing function component as well</a></li><li class="chapter-item expanded "><a href="chapter_41.html"><strong aria-hidden="true">41.</strong> Yewdux for persistent storage in functional components</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Yew Reference</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="yewdux-with-struct-components-form-demo"><a class="header" href="#yewdux-with-struct-components-form-demo">Yewdux with struct components (Form Demo)</a></h2>
+<pre>New DIR "yew_project_name/src/stores" created</pre>
+<pre>N.B: You should actually create multiple stores for deeply integral data types to be stored</pre>
+<pre>For a quick look, jump to file:
+   - "yew_project_name/src/stores/sample_store_two.rs"
+   - "yew_project_name/src/components/sample_store_two_user_component.rs"
+   - "yew_project_name/src/components/sample_store_two_summary_component.rs"</pre>
+<pre>!!! Read this!!!
+  In this demo, a centralized store/state will be created to manage a hypothetical form data
+  ..and you'll be able to use or summarize the centralized state/store data at the click of a button</pre>
+<p>Yew folder structure::</p>
+<pre>
+  |-yew_project_name
+   |-dist
+   |-src
+    |-components
+     |-mod.rs
+     |-sample_store_one_user_component.rs
+     |-sample_store_one_button_component.rs
+     |-sample_store_two_user_component.rs
+     |-sample_store_two_summary_component.rs
+    |-stores
+     |-mod.rs
+     |-sample_store_one.rs
+     |-sample_store_two.rs
+    |-lib.rs
+    |-main.rs
+   |-target
+   |-Cargo.lock
+   |-Cargo.toml
+   |-index.html
+</pre>
+<pre>INSIDE 'Cargo.toml'</pre>
+<code>
+<pre>
+[package]
+name = "yew_project_name"
+version = "0.1.0"
+edition = "2021"
+<p>[dependencies]
+yew = &quot;0.19.3&quot;
+stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
+wasm-bindgen = &quot;0.2.79&quot;
+web-sys = { version=&quot;0.3.60&quot;, features = [&quot;HtmlInputElement&quot;] } # //* You must depend on 'web-sys'
+yewdux = &quot;0.8.2&quot; # //* You must depend on 'yewdux'
+</pre>
+</code></p>
+<pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>mod sample_store_one_user_component; // file not needed anymore
+mod sample_store_one_button_component; // file not needed anymore
+mod sample_store_two_user_component; //* file
+mod sample_store_two_summary_component; //* file
+<span class="boring">}
+</span></code></pre></pre>
+<pre>INSIDE 'yew_project_name/src/stores/mod.rs'</pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>mod sample_store_one; //* file not needed anynore
+mod sample_store_two; //* .rs file
+<span class="boring">}
+</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/*
+  !!! NOT NEEDED ANYMORE !!!
+// INSIDE 'yew_project_name/src/stores/sample_store_one.rs'
+
+// You must use the yewdux prelude in the file you want to create a yewdux store
+use yewdux::prelude::*;
+
+// You must derive 'Store', 'Default', and 'PartialEq' on the struct you want to use as your centralized store
+// You ideally should derive 'Clone' too because it is needed in an alternate syntax in this demo soon to be found
+#[derive(Store, PartialEq, Default, Clone)]
+pub struct CentralizedStateOne {
+  pub state_one: u32,
+}
+*/
+<span class="boring">}
+</span></code></pre></pre>
+<pre>INSIDE 'yew_project_name/src/stores/sample_store_two.rs'</pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//* You must use the yewdux prelude inside the file you want ot create a yewdux store in
+use yewdux::prelude::*;
+
+//* You must derive 'Store', 'Default', and 'PartialEq' on the struct you want to use as your centralized store
+//* You ideally should derive 'Clone' too because it is needed in an alternate syntax in this demo soon to be found
+#[derive(Store, PartialEq, Default, Clone)]
+pub struct CentralizedFormState {
+  pub state_one_input: Option&lt;String&gt;,
+  pub state_two_input: Option&lt;String&gt;,
+  pub state_one_and_two_input_entry_set: bool,
+}
+<span class="boring">}
+</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/*
+  !!! NOT NEEDED ANYMORE !!!
+// INSIDE 'yew_project_name/src/components/sample_store_one_user_component'
+
+use yew::prelude::*;
+use yewdux::prelude::*;
+
+use std::rc::Rc;
+
+use crate::stores::sample_store_one::CentralizedStateOne;
+
+pub struct SampleStoreOneUserComponent {
+  // You need a means to keep the (yewdux) store via 'dispatch' inside yewdux prelude
+  pub dispatch: Dispatch&lt;CentralizedStateOne&gt;
+}
+
+// Create an enum to be &quot;SampleStoreOneUserComponent&quot; 's  'Message' type
+pub enum SSOUCMessage {
+  // The only variant of &quot;SSOUCMessage&quot; is &quot;Store(Rc&lt;CentralizedStateOne&gt;)&quot;, hmm..
+  Store(Rc&lt;CentralizedStateOne&gt;),
+}
+
+impl Component for SampleStoreOneUserComponent {
+
+  type Message = SSOUCMessage;
+  type Properties = ();
+
+  fn create(ctx: &amp;Context&lt;Self&gt;) -&gt; Self {
+
+    // Make sure you have your dispatch as soon as this component is created
+    let dispatch = Dispatch::CentralizedStateOne::subscribe(
+      ctx.link().callback(SSOUCMessage::Store)
+    )// &quot;ctx.link()&quot; is the value of 'onchange', while &quot;SSOUCMessage::Store&quot; is the value of 'function'
+
+    Self {dispatch} //* &quot;dispatch&quot; herein basically makes it possible to retreive the central state/store data as a message
+
+  }
+
+  // Tell your component to update when any centralized-store/state item updates; i.e, changes to a new value
+  fn update(&amp;mut self, ctx: &amp;Context&lt;Self&gt;, msg: Self::Message) -&gt; bool {
+    match msg {
+      SSOUCMessage::Store(_) =&gt; true,
+    }
+  }
+
+  fn view(&amp;self, _ctx: &amp;Context&lt;Self&gt;) -&gt; Html {
+
+    let almost_state_one = self.dispatch.get(); // This returns an Rc to &quot;CentralizedStateOne&quot; store inside enum &quot;SSOUCMessage&quot;
+    let state_one = almost_state_one.state_one; // Now you get &quot;state_one&quot; stored inside store struct &quot;CentralizedStateOne&quot;
+    html! {
+      &lt;div&gt;
+        &lt;h4&gt;{&quot;State one below&quot;}&lt;/h4&gt;
+        &lt;div&gt;{state_one}&lt;/div&gt;
+      &lt;/div&gt;
+    }
+
+  }
+
+}
+*/
+<span class="boring">}
+</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/*
+  !!! NOT NEEDED ANYMORE !!!
+// INSIDE &quot;yew_project_name/src/components/sample_store_one_button_component&quot;
+
+use yew::prelude::*;
+use yewdux::prelude::*;
+use std::rc::Rc;
+
+use crate::stores::sample_store_one::CentralizedStateOne;
+
+pub struct SampleStoreOneButtonComponent {
+  pub dispatch: Dispatch&lt;CentralizedStateOne&gt;
+}
+
+// Create an enum to be &quot;SampleStoreOneButtonComponent&quot; 's  'Message' type
+pub enum SSOBCMessage {
+  Store(Rc&lt;CentralizedStateOne&gt;),
+  ButtonClicked, // This time there is another variant, hmm..
+}
+
+impl Component for SampleStoreOneButtonComponent {
+
+  type Message = SSOBCMessage;
+  type Properties = ();
+
+  fn create(ctx: &amp;Context&lt;Self&gt;) -&gt; Self {
+
+    let dispatch = Dispatch::CentralizedStateOne::subscribe(
+      ctx.link().callback(SSOBCMessage::Store)
+    )//* &quot;ctx.link()&quot; is the value of 'onchange', while &quot;SSOCMessage::Store&quot; is the value of 'function'
+
+    Self {dispatch} // &quot;dispatch&quot; herein basically makes it possible to retreive the message in the central state/store as data for first render
+
+  }
+
+  // Control changes to the central store via clicks to button here
+  // Mind you, this is a button component
+  fn update(&amp;mut self, ctx: &amp;Context&lt;Self&gt;, msg: Self::Message) -&gt; bool {
+
+    match msg {
+
+      SSOBCMessage::Store(_store) =&gt; false,
+      SSOBCMessage::ButtonClicked =&gt; { // &quot;store&quot; herein is an 'Rc&lt;CentralizedStateOne&gt;'
+        /*self.dispatch.reduce(|store| CentralizedStateOne {
+          state_one: store.state_one + 1; //* The more the button is clicked, the higher &quot;state_one&quot; ' value (inside &quot;CentralizedStateOne&quot;) will be.
+        });
+        */ // alternate syntax;  Now this is why &quot;CentralizedStateOne&quot; needed to derive 'Clone'
+        self.dispatch.reduce_mut(|store| {
+          //store.state_one += 1; //* &quot;store here is now a mutable reference to &quot;CentralizedStateOne&quot;
+        });
+        false
+      }
+
+    }
+
+  }
+
+  fn view(&amp;self, _ctx: &amp;Context&lt;Self&gt;) -&gt; Html {
+
+    //* Function to respond to button clicks
+    //* The response here is to trigger a 'Message' (which in our case is an enum variant &quot;ButtonClicked&quot;), causing it to the fire the 'update' lifecycle method
+    //* Take Note: the '.callback()' arg here is different from the one in the 'view' lifecycle method
+    let onclick_response = ctx.link().callback(|_| SSOBCMessage::ButtonClicked);
+    html! {
+      &lt;button onclick={onclick_response&gt;
+        {&quot;Effect update&quot;}
+      &lt;/button&gt;
+    }
+
+  }
+
+}
+*/
+<span class="boring">}
+</span></code></pre></pre>
+<pre>INSIDE 'yew_project_name/src/components/sample_store_two_user_component'</pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//* Important File.
+
+//* Use yew and yewdux prelude
+use yew::prelude::*;
+use yewdux::prelude::*;
+
+//* You need to use 'web_sys::HtmlInputElement' to handle input and respond to them via input attribute 'onchange'
+use web_sys::HtmlInputElement;
+
+//* Make sure to use 'std::rc::Rc&quot;
+use std::rc::Rc;
+
+//* You need to use the struct &quot;CentralizedStateOne&quot; inside the file that contains the store herein,
+//* ..the component that will make use of the store
+use crate::stores::sample_store_two::CentralizedFormState;
+
+//* Since this is a yewdux and struct demo, here, a struct component is being created
+pub struct SampleStoreTwoUserComponent {
+  //* You need a means to keep the (yewdux) store &quot;CentralizedFormState&quot; via 'dispatch' inside yewdux prelude
+  pub dispatch: Dispatch&lt;CentralizedFormState&gt;
+}
+
+//* Create an enum to be &quot;SampleStoreTwoUserComponent&quot; 's  'Message' type
+pub enum SSTUCMessage {
+
+  //* Take note:
+  //* Make a reference counting store out of &quot;CentralizedFormState&quot; as a variant
+  Store(Rc&lt;CentralizedFormState&gt;),
+
+  //* Create enum variants with which you would use to affect states inside &quot;CentralizedFormState&quot;
+  StateOneInputMessage(String)
+  StateTwoInputMessage(String),
+  ReleaseFormData,
+
+}
+
+//* impl 'Component' for &quot;SampleStoreTwoUserComponent&quot; created up above
+impl Component for SampleStoreTwoUserComponent {
+
+  type Message = SSTUCMessage;
+  type Properties = ();
+
+  fn create(ctx: &amp;Context&lt;Self&gt;) -&gt; Self {
+    //* Make sure you have your dispatch as soon as this component is created
+    let dispatch = Dispatch::CentralizedFormState::subscribe(
+      ctx.link().callback(SSTUCMessage::Store)
+    )//* &quot;ctx.link()&quot; is the value of 'onchange', while &quot;SSTUCMessage::Store&quot; is the value of 'function'
+
+    Self {dispatch} //* &quot;dispatch&quot; herein basically makes it possible to retreive the central state/store data as a message
+  }
+
+  //* Tell your component to update when a specific centralized-store/state item updates; i.e, changes to a new value
+  //* This component &quot;SampleStoreTwoUserComponent&quot; will only update when when a button is clicked with will trigger the &quot;ReleaseFormData&quot; enum's &quot;SSTUCMessage&quot; variant
+  fn update(&amp;mut self, _ctx: &amp;Context&lt;Self&gt;, msg: Self::Message) -&gt; bool {
+
+    match msg {
+      SSTUCMessage::Store(_) =&gt; false,
+      SSTUCMessage::StateOneInputMessage(received_input) =&gt; {
+        self.dispatch.reduce_mut(|centralized_form_state| {
+          centralized_form_state.state_one_input = Some(received_input)
+        });
+        false
+      },
+      SSTUCMessage::StateTwoInputMessage(received_input) =&gt; {
+        self.dispatch.reduce_mut(|centralized_form_state| {
+          centralized_form_state.state_two_input = Some(received_input)
+        });
+        false
+      }
+      SSTUCMessage::ReleaseFormData =&gt; { //* Potential means to put form validation logic inside a block and then return true or false as the choice may be :)
+
+        //* Here, we are making sure SSTUCMessage variants &quot;StateOneInputMessage&quot; and &quot;StateTwoInputMessage&quot; have been set before releasing form data
+        self.dispatch.reduce_mut(|centralized_form_state| {
+          //* This code block returns true
+          centralized_form_state.state_one_and_two_input_entry_set = {
+            centralized_form_state.state_one_input.is_some() &amp;&amp;
+            centralized_form_state.state_two_input.is_some()
+          }
+        });
+
+        //* Time to return either true or false
+        false
+
+      }
+    }
+
+  }
+
+  fn view(&amp;self, ctx: &amp;Context&lt;Self&gt;) -&gt; Html {
+
+    //* Create callback function that supply input to input &quot;state_one_input&quot; of &quot;CentralizedFormState&quot;
+    let supply_state_one_input = ctx.link().callback(
+      |event: Event| {
+        //* Extract input data via 'event.target'
+        let target = event.target_unchecked_into::&lt;HtmlInputElement&gt;();
+        let input = target.value();
+        SSTUCMessage::StateOneInputMessage(input);
+      }
+    );
+
+    //* Create callback function that supply input to input &quot;state_one_input&quot; of &quot;CentralizedFormState&quot;
+    let supply_state_two_input = ctx.link().callback(
+      |event: Event| {
+        //* Extract input data via 'event.target'
+        let target = event.target_unchecked_into::&lt;HtmlInputElement&gt;();
+        let input = target.value();
+        SSTUCMessage::StateTwoInputMessage(input);
+      }
+    );
+
+    //* Create a callback function which will respond to an 'onsubmit' event of the form element
+    let onsubmit_response = ctx.link().callback(
+      |event: FocusEvent| {
+        event.prevent_default();
+        //* Return &quot;ReleaseFormData&quot; Message variant
+        SSTUCMessage::ReleaseFormData
+      }
+    );
+
+    html! {
+      &lt;form onsubmit_response&gt;
+        &lt;h4&gt;{&quot;Form data released below&quot;}&lt;/h4&gt;
+
+        &lt;div&gt;
+          &lt;div&gt;
+            &lt;label for=&quot;state-one-input&quot;&gt;{&quot;StateOneInputMessage&quot;}&lt;/label&gt;
+          &lt;/div&gt;
+          &lt;div&gt;
+            {
+              //* You must assign the 'onchange' attribute of this input in the case to &quot;supply_state_one_input&quot; so it
+              //* ..can supply it the input received
+            }
+            &lt;input type=&quot;text&quot; id=&quot;state-one-input&quot; onchange={supply_state_one_input} placeholder=&quot;StateOneInputMessage&quot; /&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div&gt;
+          &lt;div&gt;
+            &lt;label for=&quot;state-two-input&quot;&gt;{&quot;StateTwoInputMessage&quot;}&lt;/label&gt;
+          &lt;/div&gt;
+          &lt;div&gt;
+            &lt;input type=&quot;password&quot; id=&quot;state-two-input&quot; onchange={supply_state_two_input} placeholder=&quot;StateTwoInputMessage&quot; /&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div&gt;
+          &lt;button&gt;{&quot;ReleaseFormData&quot;}&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    }
+
+  }
+
+}
+<span class="boring">}
+</span></code></pre></pre>
+<pre>INSIDE 'yew_project_name/src/components/sample_store_two_summary_component'</pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//* Another important file for this demo
+//* The entire file is important
+//* Important. Take Note!!
+
+use yew::prelude::*;
+use yewdux::prelude::*;
+
+use crate::stores::sample_store_two::CentralizedFormState;
+
+pub struct SampleStoreTwoSummaryComponent {
+  dispatch: Dispatch&lt;CentralizedFormState&gt;,
+}
+
+pub enum SSTSCMessage {
+  Store(Rc&lt;CentralizedFormState&gt;),
+}
+
+impl Component for SampleStoreTwoSummaryComponent {
+
+  type Message = SSTSCMessage;
+  type Properties = ();
+
+  //* The 'create' life-cycle method
+  fn create(ctx: &amp;Context&lt;Self&gt;) -&gt; Self {
+    let dispatch = Dispatch::&lt;CentralizedFormState&gt;::subscribe(
+      ctx.link().callback(SSTSCMessage::Store)
+    );
+    Self { dispatch }
+  }
+
+  //* The 'update' life-cycle method
+  fn update(&amp;mut self, ctx: &amp;Context&lt;Self&gt;, msg: Self::Message) -&gt; bool {
+    match msg {
+      SSTSCMessage::Store(_) =&gt; true,
+    }
+  }
+
+  //* The 'view' life-cycle method
+  fn view(&amp;self, ctx: &amp;Context&lt;Self&gt;) -&gt; Html {
+
+    let centralized_form_state = self.dispatch.get();
+
+    let state_one_input_summary = format!(
+      &quot;State one is: {}&quot;,
+      centralized_form_state.state_one_input.as_deref()unwrap_or_default()
+    );
+    let state_two_input_summary = format!(
+      &quot;State two is: {}&quot;,
+      centralized_form_state.as_deref().state_two_input.unwrap_or_default()
+    );
+    let state_one_and_two_input_entry_set_summary = format!(
+      &quot;State one and two input entry set true/false: {:?}&quot;,
+      centralized_form_state.state_one_and_two_input_entry_set
+    );
+
+    html! {
+      &lt;div&gt;
+        &lt;h3&gt;{&quot;CentralizedFormState Data Summary&quot;}&lt;/h3&gt;
+        &lt;div&gt;{state_one_input_summary}&lt;/div&gt;
+        &lt;div&gt;{state_two_input_summary}&lt;/div&gt;
+        &lt;div&gt;{state_one_and_two_input_entry_set_summary}&lt;/div&gt;
+      &lt;/div&gt;
+    }
+
+  }
+
+}
+<span class="boring">}
+</span></code></pre></pre>
+<pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//* expose sibling DIR 'stores'
+mod stores; //* DIR
+mod components; //* DIR
+
+use yew::prelude::*;
+
+//* This component is not needed anymore
+use crate::components::sample_store_one_user_component::SampleStoreOneUserComponent;
+
+//* Use &quot;SampleStoreTwoUserComponent&quot;
+use crate::components::sample_store_two_user_component::SampleStoreTwoUserComponent;
+//* Also use &quot;SampleStoreTwoSummaryComponent&quot;
+use crate::components::sample_store_two_summary_component::SampleStoreTwoSummaryComponent;
+
+//* This component is not needed anymore
+use crate::components::sample_store_one_button_component::SampleStoreOneButtonComponent;
+
+pub struct App{}
+
+impl Component for App {
+
+  type Message = ();
+  type Properties = ();
+
+  fn create(_ctx: &amp;Context&lt;Self&gt;) -&gt; Self {
+    Self{}
+  }
+
+  fn view(&amp;self, _ctx: &amp;Context&lt;Self&gt;) -&gt; Html {
+    html! {
+      &lt;div&gt;
+
+        &lt;h2&gt;{&quot;You are inside app, the beginning of this app&quot;}&lt;/h2&gt;
+
+        &lt;div&gt;
+
+          {
+            //* Component not needed anymore
+          }
+          &lt;SampleStoreOneUserComponent /&gt;
+
+
+          {
+            //* Component not needed anymore
+          }
+          &lt;SampleStoreOneButtonComponent /&gt;
+
+          {
+            //* Time to use the relevant component(s) that interacts with a yewdux centralized state/store
+          }
+          &lt;SampleStoreTwoUserComponent /&gt;
+          &lt;SampleStoreTwoSummaryComponent /&gt;
+
+        &lt;/div&gt;
+
+      &lt;/div&gt;
+    }
+  }
+
+}
+<span class="boring">}
+</span></code></pre></pre>
+<pre>INSIDE 'yew_project_name/src/main.rs'</pre>
+<pre><pre class="playground"><code class="language-rust">use yew_project_name::App;
+
+fn main() {
+  yew::start_app::&lt;App&gt;();
+}
+</code></pre></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="chapter_38.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="chapter_40.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="chapter_38.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="chapter_40.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
