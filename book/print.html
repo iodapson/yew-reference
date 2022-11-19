@@ -254,9 +254,8 @@ use gloo::console::log;
 
 #[function_component(App)]
 pub fn app() -&gt; Html {
-  // the following variable 'target'can be logged
+  // the following variable 'target' can be logged
   let target= &quot;something&quot;;
-  // Now log 'target'
   log!(&quot;show&quot;, target);
   html! {
     &lt;h1&gt;{&quot;Hello World&quot;}&lt;/h1&gt;
@@ -414,11 +413,11 @@ yew = &quot;0.19.3&quot;
 #[function_component(App)]
 pub fn app() -&gt; Html {
   //* Yew mandates that you have only one element returned by 'html!' macro
-  //* ..to return multiple elements, feel free to make use of a fragment as done below:
+  //* To return multiple elements, feel free to make use of a fragment as done below:
   html! {
     &lt;&gt;
       &lt;h1 class=&quot;class-a&quot;&gt;{&quot;Hello World&quot;}&lt;/h1&gt;
-      &lt;strong&gt;I'm element number two&lt;/strong&gt;
+      &lt;strong&gt;{&quot;I'm element number two&quot;}&lt;/strong&gt;
     &lt;/&gt;
   } // N.B: You cannot style fragments
 }
@@ -533,7 +532,7 @@ pub fn app() -&gt; Html {
       &lt;ol&gt;
         {
           //* The iteration is below:
-          //* ..Note that you can extract the iteration code into a function which you then rather call
+          //* ..Note that you can extract the iteration code below into a function which you then simply call
         }
         {
           the_list.iter().map( |item| html!{
