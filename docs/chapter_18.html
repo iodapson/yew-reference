@@ -172,23 +172,34 @@ stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code>pub mod level-one-a;
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub mod level-one-a;
 pub mod form-components; //* Take note of this
-</code></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components</pre>
-<pre><code>//* Take note of these:
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//* Take note of these:
 pub mod form_input_component;
 pub mod form_button_component;
 pub mod form_assembler_component;
-</code></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code>pub mod level_one_a_component_1;
-</code></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub mod level_one_a_component_1;
+<span class="boring">}
+</span></code></pre></pre>
 <pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
-<pre><code>use yew::prelude::*;
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use yew::prelude::*;
 
-#derive(Properties, PartialEq)]
-pub struct Props {
+<span class="boring">derive(Properties, PartialEq)]
+</span>pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
@@ -199,16 +210,19 @@ pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
       &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
   }
 
 }
-</code></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component'</pre>
-<pre><code>//* Create file code
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//* Create file code
 use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
@@ -227,9 +241,12 @@ fn form_input_component(props: &amp;Props) -&gt; Html {
     &lt;input type=&quot;text&quot; name={props.input_one.clone()} /&gt;
   }
 }
-</code></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components/form_button_component'</pre>
-<pre><code>//* Create file code
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//* Create file code
 use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
@@ -243,9 +260,12 @@ fn form_button_component(props: &amp;Props) -&gt; Html {
     &lt;button&gt;{&amp;props.button_one}&lt;/button&gt;
   }
 }
-</code></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components/form_assembler_component'</pre>
-<pre><code>//* Learn from this file
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//* Learn from this file
 
 use yew::prelude::*;
 //* Use &quot;form_input_component&quot; and &quot;form_button_component&quot;
@@ -267,9 +287,12 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
     &lt;/form&gt;
   }
 }
-</code></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
-<pre><code>use yew::prelude::*;
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use yew::prelude::*;
 // Use the stylist functions/macros/namespaces required
 use stylist::yew::{styled_component, Style};
 use crate::components::level_one_a/LevelOneAComponent1;
@@ -303,14 +326,15 @@ pub fn app() -&gt; Html {
     &lt;/&gt;
   }
 }
-</code></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <pre>INSIDE 'yew-project-name/src/main.rs'</pre>
-<pre><code>use yew_project_name::App;
+<pre><pre class="playground"><code class="language-rust">use yew_project_name::App;
 
 fn main() {
   yew::start_app::&lt;App&gt;();
 }
-</code></pre>
+</code></pre></pre>
 
                     </main>
 
