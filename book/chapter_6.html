@@ -166,11 +166,11 @@ yew = &quot;0.19.3&quot;
 #[function_component(App)]
 pub fn app() -&gt; Html {
   //* Yew mandates that you have only one element returned by 'html!' macro
-  //* ..to return multiple elements, feel free to make use of a fragment as done below:
+  //* To return multiple elements, feel free to make use of a fragment as done below:
   html! {
     &lt;&gt;
       &lt;h1 class=&quot;class-a&quot;&gt;{&quot;Hello World&quot;}&lt;/h1&gt;
-      &lt;strong&gt;I'm element number two&lt;/strong&gt;
+      &lt;strong&gt;{&quot;I'm element number two&quot;}&lt;/strong&gt;
     &lt;/&gt;
   } // N.B: You cannot style fragments
 }

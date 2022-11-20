@@ -165,9 +165,8 @@ use gloo::console::log;
 
 #[function_component(App)]
 pub fn app() -&gt; Html {
-  // the following variable 'target'can be logged
+  // the following variable 'target' can be logged
   let target= &quot;something&quot;;
-  // Now log 'target'
   log!(&quot;show&quot;, target);
   html! {
     &lt;h1&gt;{&quot;Hello World&quot;}&lt;/h1&gt;

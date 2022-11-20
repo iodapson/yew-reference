@@ -185,8 +185,8 @@ use yew::prelude::*;
 
 //* You need to create a prop struct which would hold/represent the passed in properties
 //* You must also derive 'Properties' and 'PartialEq' on the struct, like so;
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Prop {
   pub prop_one: String,
 }
 
@@ -195,7 +195,7 @@ use yew::prelude::*;
 pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
   html! {
     &lt;div&gt;
-      &lt;p&gt;Hi! I am from component file 'src/components/level-one-a/level_one_a_component_1.rs'&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level-one-a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
     &lt;/div&gt;
   }
 }

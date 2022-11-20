@@ -166,12 +166,12 @@ stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 //* use the stylist functions/macros/namespaces required
 use stylist::yew::{styled_component, style};
 
-//* To use stylist, you must used a 'styled_component' rather than 'function_component'
+//* To use stylist, you must apply a 'styled_component' rather than a 'function_component'
 #[styled_component(App)]
 pub fn app() -&gt; Html {
 
   //* Now make use of the style! macro to create the style.
-  //* ..note that 'style!' returns a result, so remember to unwrap
+  //* Note that 'style!' returns a result, so remember to unwrap
   let a_style = style! (
     r#&quot;
       font-size: 24px;
