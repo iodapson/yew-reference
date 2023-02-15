@@ -134,7 +134,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="condtional-rendering-if-blocks"><a class="header" href="#condtional-rendering-if-blocks">Condtional rendering (if-blocks)</a></h2>
+                        <h2 id="conditional-rendering-if-blocks"><a class="header" href="#conditional-rendering-if-blocks">Conditional rendering (if-blocks)</a></h2>
 <p>Yew folder structure::</p>
 <pre>
   |-yew_project_name
@@ -155,8 +155,7 @@ name = "yew_project_name"
 version = "0.1.0"
 edition = "2021"
 <p>[dependencies]
-yew = &quot;0.19.3&quot;
-</pre>
+yew = &quot;0.19.3&quot;</pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
@@ -170,16 +169,17 @@ pub fn app() -&gt; Html {
     &lt;&gt;
 
       if some_value == &quot;sample&quot; { //* Here, you can see conditional rendering in action
-        &lt;h1 class={some_value}&gt;{&quot;Hello World&quot;}&lt;/h1&gt;
+        &lt;h1 class={some_value}&gt;{&quot;Hello World! I matched 'sample'.&quot;}&lt;/h1&gt;
       } else {
-        &lt;h1 class={&quot;invalid&quot;}&gt;{&quot;Hello world&quot;}&lt;/h1&gt;
+        &lt;h1 class={&quot;invalid&quot;}&gt;{&quot;Hello world! I matched 'an option'.&quot;}&lt;/h1&gt;
       }
 
       {
-        // if-let example below
+        // if-let example below. Please delete me and my block to make this module compile.
       }
+
       if let Some(val) = option_value {
-        &lt;p&gt;{&quot;show&quot;}{val}&lt;/p&gt;
+        &lt;p&gt;{&quot;And variable 'option_value' has value: &quot;}{val}&lt;/p&gt;
       } else {
         &lt;p&gt;{&quot;show no option&quot;}&lt;/p&gt;
       }

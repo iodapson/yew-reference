@@ -156,13 +156,13 @@ version = "0.1.0"
 edition = "2021"
 <p>[dependencies]
 yew = &quot;0.19.3&quot;
-stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
-</pre>
+stylist = {version = &quot;0.10.1&quot; features = [&quot;yew&quot;]}</pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 //* use the stylist functions/macros/namespaces required
-use stylist::yew::{styled_component, style};
+use stylist::yew::{styled_component};
+use stylist::style;
 
 //* To use stylist, you must apply a 'styled_component' rather than a 'function_component'
 #[styled_component(App)]

@@ -145,8 +145,8 @@ I don't seem to like the enhanced version due to (possible?) matching name requi
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
      |-form_components
       |-form_input_component
       |-form_button_component
@@ -176,33 +176,33 @@ gloo = &quot;0.6.1&quot;
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
-pub mod form-components;
+<pre><code class="language-rust">pub mod sub_components_a;
+pub mod form_components;
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components</pre>
 <pre><code class="language-rust">pub mod form_input_component;
 pub mod form_button_component;
 pub mod form_assembler_component;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
 #[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
       &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
@@ -408,8 +408,8 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a/LevelOneAComponent1;
-use crate::components::form_components/form_assembler_component::FormAssemblerComponent;
+use crate::components::sub_components_a::SubComponentsAComponent1;
+use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 
 mod components;
 

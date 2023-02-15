@@ -134,7 +134,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="enum-as-a-property-value-of-a-component-child-component"><a class="header" href="#enum-as-a-property-value-of-a-component-child-component">Enum as a property value of a component (child component)</a></h2>
+                        <h2 id="enum-as-a-prop-fields-value-of-a-component-child-component"><a class="header" href="#enum-as-a-prop-fields-value-of-a-component-child-component">Enum as a prop field's value of a component (child component)</a></h2>
 <p>Yew folder structure::</p>
 <pre>
   |-yew_project_name
@@ -142,8 +142,8 @@
    |-src
     |-components
      |-mod.rs
-     |-level-one-a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
       |-mod.rs
     |-lib.rs
     |-main.rs
@@ -166,17 +166,19 @@ stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
+<pre><code class="language-rust">pub mod sub_components_a;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level-one-a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level-one-a/level_one_a_component_1.rs'</pre>
-<pre><code class="language-rust">// This is a sub-component inside dir 'src/components/level-one-a'
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
+<pre><code class="language-rust">// This is a sub-component inside dir 'src/components/sub_components_a'
 use yew::prelude::*;
+use stylist::yew::{styled_componnent};
+use stylist::style;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
   //* Here we use an enum &quot;Level&quot; to create a super property
@@ -184,6 +186,8 @@ use yew::prelude::*;
 }
 
 //* You must define the enum used to create a super property using 'derive(PartialEq)', like so;
+#[allow(unused)]
+#[derive(PartialEq)]
 pub enum Level {
   Standard,
   Pro,
@@ -193,19 +197,19 @@ pub enum Level {
 
 //* To work with an enum-powered super property, you need to be able to make transformations on it based on its variants
 //* ..to do this, you need to impl the enum, e.g;
-impl enum Level {
-  pub fn assign_leve;(&amp;self) -&gt; String {
+impl Level {
+  pub fn assign_level(&amp;self) -&gt; String {
     match self {
       Level::Standard =&gt; &quot;standard&quot;.to_owned(),
       Level::Pro =&gt; &quot;pro&quot;.to_owned(),
       Level::Premium =&gt; &quot;premium&quot;.to_owned(),
-      Level::Gold =&gt; &quot;gold&quot;.to_onwned(),
+      Level::Gold =&gt; &quot;gold&quot;.to_owned(),
     }
   }
 }
 
-#[styled_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[styled_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(prop: &amp;Props) -&gt; Html {
   //* Enum super property &quot;Level&quot; will be used to assign badge
   let badge = style!(
     r#&quot;
@@ -228,12 +232,14 @@ pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
   html! {
     &lt;div class={badge}&gt;
 
-      &lt;p&gt;Hi! I am from component file 'src/components/level-one-a/level_one_a_component_1.rs'&lt;/p&gt;
-      &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_owned()}&lt;/p&gt;
+      &lt;p&gt;{&quot;- '&quot;} {&amp;prop.prop_one.to_owned()} {&quot;'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;AND enum; &quot;}&lt;/p&gt;
       {
-        //* Time to assign a level class
+        //* Time to assign a level class. Please remember to delete this comment block-scope
       }
-      &lt;span class={&amp;prop.prop_three.assign_level()}&gt;{&amp;pro.prop_three.assign_level()} {&quot; level&quot;}&lt;/span&gt;
+      &lt;span class={&amp;prop.prop_three.assign_level()}&gt;{&quot;- &quot;}{&amp;prop.prop_three.assign_level()} {&quot; level&quot;}&lt;/span&gt;
 
     &lt;/div&gt;
   }
@@ -241,42 +247,31 @@ pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
-// Use the stylist functions/macros/namespaces required
-use stylist::yew::{styled_component, Style};
 
 mod components;
 
 //* When using a sub-component with an an enum powered (super) property, you must also use the 'enum' itself
-//* ..for example, &quot;LevelOneAComponent1&quot; utilizes enum &quot;Level&quot; (as a super property)
+//* ..for example, &quot;SubComponentsAComponent1&quot; utilizes enum &quot;Level&quot; (as a super property)
 //* ..therefore, it (&quot;Level&quot;) must be used too, like so;
-use components::level-one-a::level_one_a_component_1::{LevelOneAComponent1, Level}; // Note the presence of &quot;Level&quot;
+use components::sub_components_a::sub_components_a_component_1::{SubComponentsAComponent1, Level}; // Note the presence of &quot;Level&quot;
 
-const EXTERNAL_STYLE = include_str!(&quot;main.css&quot;);
-
-#[styled_component(App)]
+#[function_component(App)]
 pub fn app() -&gt; Html {
-
-  let external_style = Style::new(EXTERNAL_STYLE).unwrap(); //* Style::new returns a result
 
   html! {
     &lt;&gt;
-      &lt;div class={external_style}&gt;
-        &lt;p&gt;
-          {&quot;Texting with style!&quot;}
-        &lt;/p&gt;
-        &lt;span&gt;
-          {&quot;cool eh!&quot;}
-        &lt;/span&gt;
+      &lt;div&gt;
         {
-          //* Time to pass enum-powered super property'prop_three' of type enum &quot;Level&quot; to LevelOneAComponent1 into embeded component LevelOneAComponent1 which is embedded herein
+          //* Time to pass enum-powered super property'prop_three' of type enum &quot;Level&quot; to SubComponentsAComponent1 into embeded component SubComponentsAComponent1 which is embedded herein
         }
-        &lt;LevelOneAComponent1
-          prop_one=&quot;Confirming prop one value which will be used inside me (LevelOneAComponent1)&quot;
+        &lt;SubComponentsAComponent1
+          prop_one=&quot;Confirming prop one value&quot;
           prop_three={Level::Pro}
         /&gt; {/*Notice that &quot;prop_two&quot; is not passed any value because doing so is absolutely optional*/}
       &lt;/div&gt;
     &lt;/&gt;
   }
+
 }
 </code></pre>
 <pre>INSIDE 'yew-project-name/src/main.rs'</pre>

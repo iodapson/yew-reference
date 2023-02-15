@@ -134,7 +134,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="passing-properties-to-a-component-which-is-being-embedded-in-another-component"><a class="header" href="#passing-properties-to-a-component-which-is-being-embedded-in-another-component">Passing properties to a component which is being embedded in another component</a></h2>
+                        <h2 id="passing-properties-to-a-component-which-is-embedded-in-another-component"><a class="header" href="#passing-properties-to-a-component-which-is-embedded-in-another-component">Passing properties to a component which is embedded in another component</a></h2>
 <p>Yew folder structure::</p>
 <pre>
   |-yew_project_name
@@ -142,8 +142,8 @@
    |-src
     |-components
      |-mod.rs
-     |-level-one-a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
       |-mod.rs
     |-lib.rs
     |-main.rs
@@ -166,12 +166,12 @@ stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
+<pre><code class="language-rust">pub mod sub_components_a;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level-one-a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level-one-a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">// This is a sub-component inside dir 'src/components/level-one-a'
 use yew::prelude::*;
 
@@ -183,46 +183,31 @@ pub struct Prop {
 }
 
 //* You must pass a reference of the prop struct to your component's function definition
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
   html! {
     &lt;div&gt;
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level-one-a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;Saying hi from sub-component:  components::sub_components_a::sub_components_a_component_1::SubComponentsAComponent1&quot;}&lt;/p&gt;
+      &lt;p&gt;{&amp;prop.prop_one}{&quot; received from parent component 'App' created in lib.rs&quot;}&lt;/p&gt;
     &lt;/div&gt;
   }
 }
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
-// Use the stylist functions/macros/namespaces required
-use stylist::yew::{styled_component, Style};
 
 // Specify 'components' directory (which is a sibling of 'lib.rs') as a mod, like so;
 mod components;
 
-// ..then use the subcomponent of choice inside components dir
-use components::level-one-a::level_one_a_component_1::LevelOneAComponent1;
+// * ..then use the subcomponent of choice inside components dir
+use components::sub_components_a::sub_components_a_component_1::SubComponentsAComponent1;
 
-const EXTERNAL_STYLE = include_str!(&quot;main.css&quot;);
-
-#[styled_component(App)]
+#[function_component(App)]
 pub fn app() -&gt; Html {
-
-  let external_style = Style::new(EXTERNAL_STYLE).unwrap(); //* Style::new returns a result
-
   html! {
     &lt;&gt;
-      &lt;div class={external_style}&gt;
-        &lt;p&gt;
-          {&quot;Texting with style!&quot;}
-        &lt;/p&gt;
-        &lt;span&gt;
-          {&quot;cool eh!&quot;}
-        &lt;/span&gt;
-        {
-          //* Time to pass property'prop_one' of struct 'Prop' inside LevelOneAComponent1 into embeded component LevelOneAComponent1 itself
-        }
-        &lt;LevelOneAComponent1 prop_one=&quot;Confirming prop one value&quot; /&gt;
+      &lt;div&gt;
+        &lt;SubComponentsAComponent1 prop_one=&quot;Confirming 'prop_one' value&quot; /&gt;
       &lt;/div&gt;
     &lt;/&gt;
   }

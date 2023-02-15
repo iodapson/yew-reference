@@ -318,6 +318,7 @@ serde_json = &quot;1.0.79&quot;</pre>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use gloo::console::log;
 use yew::prelude::*;
+use serde::{Serialize, Deserialize};
 
 // * First make sure struct is serialized using serde by use of #[derive(Serialize)]
 // ..optionally also deserialize
@@ -334,7 +335,7 @@ pub fn app() -&gt; Html {
   let a_struct_var_binding = AStruct {
     first_field: some_str.to_owned(),
     second_field: &quot;another str&quot;.to_owned(),
-  }
+  };
   // * Time to log target struct 'a_struct_var_binding'
   log!(serde_json::to_string_pretty(&amp;a_struct_var_binding).unwrap());
   html! {
@@ -370,8 +371,7 @@ name = "yew_project_name"
 version = "0.1.0"
 edition = "2021"
 <p>[dependencies]
-yew = &quot;0.19.3&quot;
-</pre>
+yew = &quot;0.19.3&quot;</pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
@@ -414,8 +414,7 @@ name = "yew_project_name"
 version = "0.1.0"
 edition = "2021"
 <p>[dependencies]
-yew = &quot;0.19.3&quot;
-</pre>
+yew = &quot;0.19.3&quot;</pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
@@ -439,7 +438,7 @@ fn main() {
   yew::start_app::&lt;App&gt;();
 }
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="condtional-rendering-if-blocks"><a class="header" href="#condtional-rendering-if-blocks">Condtional rendering (if-blocks)</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="conditional-rendering-if-blocks"><a class="header" href="#conditional-rendering-if-blocks">Conditional rendering (if-blocks)</a></h2>
 <p>Yew folder structure::</p>
 <pre>
   |-yew_project_name
@@ -460,8 +459,7 @@ name = "yew_project_name"
 version = "0.1.0"
 edition = "2021"
 <p>[dependencies]
-yew = &quot;0.19.3&quot;
-</pre>
+yew = &quot;0.19.3&quot;</pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
@@ -475,16 +473,17 @@ pub fn app() -&gt; Html {
     &lt;&gt;
 
       if some_value == &quot;sample&quot; { //* Here, you can see conditional rendering in action
-        &lt;h1 class={some_value}&gt;{&quot;Hello World&quot;}&lt;/h1&gt;
+        &lt;h1 class={some_value}&gt;{&quot;Hello World! I matched 'sample'.&quot;}&lt;/h1&gt;
       } else {
-        &lt;h1 class={&quot;invalid&quot;}&gt;{&quot;Hello world&quot;}&lt;/h1&gt;
+        &lt;h1 class={&quot;invalid&quot;}&gt;{&quot;Hello world! I matched 'an option'.&quot;}&lt;/h1&gt;
       }
 
       {
-        // if-let example below
+        // if-let example below. Please delete me and my block to make this module compile.
       }
+
       if let Some(val) = option_value {
-        &lt;p&gt;{&quot;show&quot;}{val}&lt;/p&gt;
+        &lt;p&gt;{&quot;And variable 'option_value' has value: &quot;}{val}&lt;/p&gt;
       } else {
         &lt;p&gt;{&quot;show no option&quot;}&lt;/p&gt;
       }
@@ -521,9 +520,8 @@ name = "yew_project_name"
 version = "0.1.0"
 edition = "2021"
 <p>[dependencies]
-yew = &quot;0.19.3&quot;</p>
-</pre>
-</code>
+yew = &quot;0.19.3&quot;</pre>
+</code></p>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
@@ -536,7 +534,8 @@ pub fn app() -&gt; Html {
       &lt;ol&gt;
         {
           //* The iteration is below:
-          //* ..Note that you can extract the iteration code below into a function which you then simply call
+          //* ..Note that you can extract the iteration code below into a function which you then simply call.
+          //* And please delete me and my block to make this code compile.
         }
         {
           the_list.iter().map( |item| html!{
@@ -577,13 +576,13 @@ version = "0.1.0"
 edition = "2021"
 <p>[dependencies]
 yew = &quot;0.19.3&quot;
-stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
-</pre>
+stylist = {version = &quot;0.10.1&quot; features = [&quot;yew&quot;]}</pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 //* use the stylist functions/macros/namespaces required
-use stylist::yew::{styled_component, style};
+use stylist::yew::{styled_component};
+use stylist::style;
 
 //* To use stylist, you must apply a 'styled_component' rather than a 'function_component'
 #[styled_component(App)]
@@ -642,8 +641,7 @@ version = "0.1.0"
 edition = "2021"
 <p>[dependencies]
 yew = &quot;0.19.3&quot;
-stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
-</pre>
+stylist = {version = &quot;0.10.1&quot; features = [&quot;yew&quot;]}</pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
@@ -657,10 +655,10 @@ pub fn app() -&gt; Html {
   //* Notice how css! macro was used to create a value for the class of the target element
   html! {
     &lt;&gt;
-      &lt;p class={css!(&quot;text-style: underline;&quot;)}&gt;
+      &lt;p class={css!(&quot;color: orange;&quot;)}&gt;
         {&quot;Texting with style!&quot;}
       &lt;/p&gt;
-      &lt;span class={css!(&quot;color: gold; text-size: 12px;&quot;)}&gt;
+      &lt;span class={css!(&quot;color: gold; text-size: 12px; background-color: black;&quot;)}&gt;
         {&quot;cool eh!&quot;}
       &lt;/span&gt;
     &lt;/&gt;
@@ -674,7 +672,7 @@ fn main() {
   yew::start_app::&lt;App&gt;();
 }
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="styling-yew-apps-with-an-external-stylesheet-with-macro-include_str"><a class="header" href="#styling-yew-apps-with-an-external-stylesheet-with-macro-include_str">Styling Yew apps with an external stylesheet with macro include_str!()</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="styling-yew-apps-with-an-external-css-stylesheet-with-macro-include_str"><a class="header" href="#styling-yew-apps-with-an-external-css-stylesheet-with-macro-include_str">Styling Yew apps with an external .css stylesheet with macro include_str!()</a></h2>
 <p>Yew folder structure::</p>
 <pre>
   |-yew_project_name
@@ -697,17 +695,30 @@ version = "0.1.0"
 edition = "2021"
 <p>[dependencies]
 yew = &quot;0.19.3&quot;
-stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
+stylist = {version = &quot;0.10.1&quot; features = [&quot;yew&quot;]}
 </pre>
 </code></p>
+<pre>INSIDE 'yew_project_name/src/main.css'</pre>
+<pre><code class="language-css">p {
+	background-color: yellowgreen;
+	color: beige;
+	border: 1px solid pink;
+	border-radius: 50px;
+	text-align: center;
+	font-style: italic;
+	font-size: 18px;
+	padding: 5px;
+}
+</code></pre>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 //* Use the stylist functions/macros/namespaces required
-//* ..Note the 'Style' instead of 'style' used here
-use stylist::yew::{styled_component, Style};
+use stylist::yew::{styled_component};
+//* ..Note 'Style' instead of 'style' used here
+use stylist::Style;
 
 //* Create a variable that holds a reference to the external css stylesheet using 'include_str!'
-const EXTERNAL_STYLE = include_str!(&quot;main.css&quot;);
+const EXTERNAL_STYLE: &amp;str = include_str!(&quot;main.css&quot;);
 
 //* To use stylist, you must used a 'styled_component' rather than 'function_component'
 #[styled_component(App)]
@@ -720,13 +731,14 @@ pub fn app() -&gt; Html {
     &lt;&gt;
       {
         //* Now you make use of the external style 'external_style' in this case
+        // Please delete me and my enclosing block to make this module compile.
       }
       &lt;div class={external_style}&gt;
         &lt;p&gt;
           {&quot;Texting with style!&quot;}
         &lt;/p&gt;
         &lt;span&gt;
-          {&quot;cool eh!&quot;}
+          {&quot;External style!&quot;}
         &lt;/span&gt;
       &lt;/div&gt;
     &lt;/&gt;
@@ -748,8 +760,8 @@ fn main() {
    |-src
     |-components
      |-mod.rs
-     |-level-one-a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
       |-mod.rs
     |-lib.rs
     |-main.rs
@@ -768,24 +780,24 @@ version = "0.1.0"
 edition = "2021"
 <p>[dependencies]
 yew = &quot;0.19.3&quot;
-stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
+stylist = {version = &quot;0.10.1&quot; features = [&quot;yew&quot;]}
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
+<pre><code class="language-rust">pub mod sub_components_a;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level-one-a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level-one-a/level_one_a_component_1.rs'</pre>
-<pre><code class="language-rust">//* This is a sub-component inside dir 'src/components/level-one-a'
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
+<pre><code class="language-rust">//* This is a sub-component inside dir 'src/components/sub_components_a'
 use yew::prelude::*;
 // Decide whether or not you want a styled component or a function component. I chose function component
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1() -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1() -&gt; Html {
   html! {
     &lt;div&gt;
-      &lt;p&gt;Hi! I am from component file 'src/components/level-one-a/level_one_a_component_1.rs'&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src::components::sub_components_a::sub_components_a_component_1'&quot;}&lt;/p&gt;
     &lt;/div&gt;
   }
 }
@@ -796,8 +808,8 @@ pub fn level_one_a_component_1() -&gt; Html {
 //* Specify 'components' directory (which is a sibling of 'lib.rs') as a mod, like so;
 mod components;
 
-//* ..then use the subcomponent of choice inside components dir
-use components::level-one-a::level_one_a_component_1::LevelOneAComponent1;
+//* ..then use the subcomponent of choice inside sub_components_a directory
+use components::sub_components_a::sub_components_a_component_1::SubComponentsAComponent1;
 
 #[function_component(App)]
 pub fn app() -&gt; Html {
@@ -805,15 +817,16 @@ pub fn app() -&gt; Html {
     &lt;&gt;
       &lt;div&gt;
         &lt;p&gt;
-          {&quot;Texting with style!&quot;}
+          {&quot;I'm a paragraph in component 'App' created in lib.rs.&quot;}
         &lt;/p&gt;
         &lt;span&gt;
-          {&quot;cool eh!&quot;}
+          {&quot;I'm a span text in component 'App' too.&quot;}
         &lt;/span&gt;
         {
-          //* Time to embed component 'LevelOneAComponent1' inside this component
+          //* Time to embed component 'SubComponentsAComponent1' inside this component
+          // Please delete me and my enclosing block to make this module compile.
         }
-        &lt;LevelOneAComponent1 /&gt;
+        &lt;SubComponentsAComponent1 /&gt;
       &lt;/div&gt;
     &lt;/&gt;
   }
@@ -826,7 +839,7 @@ fn main() {
   yew::start_app::&lt;App&gt;();
 }
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="passing-properties-to-a-component-which-is-being-embedded-in-another-component"><a class="header" href="#passing-properties-to-a-component-which-is-being-embedded-in-another-component">Passing properties to a component which is being embedded in another component</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="passing-properties-to-a-component-which-is-embedded-in-another-component"><a class="header" href="#passing-properties-to-a-component-which-is-embedded-in-another-component">Passing properties to a component which is embedded in another component</a></h2>
 <p>Yew folder structure::</p>
 <pre>
   |-yew_project_name
@@ -834,8 +847,8 @@ fn main() {
    |-src
     |-components
      |-mod.rs
-     |-level-one-a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
       |-mod.rs
     |-lib.rs
     |-main.rs
@@ -858,12 +871,12 @@ stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
+<pre><code class="language-rust">pub mod sub_components_a;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level-one-a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level-one-a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">// This is a sub-component inside dir 'src/components/level-one-a'
 use yew::prelude::*;
 
@@ -875,46 +888,31 @@ pub struct Prop {
 }
 
 //* You must pass a reference of the prop struct to your component's function definition
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
   html! {
     &lt;div&gt;
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level-one-a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;Saying hi from sub-component:  components::sub_components_a::sub_components_a_component_1::SubComponentsAComponent1&quot;}&lt;/p&gt;
+      &lt;p&gt;{&amp;prop.prop_one}{&quot; received from parent component 'App' created in lib.rs&quot;}&lt;/p&gt;
     &lt;/div&gt;
   }
 }
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
-// Use the stylist functions/macros/namespaces required
-use stylist::yew::{styled_component, Style};
 
 // Specify 'components' directory (which is a sibling of 'lib.rs') as a mod, like so;
 mod components;
 
-// ..then use the subcomponent of choice inside components dir
-use components::level-one-a::level_one_a_component_1::LevelOneAComponent1;
+// * ..then use the subcomponent of choice inside components dir
+use components::sub_components_a::sub_components_a_component_1::SubComponentsAComponent1;
 
-const EXTERNAL_STYLE = include_str!(&quot;main.css&quot;);
-
-#[styled_component(App)]
+#[function_component(App)]
 pub fn app() -&gt; Html {
-
-  let external_style = Style::new(EXTERNAL_STYLE).unwrap(); //* Style::new returns a result
-
   html! {
     &lt;&gt;
-      &lt;div class={external_style}&gt;
-        &lt;p&gt;
-          {&quot;Texting with style!&quot;}
-        &lt;/p&gt;
-        &lt;span&gt;
-          {&quot;cool eh!&quot;}
-        &lt;/span&gt;
-        {
-          //* Time to pass property'prop_one' of struct 'Prop' inside LevelOneAComponent1 into embeded component LevelOneAComponent1 itself
-        }
-        &lt;LevelOneAComponent1 prop_one=&quot;Confirming prop one value&quot; /&gt;
+      &lt;div&gt;
+        &lt;SubComponentsAComponent1 prop_one=&quot;Confirming 'prop_one' value&quot; /&gt;
       &lt;/div&gt;
     &lt;/&gt;
   }
@@ -935,8 +933,8 @@ fn main() {
    |-src
     |-components
      |-mod.rs
-     |-level-one-a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
       |-mod.rs
     |-lib.rs
     |-main.rs
@@ -948,7 +946,7 @@ fn main() {
 </pre>
 <pre>INSIDE 'Cargo.toml'</pre>
 <code>
-</pre>
+<pre>
 [package]
 name = "yew_project_name"
 version = "0.1.0"
@@ -959,65 +957,57 @@ stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
+<pre><code class="language-rust">pub mod sub_components_a;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level-one-a/mod.rs'</pre>
-<pre><code>pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level-one-a/level_one_a_component_1.rs'</pre>
-<pre><code class="language-rust">// This is a sub-component inside dir 'src/components/level-one-a'
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
+<pre><code class="language-rust">// This is a sub-component inside dir 'src/components/sub_components_a'
 use yew::prelude::*;
 
-//* You need to create a prop struct which would hold/represent the passed in properties
-//* You must also derive 'Properties' and 'PartialEq' on the struct, like so;
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+// * You need to create a prop struct which would hold/represent the passed in properties
+// * You must also derive 'Properties' and 'PartialEq' on the struct, like so;
+#[derive(Properties, PartialEq, Default, Clone)]
+pub struct Props {
   pub prop_one: String,
-  //* Time to create an optional property
-  pub prop_two: Option&lt;String&gt;, // &quot;prop_two&quot; is optional, thus may not be passed into embedded component &quot;LevelOneAComponent1&quot;
+  // * Time to create an optional property
+  pub prop_two: Option&lt;String&gt;, // * &quot;prop_two&quot; is optional, thus may not be passed into embedded component &quot;SubComponentsAComponent1&quot;
 }
 
-//* You must pass a reference of the prop struct to your component's function definition
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+//* You must pass a reference of the Prop struct to your component's function definition
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(_props: &amp;Props) -&gt; Html {
+  // * Please note that in order to access optional field(s) inside Props, you would need to implement Clone on Props itself
   html! {
     &lt;div&gt;
-      &lt;p&gt;&quot;Hi! I am from component file 'src/components/level-one-a/level_one_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;I am 'components::sub_components_a::sub_components_a_component_1::SubComponentAComponent1'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;I have a require property 'prop_one' (i.e Prop field 'prop_one')&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;And I have an optional prop too called 'prop_two'. See next chapter to see how I can be accessed.&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;You can see how required and non-required/optional Properties fields can be accessed in the following chapter&quot;}&lt;/p&gt;
     &lt;/div&gt;
   }
 }
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
-// Use the stylist functions/macros/namespaces required
-use stylist::yew::{styled_component, Style};
 
 // Specify 'components' directory (which is a sibling of 'lib.rs') as a mod, like so;
 mod components;
 
 // ..then use the subcomponent of choice inside components dir
-use components::level-one-a::level_one_a_component_1::LevelOneAComponent1;
+use components::sub_components_a::sub_components_a_component_1::SubComponentsAComponent1;
 
-const EXTERNAL_STYLE = include_str!(&quot;main.css&quot;);
-
-#[styled_component(App)]
+#[function_component(App)]
 pub fn app() -&gt; Html {
-
-  let external_style = Style::new(EXTERNAL_STYLE).unwrap(); //* Style::new returns a result
-
   html! {
     &lt;&gt;
-      &lt;div class={external_style}&gt;
-        &lt;p&gt;
-          {&quot;Texting with style!&quot;}
-        &lt;/p&gt;
-        &lt;span&gt;
-          {&quot;cool eh!&quot;}
-        &lt;/span&gt;
+      &lt;div&gt;
         {
-          //* Time to pass property'prop_one' of struct 'Prop' inside LevelOneAComponent1 into embeded component LevelOneAComponent1 itself
+          //* Time to pass property'prop_one' of struct 'Prop' inside SubComponentsAComponent1 into embeded component SubComponentsAComponent1 itself
+          // * Please remove this comment block to make this module actually compile
         }
-        &lt;LevelOneAComponent1 prop_one=&quot;Confirming prop one value&quot; /&gt; {/*Notice that &quot;prop_two&quot; is not passed any value because doing so is absolutely optional*/}
+        &lt;SubComponentsAComponent1 prop_one=&quot;String value for SubComponentsAComponent1's 'prop_one'&quot; /&gt; {/*Notice that &quot;prop_two&quot; is not passed any value because doing so is absolutely optional.*/}
       &lt;/div&gt;
     &lt;/&gt;
   }
@@ -1029,7 +1019,7 @@ fn main() {
   yew::start_app::&lt;App&gt;();
 }
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="using-passed-in-properties-to-embedded-child-component-inside-the-embedded-child-components-definition-itself"><a class="header" href="#using-passed-in-properties-to-embedded-child-component-inside-the-embedded-child-components-definition-itself">Using passed in properties to embedded child component inside the embedded child component's definition itself</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="using-passed-in-properties-to-an-embedded-child-component-inside-the-embedded-child-components-definition-itself"><a class="header" href="#using-passed-in-properties-to-an-embedded-child-component-inside-the-embedded-child-components-definition-itself">Using passed-in properties to an embedded child component inside the embedded child component's definition itself</a></h2>
 <p>Yew folder structure::</p>
 <pre>
   |-yew_project_name
@@ -1037,8 +1027,8 @@ fn main() {
    |-src
     |-components
      |-mod.rs
-     |-level-one-a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
       |-mod.rs
     |-lib.rs
     |-main.rs
@@ -1061,80 +1051,71 @@ stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
+<pre><code class="language-rust">pub mod sub_components_a;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level-one-a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level-one-a/level_one_a_component_1.rs'</pre>
-<pre><code class="language-rust">// This is a sub-component inside dir 'src/components/level-one-a'
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
+<pre><code class="language-rust">// This is a sub-component inside dir 'src/components/sub_components_a'
 use yew::prelude::*;
 
-//* You need to create a prop struct which would hold/represent the passed in properties
-//* You must also derive 'Properties' and 'PartialEq' on the struct, like so;
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+// * You need to create a prop struct which would hold/represent the passed in properties
+// * You must also derive 'Properties' and 'PartialEq' on the struct, like so;
+#[derive(Properties, PartialEq, Default, Clone)]
+pub struct Props {
   pub prop_one: String,
-  //* Time to create an optional property
-  pub prop_two: Option&lt;String&gt;, // &quot;prop_two&quot; is optional, thus may not be passed into embedded component &quot;LevelOneAComponent1&quot;
+  // Time to create an optional property
+  pub prop_two: Option&lt;String&gt;, // &quot;prop_two&quot; is optional, thus may not be passed into embedded component &quot;SubComponentsAComponent1&quot;
 }
 
-//* You must pass a reference of the prop struct to your component's function definition
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+//* You must pass a reference of the 'Prop' struct to your component's function definition
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(props: &amp;Props) -&gt; Html {
+  // * Please note that in order to access optional field(s) inside Props, you would need to implement Clone on Props itself
   html! {
     &lt;div&gt;
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level-one-a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
-      {/* Time to use one or more of the properties passed in to this component LevelOneAComponent1, soon to be embedded elsewhere */}
-      &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one}&lt;/p&gt;
+      &lt;p&gt;{&quot;The value of prop_one is: &quot;}{&quot;\&quot;&quot;}{&amp;props.prop_one}{&quot;\&quot;&quot;}&lt;/p&gt;
+      if let Some(prop_two_set_value) = &amp;props.clone().prop_two {
+        &lt;p&gt;{&quot;The accessed value of optional prop_two is: &quot;}{&quot;\&quot;&quot;}{prop_two_set_value}{&quot;\&quot;&quot;}&lt;/p&gt;
+      } else {
+        &lt;p&gt;{&quot;The accessed value of optional prop_two is: not set :/&quot;}&lt;/p&gt;
+      }
     &lt;/div&gt;
   }
 }
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
-// Use the stylist functions/macros/namespaces required
-use stylist::yew::{styled_component, Style};
 
 // Specify 'components' directory (which is a sibling of 'lib.rs') as a mod, like so;
 mod components;
 
 // ..then use the subcomponent of choice inside components dir
-use components::level-one-a::level_one_a_component_1::LevelOneAComponent1;
+use components::sub_components_a::sub_components_a_component_1::SubComponentsAComponent1;
 
-const EXTERNAL_STYLE = include_str!(&quot;main.css&quot;);
-
-#[styled_component(App)]
+#[function_component(App)]
 pub fn app() -&gt; Html {
-
-  let external_style = Style::new(EXTERNAL_STYLE).unwrap(); //* Style::new returns a result
-
   html! {
     &lt;&gt;
-      &lt;div class={external_style}&gt;
-        &lt;p&gt;
-          {&quot;Texting with style!&quot;}
-        &lt;/p&gt;
-        &lt;span&gt;
-          {&quot;cool eh!&quot;}
-        &lt;/span&gt;
+      &lt;div&gt;
         {
-          //* Time to pass property'prop_one' of struct 'Prop' inside LevelOneAComponent1 into embeded component LevelOneAComponent1 itself
+          //* Time to pass property'prop_one' of struct 'Prop' inside SubComponentsAComponent1 into embeded component SubComponentsAComponent1 itself
+          // * Please remove this comment block to make this module actually compile
         }
-        &lt;LevelOneAComponent1 prop_one=&quot;Confirming prop one value which will be used inside me (LevelOneAComponent1)&quot; /&gt; {/*Notice that &quot;prop_two&quot; is not passed any value because doing so is absolutely optional*/}
+        &lt;SubComponentsAComponent1 prop_one=&quot;String value for SubComponentsAComponent1's 'prop_one'&quot; /&gt; {/*Notice that &quot;prop_two&quot; is not passed any value because doing so is absolutely optional.*/}
       &lt;/div&gt;
     &lt;/&gt;
   }
 }
 </code></pre>
-<pre> INSIDE 'yew-project-name/src/main.rs'</pre>
+<pre>INSIDE 'yew-project-name/src/main.rs'</pre>
 <pre><code class="language-rust">use yew_project_name::App;
-
 fn main() {
   yew::start_app::&lt;App&gt;();
 }
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="enum-as-a-property-value-of-a-component-child-component"><a class="header" href="#enum-as-a-property-value-of-a-component-child-component">Enum as a property value of a component (child component)</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="enum-as-a-prop-fields-value-of-a-component-child-component"><a class="header" href="#enum-as-a-prop-fields-value-of-a-component-child-component">Enum as a prop field's value of a component (child component)</a></h2>
 <p>Yew folder structure::</p>
 <pre>
   |-yew_project_name
@@ -1142,8 +1123,8 @@ fn main() {
    |-src
     |-components
      |-mod.rs
-     |-level-one-a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
       |-mod.rs
     |-lib.rs
     |-main.rs
@@ -1166,17 +1147,19 @@ stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
+<pre><code class="language-rust">pub mod sub_components_a;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level-one-a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level-one-a/level_one_a_component_1.rs'</pre>
-<pre><code class="language-rust">// This is a sub-component inside dir 'src/components/level-one-a'
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
+<pre><code class="language-rust">// This is a sub-component inside dir 'src/components/sub_components_a'
 use yew::prelude::*;
+use stylist::yew::{styled_componnent};
+use stylist::style;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
   //* Here we use an enum &quot;Level&quot; to create a super property
@@ -1184,6 +1167,8 @@ use yew::prelude::*;
 }
 
 //* You must define the enum used to create a super property using 'derive(PartialEq)', like so;
+#[allow(unused)]
+#[derive(PartialEq)]
 pub enum Level {
   Standard,
   Pro,
@@ -1193,19 +1178,19 @@ pub enum Level {
 
 //* To work with an enum-powered super property, you need to be able to make transformations on it based on its variants
 //* ..to do this, you need to impl the enum, e.g;
-impl enum Level {
-  pub fn assign_leve;(&amp;self) -&gt; String {
+impl Level {
+  pub fn assign_level(&amp;self) -&gt; String {
     match self {
       Level::Standard =&gt; &quot;standard&quot;.to_owned(),
       Level::Pro =&gt; &quot;pro&quot;.to_owned(),
       Level::Premium =&gt; &quot;premium&quot;.to_owned(),
-      Level::Gold =&gt; &quot;gold&quot;.to_onwned(),
+      Level::Gold =&gt; &quot;gold&quot;.to_owned(),
     }
   }
 }
 
-#[styled_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[styled_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(prop: &amp;Props) -&gt; Html {
   //* Enum super property &quot;Level&quot; will be used to assign badge
   let badge = style!(
     r#&quot;
@@ -1228,12 +1213,14 @@ pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
   html! {
     &lt;div class={badge}&gt;
 
-      &lt;p&gt;Hi! I am from component file 'src/components/level-one-a/level_one_a_component_1.rs'&lt;/p&gt;
-      &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_owned()}&lt;/p&gt;
+      &lt;p&gt;{&quot;- '&quot;} {&amp;prop.prop_one.to_owned()} {&quot;'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;AND enum; &quot;}&lt;/p&gt;
       {
-        //* Time to assign a level class
+        //* Time to assign a level class. Please remember to delete this comment block-scope
       }
-      &lt;span class={&amp;prop.prop_three.assign_level()}&gt;{&amp;pro.prop_three.assign_level()} {&quot; level&quot;}&lt;/span&gt;
+      &lt;span class={&amp;prop.prop_three.assign_level()}&gt;{&quot;- &quot;}{&amp;prop.prop_three.assign_level()} {&quot; level&quot;}&lt;/span&gt;
 
     &lt;/div&gt;
   }
@@ -1241,42 +1228,31 @@ pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
-// Use the stylist functions/macros/namespaces required
-use stylist::yew::{styled_component, Style};
 
 mod components;
 
 //* When using a sub-component with an an enum powered (super) property, you must also use the 'enum' itself
-//* ..for example, &quot;LevelOneAComponent1&quot; utilizes enum &quot;Level&quot; (as a super property)
+//* ..for example, &quot;SubComponentsAComponent1&quot; utilizes enum &quot;Level&quot; (as a super property)
 //* ..therefore, it (&quot;Level&quot;) must be used too, like so;
-use components::level-one-a::level_one_a_component_1::{LevelOneAComponent1, Level}; // Note the presence of &quot;Level&quot;
+use components::sub_components_a::sub_components_a_component_1::{SubComponentsAComponent1, Level}; // Note the presence of &quot;Level&quot;
 
-const EXTERNAL_STYLE = include_str!(&quot;main.css&quot;);
-
-#[styled_component(App)]
+#[function_component(App)]
 pub fn app() -&gt; Html {
-
-  let external_style = Style::new(EXTERNAL_STYLE).unwrap(); //* Style::new returns a result
 
   html! {
     &lt;&gt;
-      &lt;div class={external_style}&gt;
-        &lt;p&gt;
-          {&quot;Texting with style!&quot;}
-        &lt;/p&gt;
-        &lt;span&gt;
-          {&quot;cool eh!&quot;}
-        &lt;/span&gt;
+      &lt;div&gt;
         {
-          //* Time to pass enum-powered super property'prop_three' of type enum &quot;Level&quot; to LevelOneAComponent1 into embeded component LevelOneAComponent1 which is embedded herein
+          //* Time to pass enum-powered super property'prop_three' of type enum &quot;Level&quot; to SubComponentsAComponent1 into embeded component SubComponentsAComponent1 which is embedded herein
         }
-        &lt;LevelOneAComponent1
-          prop_one=&quot;Confirming prop one value which will be used inside me (LevelOneAComponent1)&quot;
+        &lt;SubComponentsAComponent1
+          prop_one=&quot;Confirming prop one value&quot;
           prop_three={Level::Pro}
         /&gt; {/*Notice that &quot;prop_two&quot; is not passed any value because doing so is absolutely optional*/}
       &lt;/div&gt;
     &lt;/&gt;
   }
+
 }
 </code></pre>
 <pre>INSIDE 'yew-project-name/src/main.rs'</pre>
@@ -1286,7 +1262,7 @@ fn main() {
   yew::start_app::&lt;App&gt;();
 }
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="passing-data-from-a-child-embedded-component-to-a-parent-component-via-callbacks"><a class="header" href="#passing-data-from-a-child-embedded-component-to-a-parent-component-via-callbacks">Passing data from a child (embedded) component to a parent component via callbacks</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="passing-data-from-a-child-embedded-component-to-its-parent-component-via-callbacks"><a class="header" href="#passing-data-from-a-child-embedded-component-to-its-parent-component-via-callbacks">Passing data from a child (embedded) component to its parent component via callbacks</a></h2>
 <p>N.B: There is struct 'Callback' available to you inside yew's prelude which allows you to pass data up from a child component to a parent element.</p>
 <p>N.B: You create a callback by setting a property to be a type Callback<T>, and then calling '.emit' on it. Read on for more details.</p>
 <p>Yew folder structure::</p>
@@ -1296,8 +1272,8 @@ fn main() {
    |-src
     |-components
      |-mod.rs
-     |-level-one-a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1
       |-mod.rs
     |-lib.rs
     |-main.rs
@@ -1309,49 +1285,51 @@ fn main() {
 </pre>
 <pre>INSIDE 'Cargo.toml'</pre>
 <code>
-</pre>
+<pre>
 [package]
 name = "yew_project_name"
 version = "0.1.0"
 edition = "2021"
 <p>[dependencies]
 yew = &quot;0.19.3&quot;
+gloo = &quot;0.6.1&quot;
 stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
+<pre><code class="language-rust">pub mod sub_components_a;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level-one-a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level-one-a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-//* The callback's to-be-sent data must be present inside the prop object (ie, struct) for the child element
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+// * The callback's to-be-sent data must be present inside the prop object (ie, struct) for the child element
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
-  //* Here we are defining the to-be-sent data for our callback
+  // * Here we are defining the to-be-sent data for our callback
   pub to_be_sent_data: Callback&lt;String&gt;,
 }
 
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(prop: &amp;Props) -&gt; Html {
 
-  //* Time to send 'to_be_sent_data' up from this component
-  //* ..into whatever component it is being embedded in
-  //* ..as a child component
+  // * Time to send 'to_be_sent_data' up from this component
+  // * ..into whatever component it is being embedded in
+  // * ..as a child component
   prop.to_be_sent_data.emit(
-    &quot;Sent from child component 'LevelOneAComponent1' to parent element&quot;.to_owned()
-  )
+    &quot;' Sent as callback data from child component 'SubComponentsAComponent1' to parent component 'App' '&quot;.to_owned(),
+  );
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level-one-a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
-      &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_owned()}&lt;/p&gt;
+      &lt;p&gt;{&quot;Please open your Dev Tools to see the logged callback data.&quot;}&lt;/p&gt;
 
     &lt;/div&gt;
   }
@@ -1360,41 +1338,31 @@ pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
-// Use the stylist functions/macros/namespaces required
-use stylist::yew::{styled_component, Style};
+use gloo::console::log;
+use components::sub_components_a::sub_components_a_component_1::SubComponentsAComponent1;
 
 mod components;
 
-const EXTERNAL_STYLE = include_str!(&quot;main.css&quot;);
-
-#[styled_component(App)]
+#[function_component(App)]
 pub fn app() -&gt; Html {
 
-  let external_style = Style::new(EXTERNAL_STYLE).unwrap(); // Style::new returns a result
-
-  //* Create a callback (action) using 'Callback::from' available in yew's prelude
+  // * Create a callback (action) using 'Callback::from' available in yew's prelude
   let callback_receipient_action = Callback::from (
     |received_from_child_component: String| {
       //* Perform some action with data received from child component
       // ..I have decided to simply log it
-      log!(&quot;Here is what I &quot;, received_from_child_component)
+      log!(&quot;Here is what was &quot;, received_from_child_component)
     }
   );
 
-  //* You also need to assign the callback action of the parent element
-  //* ..to the callback property of the child component emitting
-  //* ..data to the parent component.
-  //* Basically, the parent components needs to acknowledge the child component's callback like so;
+  // * You also need to assign the callback action of the parent element
+  // * ..to the callback property of the child component emitting
+  // * ..data to the parent component.
+  // * Basically, the parent components needs to acknowledge the child component's callback like so;
   html! {
     &lt;&gt;
-      &lt;div class={external_style}&gt;
-        &lt;p&gt;
-          {&quot;Texting with style!&quot;}
-        &lt;/p&gt;
-        &lt;span&gt;
-          {&quot;cool eh!&quot;}
-        &lt;/span&gt;
-        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; to_be_sent_data={callback_receipient_action} /&gt;
+      &lt;div&gt;
+        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; to_be_sent_data={callback_receipient_action} /&gt;
       &lt;/div&gt;
     &lt;/&gt;
   }
@@ -1417,12 +1385,13 @@ However, it does cause the page to reload. Bare this in mind.</p>
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
+      |-mod.rs
      |-form_components
       |-form_input_component
       |-form_button_component
-      |-form_assembly_component
+      |-form_assembler_component
       |-mod.rs
     |-lib.rs
     |-main.rs
@@ -1445,35 +1414,35 @@ stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
-pub mod form-components; //* Take note of this
+<pre><code class="language-rust">pub mod sub_components_a;
+pub mod form_components; // * Take note of this
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components</pre>
-<pre><code class="language-rust">//* Take note of these:
+<pre>INSIDE 'yew_project_name/src/components/form_components/mod.rs</pre>
+<pre><code class="language-rust">// * Take note of these:
 pub mod form_input_component;
 pub mod form_button_component;
 pub mod form_assembler_component;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(props: &amp;Props) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
-      &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;props.prop_one.to_owned()}&lt;/p&gt;
 
     &lt;/div&gt;
   }
@@ -1481,7 +1450,7 @@ pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
 }
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component'</pre>
-<pre><code class="language-rust">//* Create file code
+<pre><code class="language-rust">//* Create input component code
 use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
@@ -1490,19 +1459,20 @@ pub struct Props {
 }
 
 #[function_component(FormInputComponent)]
-fn form_input_component(props: &amp;Props) -&gt; Html {
+pub fn form_input_component(props: &amp;Props) -&gt; Html {
   html! {
     {
-      //* Notice how you had to clone the property &quot;input_one&quot; in order
+      // * Notice how you had to clone the property &quot;input_one&quot; in order
       //* ..to assign it as the value to html element 'input' 's attribute
-      //* ..'name' 's value
+      // * ..'name' 's value
+      // * Also, remember to clean up this comment block so the code can compile locally on your machine
     }
     &lt;input type=&quot;text&quot; name={props.input_one.clone()} /&gt;
   }
 }
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components/form_button_component'</pre>
-<pre><code class="language-rust">//* Create file code
+<pre><code class="language-rust">// * Create button component code
 use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
@@ -1511,19 +1481,19 @@ pub struct Props {
 }
 
 #[function_component(FormButtonComponent)]
-fn form_button_component(props: &amp;Props) -&gt; Html {
+pub fn form_button_component(props: &amp;Props) -&gt; Html {
   html! {
     &lt;button&gt;{&amp;props.button_one}&lt;/button&gt;
   }
 }
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components/form_assembler_component'</pre>
-<pre><code class="language-rust">//* Learn from this file
+<pre><code class="language-rust">// * Here we create a component to assemble form component pieces
 
 use yew::prelude::*;
-//* Use &quot;form_input_component&quot; and &quot;form_button_component&quot;
-use crate::components::form_components::form_input_component;
-use crate::components::form_components::form_button_component;
+// * Use &quot;form_input_component&quot; and &quot;form_button_component&quot;
+use crate::components::form_components::form_input_component::FormInputComponent;
+use crate::components::form_components::form_button_component::FormButtonComponent;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
@@ -1535,8 +1505,8 @@ pub struct Props {
 pub fn function_assembler(props: &amp;Props) -&gt; Html {
   html! {
     &lt;form&gt;
-      &lt;FormInputComponent input_one={&amp;props.input_one_value.clone()} /&gt;
-      &lt;FormButtonComponent button_one={&amp;props.button_name.clone()} /&gt;
+      &lt;FormInputComponent input_one={props.input_one_value.clone()} /&gt;
+      &lt;FormButtonComponent button_one={props.button_name.clone()} /&gt;
     &lt;/form&gt;
   }
 }
@@ -1544,14 +1514,15 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 // Use the stylist functions/macros/namespaces required
-use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a/LevelOneAComponent1;
-//* Use &quot;form_assembler_component&quot;
-use crate::components::form_components/form_assembler_component;
+use stylist::yew::{styled_component};
+use stylist::Style;
+use crate::components::sub_components_a::sub_components_a_component_1::SubComponentsAComponent1;
+// * Use &quot;form_assembler_component&quot;
+use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 
 mod components;
 
-const EXTERNAL_STYLE = include_str!(&quot;main.css&quot;);
+const EXTERNAL_STYLE: &amp;str = include_str!(&quot;main.css&quot;);
 
 #[styled_component(App)]
 pub fn app() -&gt; Html {
@@ -1562,16 +1533,18 @@ pub fn app() -&gt; Html {
     &lt;&gt;
       &lt;div class={external_style}&gt;
         &lt;p&gt;
-          {&quot;Texting with style!&quot;}
+          {&quot;Forms Demo!&quot;}
         &lt;/p&gt;
         &lt;span&gt;
-          {&quot;cool eh!&quot;}
+          {&quot;...with a little bit of style ^_^&quot;}
         &lt;/span&gt;
-        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; /&gt;
+
+        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
         {
           //* Time to use FormAssembler
+          //* Again, please remember to remove this comment block.
         }
-        &lt;FormAssemblerComponent input_one=&quot;Input 1&quot; button_one=&quot;Button 1&quot; /&gt;
+        &lt;FormAssemblerComponent input_one_value=&quot;Input 1&quot; button_name=&quot;Button 1&quot; /&gt;
       &lt;/div&gt;
     &lt;/&gt;
   }
@@ -1593,12 +1566,12 @@ fn main() {
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
      |-form_components
-      |-form_input_component
-      |-form_button_component
-      |-form_assembly_component
+      |-form_input_component.rs
+      |-form_button_component.rs
+      |-form_assembler_component.rs
       |-mod.rs
     |-lib.rs
     |-main.rs
@@ -1617,40 +1590,41 @@ version = "0.1.0"
 edition = "2021"
 <p>[dependencies]
 yew = &quot;0.19.3&quot;
-stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]} # //* You must use dependencies 'wasm-bindgen', 'web-sys' and even 'gloo' since you want to do some logging
+stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]} 
+// * You must use dependencies 'wasm-bindgen', 'web-sys' and even 'gloo' since you want to do some logging
 wasm-bindgen = &quot;0.2.79&quot;
-web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] }  # &quot;Note this important feature.&quot;
+web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] }
 gloo = &quot;0.6.1&quot;
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
-pub mod form-components;
+<pre><code class="language-rust">pub mod sub_components_a;
+pub mod form_components;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/mod.rs</pre>
 <pre><code class="language-rust">pub mod form_input_component;
 pub mod form_button_component;
 pub mod form_assembler_component;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
       &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
@@ -1658,11 +1632,11 @@ pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
 
 }
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component'</pre>
-<pre><code class="language-rust">//* This is where we need to handle the text input,
-//* ..inside the target input component itself
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component.rs'</pre>
+<pre><code class="language-rust">// * This is where we need to handle the text input,
+// * ..inside the target input component itself
 use yew::prelude::*;
-//* use 'wasm_bindgen::JsCast', and 'web_sys::HtmlInputElement'
+// * use 'wasm_bindgen::JsCast', and 'web_sys::HtmlInputElement'
 use wasm_bindgen::JsCast;
 use web_sys::HtmlInputElement;
 
@@ -1672,17 +1646,17 @@ pub struct Props {
 }
 
 #[function_component(FormInputComponent)]
-fn form_input_component(props: &amp;Props) -&gt; Html {
+fn form_input_component.rs(props: &amp;Props) -&gt; Html {
 
-  //* Create an action callback which decide what should happen to
-  //* ..or with the text event
+  // * Create an action callback which decide what should happen to
+  // * ..or with the text event
   let call_to_action = Callback::from(
 
     | input_event | {
       let input_event_target = input_event.target().unwrap();
-      //* Here, feature 'HtmlInputElement' is used
+      // * Here, feature 'HtmlInputElement' is used
       let current_input_text = input_event_target.unchecked_into::&lt;HtmlInputElement&gt;();
-      //* Simply log &quot;current_input_text&quot; for now..
+      // * Simply log &quot;current_input_text&quot; for now..
       log!(current_input_text.value());
     }
 
@@ -1690,15 +1664,15 @@ fn form_input_component(props: &amp;Props) -&gt; Html {
 
   html! {
     {
-      //* Notice how you had to clone the property &quot;input_one&quot; in order
-      //* ..to assign it as the value to html element 'input' 's attribute
-      //* ..'name' 's value
+      // * Notice how you had to clone the property &quot;input_one&quot; in order
+      // * ..to assign it as the value to html element 'input' 's attribute
+      // * ..'name' 's value
     }
     &lt;input type=&quot;text&quot; name={props.input_one.clone()} onchange={call_to_action} /&gt;
   }
 }
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components/form_button_component'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_button_component.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
@@ -1707,7 +1681,7 @@ pub struct Props {
 }
 
 #[function_component(FormButtonComponent)]
-fn form_button_component(props: &amp;Props) -&gt; Html {
+fn form_button_component.rs(props: &amp;Props) -&gt; Html {
   html! {
     &lt;button&gt;{&amp;props.button_one}&lt;/button&gt;
   }
@@ -1715,8 +1689,8 @@ fn form_button_component(props: &amp;Props) -&gt; Html {
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components/form_assembler_component'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
-use crate::components::form_components::form_input_component;
-use crate::components::form_components::form_button_component;
+use crate::components::form_components::form_input_component.rs;
+use crate::components::form_components::form_button_component.rs;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
@@ -1737,8 +1711,8 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a/LevelOneAComponent1;
-use crate::components::form_components/form_assembler_component;
+use crate::components::sub_components_a::sub_components_a_component_1::SubComponentsAComponent1;
+use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 
 mod components;
 
@@ -1760,7 +1734,7 @@ pub fn app() -&gt; Html {
           {&quot;cool eh!&quot;}
         &lt;/span&gt;
 
-        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; /&gt;
+        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
         &lt;FormAssemblerComponent input_one=&quot;Input 1&quot; button_one=&quot;Button 1&quot; /&gt;
 
       &lt;/div&gt;
@@ -1777,19 +1751,19 @@ fn main() {
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="using-callbacks-for-handling-form-input-text-input-in-a-form"><a class="header" href="#using-callbacks-for-handling-form-input-text-input-in-a-form">Using callbacks for handling form input (text input in a form)</a></h2>
 <p>You will be able to access data from a child component inside a parent element using Callback.</p>
-<p>Yew folder structure::</p>
+<p>Yew (project) folder structure::</p>
 <pre>
   |-yew_project_name
    |-dist
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
      |-form_components
-      |-form_input_component
-      |-form_button_component
-      |-form_assembly_component
+      |-form_input_component.rs
+      |-form_button_component.rs
+      |-form_assembly_component.rs
       |-mod.rs
     |-lib.rs
     |-main.rs
@@ -1808,40 +1782,42 @@ version = "0.1.0"
 edition = "2021"
 <p>[dependencies]
 yew = &quot;0.19.3&quot;
-stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]} # //* You must use dependencies 'wasm-bindgen', 'web-sys' and even 'gloo' since you want to do some logging
+stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]} 
+//* You must use dependencies 'wasm-bindgen', 'web-sys' and even 'gloo' since you want to do some logging
 wasm-bindgen = &quot;0.2.79&quot;
-web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] } # //* Note this important feature.
+web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] }
+// * Note this important feature.
 gloo = &quot;0.6.1&quot;
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
-pub mod form-components;
+<pre><code class="language-rust">pub mod sub_components_a;
+pub mod form_components;
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components</pre>
 <pre><code class="language-rust">pub mod form_input_component;
 pub mod form_button_component;
 pub mod form_assembler_component;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
       &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
@@ -1860,7 +1836,7 @@ use web_sys::HtmlInputElement;
 #[derive(Properties, PartialEq)]
 pub struct Props {
   pub input_one: String,
-  //* Add a callback property to send up-down
+  // * Add a callback property to send up-down
   pub handle_call_to_action: Callback&lt;String&gt;,
 }
 
@@ -1869,11 +1845,11 @@ fn form_input_component(props: &amp;Props) -&gt; Html {
 
   // Create an action callback which decide what should happen to
   // ..or with the text event
-  //* Important Diff:
-  //* You need to move &quot;current_input_text.value()&quot; inside &quot;call_to_action&quot; Callback function's closure below
-  //* ...out of the closure itself, using a clone of callback property &quot;handle_call_to_action&quot;
+  // * Important Diff:
+  // * You need to move &quot;current_input_text.value()&quot; inside &quot;call_to_action&quot; Callback function's closure below
+  // * ...out of the closure itself, using a clone of callback property &quot;handle_call_to_action&quot;
 
-  //* First create the clone of &quot;handle_call_to_action&quot; It is just good practice
+  // * First create the clone of &quot;handle_call_to_action&quot; It is just good practice
   let handle_call_to_action_clone = props.handle_call_to_action.clone();
 
   let call_to_action = Callback::from(
@@ -1883,8 +1859,8 @@ fn form_input_component(props: &amp;Props) -&gt; Html {
       let current_input_text = input_event_target.unchecked_into::&lt;HtmlInputElement&gt;();
 
       // log!(current_input_text.value()); //* Log no more
-      //* Second, emit (move out) &quot;current_input_text.value()&quot; by calling Callback &quot;handle_call_to_action_clone&quot;
-      //* ..and then passing in &quot;current_input_text.value()&quot; to it, like this;
+      // * Second, emit (move out) &quot;current_input_text.value()&quot; by calling Callback &quot;handle_call_to_action_clone&quot;
+      // * ..and then passing in &quot;current_input_text.value()&quot; to it, like this;
       handle_call_to_action_clone.emit(current_input_text.value());
 
       //* Hopefully, you can now see why the 'move' keyword was neccessary;
@@ -1954,7 +1930,7 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a/LevelOneAComponent1;
+use crate::components::sub_components_a/SubComponentsAComponent1;
 use crate::components::form_components/form_assembler_component;
 
 mod components;
@@ -1977,7 +1953,7 @@ pub fn app() -&gt; Html {
           {&quot;cool eh!&quot;}
         &lt;/span&gt;
 
-        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; /&gt;
+        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
         &lt;FormAssemblerComponent input_one=&quot;Input 1&quot; button_one=&quot;Button 1&quot; /&gt;
 
       &lt;/div&gt;
@@ -2002,8 +1978,8 @@ fn main() {
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
      |-form_components
       |-form_input_component
       |-form_button_component
@@ -2026,41 +2002,42 @@ version = "0.1.0"
 edition = "2021"
 <p>[dependencies]
 yew = &quot;0.19.3&quot;
-stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]} # //* You must use dependencies 'wasm-bindgen', 'web-sys' and even 'gloo' since you want to do some logging
-wasm-bindgen = &quot;0.2.79&quot;
+stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]} </p>
+<h1 id="-you-must-use-dependencies-wasm-bindgen-web-sys-and-even-gloo-since-you-want-to-do-some-logging"><a class="header" href="#-you-must-use-dependencies-wasm-bindgen-web-sys-and-even-gloo-since-you-want-to-do-some-logging">//* You must use dependencies 'wasm-bindgen', 'web-sys' and even 'gloo' since you want to do some logging</a></h1>
+<p>wasm-bindgen = &quot;0.2.79&quot;
 web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] } # //* Note this important feature.
 gloo = &quot;0.6.1&quot;
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
-pub mod form-components;
+<pre><code class="language-rust">pub mod sub_components_a;
+pub mod form_components;
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components'</pre>
 <pre><code class="language-rust">pub mod form_input_component;
 pub mod form_button_component;
 pub mod form_assembler_component;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(props: &amp;Prop) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&lt;/p&gt;
-      &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;props.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
   }
@@ -2119,8 +2096,8 @@ fn form_button_component(props: &amp;Props) -&gt; Html {
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components/form_assembler_component'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
-use crate::components::form_components::form_input_component;
-use crate::components::form_components::form_button_component;
+use crate::components::form_components::form_input_component::FormInputComponent;
+use crate::components::form_components::form_button_component::FormButtonComponent;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
@@ -2156,8 +2133,8 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a/LevelOneAComponent1;
-use crate::components::form_components/form_assembler_component;
+use crate::components::sub_components_a::SubComponentsAComponent1::SubComponentsAComponent1;
+use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 
 mod components;
 
@@ -2179,7 +2156,7 @@ pub fn app() -&gt; Html {
           {&quot;cool eh!&quot;}
         &lt;/span&gt;
 
-        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; /&gt;
+        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
         &lt;FormAssemblerComponent input_one=&quot;Input 1&quot; button_one=&quot;Button 1&quot; /&gt;
 
       &lt;/div&gt;
@@ -2203,8 +2180,8 @@ fn main() {
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
      |-form_components
       |-form_input_component
       |-form_button_component
@@ -2229,38 +2206,39 @@ edition = "2021"
 yew = &quot;0.19.3&quot;
 stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 wasm-bindgen = &quot;0.2.79&quot;
-web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] } # //* Note this important feature.
-gloo = &quot;0.6.1&quot;
+web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] } </p>
+<h1 id="-note-this-important-feature"><a class="header" href="#-note-this-important-feature">//* Note this important feature.</a></h1>
+<p>gloo = &quot;0.6.1&quot;
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
-pub mod form-components;
+<pre><code class="language-rust">pub mod sub_components_a;
+pub mod form_components;
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components</pre>
 <pre><code class="language-rust">pub mod form_input_component;
 pub mod form_button_component;
 pub mod form_assembler_component;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
       &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
@@ -2345,7 +2323,7 @@ pub struct Props {
 }
 
 #[function_component(FormAssemblerComponent)]
-pub fn function_assembler(props: &amp;Props) -&gt; Html {
+pub fn function_assembler_component(props: &amp;Props) -&gt; Html {
 
   let sample_state = use_state( || &quot;Initial state&quot;.to_owned()); // You have to apply 'to_owned()' to the &amp;str as done herein
   let sample_state_clone = sample_state.clone();
@@ -2401,8 +2379,8 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a/LevelOneAComponent1;
-use crate::components::form_components/form_assembler_component;
+use crate::components::sub_components_a::SubComponentsAComponent1;
+use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 
 mod components;
 
@@ -2424,7 +2402,7 @@ pub fn app() -&gt; Html {
           {&quot;cool eh!&quot;}
         &lt;/span&gt;
 
-        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; /&gt;
+        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
         &lt;FormAssemblerComponent input_one=&quot;Input 1&quot; button_one=&quot;Button 1&quot; /&gt;
 
       &lt;/div&gt;
@@ -2448,8 +2426,8 @@ fn main() {
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
      |-form_components
       |-form_input_component
       |-form_button_component
@@ -2479,33 +2457,33 @@ gloo = &quot;0.6.1&quot;
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
-pub mod form-components;
+<pre><code class="language-rust">pub mod sub_components_a;
+pub mod form_components;
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components'</pre>
 <pre><code class="language-rust">pub mod form_input_component;
 pub mod form_button_component;
 pub mod form_assembler_component;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
 #[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
       &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
@@ -2665,7 +2643,7 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
   let states_data_as_state_clone_button_count_callback_receipient = Callback::from(
     //* This time we ignore closure arguments for 'Callback::from since we are not expecting nor working with any from its child component
     move |_| {
-      //* deref &quot;states_data_as_state_clone&quot;, and clone it again :/ lol
+      //* deref &quot;states_data_as_state_clone&quot;, and clone it again
       let mut states_data = states_data_as_state_clone.deref().clone();
       states_data.state_two += 1;
       //* Remember to set new &quot;StatesData&quot; struct clone changes as new state, like so;
@@ -2699,8 +2677,8 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a/LevelOneAComponent1;
-use crate::components::form_components/form_assembler_component;
+use crate::components::sub_components_a::SubComponentsAComponent1;
+use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 
 mod components;
 
@@ -2722,7 +2700,7 @@ pub fn app() -&gt; Html {
           {&quot;cool eh!&quot;}
         &lt;/span&gt;
 
-        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; /&gt;
+        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
         &lt;FormAssemblerComponent input_one=&quot;Input 1&quot; button_one=&quot;Button 1&quot; /&gt;
 
       &lt;/div&gt;
@@ -2748,8 +2726,8 @@ I don't seem to like the enhanced version due to (possible?) matching name requi
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
      |-form_components
       |-form_input_component
       |-form_button_component
@@ -2779,33 +2757,33 @@ gloo = &quot;0.6.1&quot;
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
-pub mod form-components;
+<pre><code class="language-rust">pub mod sub_components_a;
+pub mod form_components;
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components</pre>
 <pre><code class="language-rust">pub mod form_input_component;
 pub mod form_button_component;
 pub mod form_assembler_component;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
 #[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
       &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
@@ -3011,8 +2989,8 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a/LevelOneAComponent1;
-use crate::components::form_components/form_assembler_component::FormAssemblerComponent;
+use crate::components::sub_components_a::SubComponentsAComponent1;
+use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 
 mod components;
 
@@ -3057,8 +3035,8 @@ fn main() {
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
      |-form_components
       |-form_input_component
       |-form_button_component
@@ -3083,38 +3061,39 @@ edition = "2021"
 yew = &quot;0.19.3&quot;
 stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 wasm-bindgen = &quot;0.2.79&quot;
-web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] } # //* Note this important feature.
-gloo = &quot;0.6.1&quot;
+web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] } </p>
+<h1 id="-note-this-important-feature-1"><a class="header" href="#-note-this-important-feature-1">//* Note this important feature.</a></h1>
+<p>gloo = &quot;0.6.1&quot;
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
-pub mod form-components;
+<pre><code class="language-rust">pub mod sub_components_a;
+pub mod form_components;
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components'</pre>
 <pre><code class="language-rust">pub mod form_input_component;
 pub mod form_button_component;
 pub mod form_assembler_component;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
       &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
@@ -3274,7 +3253,7 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a::LevelOneAComponent1;
+use crate::components::sub_components_a::SubComponentsAComponent1;
 use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 
 mod components;
@@ -3297,7 +3276,7 @@ pub fn app() -&gt; Html {
           {&quot;cool eh!&quot;}
         &lt;/span&gt;
 
-        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; /&gt;
+        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
         &lt;FormAssemblerComponent input_one_value = &quot;Input 1&quot; input_two_value=&quot;Input 2&quot; button_one=&quot;Button 1&quot; /&gt;
 
       &lt;/div&gt;
@@ -3320,8 +3299,8 @@ fn main() {
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
      |-form_components
       |-form_input_component
       |-form_button_component
@@ -3351,33 +3330,33 @@ gloo = &quot;0.6.1&quot;
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
-pub mod form-components;
+<pre><code class="language-rust">pub mod sub_components_a;
+pub mod form_components;
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components'</pre>
 <pre><code class="language-rust">pub mod form_input_component;
 pub mod form_button_component;
 pub mod form_assembler_component;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
       &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
@@ -3579,7 +3558,7 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a::LevelOneAComponent1;
+use crate::components::sub_components_a::SubComponentsAComponent1;
 use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 use crate::components::form_components::form_assembler_component::StatesData;
 
@@ -3613,7 +3592,7 @@ pub fn app() -&gt; Html {
           {&quot;cool eh!&quot;}
         &lt;/span&gt;
 
-        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; /&gt;
+        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
         {
           //* Remember to pass in the correct required field properties values to the child component &quot;FormAssemblerComponent&quot;
         }
@@ -3648,8 +3627,8 @@ Also, when you change data inside a context, all the children or descendants wit
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
      |-form_components
       |-form_input_component
       |-form_button_component
@@ -3679,33 +3658,33 @@ gloo = &quot;0.6.1&quot;
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
-pub mod form-components;
+<pre><code class="language-rust">pub mod sub_components_a;
+pub mod form_components;
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components'</pre>
 <pre><code class="language-rust">pub mod form_input_component;
 pub mod form_button_component;
 pub mod form_assembler_component;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
       &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
@@ -3870,7 +3849,7 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a::LevelOneAComponent1;
+use crate::components::sub_components_a::SubComponentsAComponent1;
 use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 use crate::components::form_components::form_assembler_component::StatesData;
 //* You have to use 'ContextProvider' at the place where you want to create a context object.
@@ -3916,7 +3895,7 @@ pub fn app() -&gt; Html {
           {&quot;ContextProvider demo code mini-project&quot;}
         &lt;/p&gt;
 
-        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; /&gt;
+        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
         {
           //* &quot;ContextProvider&quot; with &quot;ContextData&quot; data type
           //* You must assign an instance of &quot;ContextData&quot; to its 'context' attribute
@@ -3956,8 +3935,8 @@ The concept here is that your sub-components receive context data which you can 
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
      |-form_components
       |-form_input_component
       |-form_button_component
@@ -3987,33 +3966,33 @@ gloo = &quot;0.6.1&quot;
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
-pub mod form-components;
+<pre><code class="language-rust">pub mod sub_components_a;
+pub mod form_components;
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components'</pre>
 <pre><code class="language-rust">pub mod form_input_component;
 pub mod form_button_component;
 pub mod form_assembler_component;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
       &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
@@ -4178,7 +4157,7 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a::LevelOneAComponent1;
+use crate::components::sub_components_a::SubComponentsAComponent1;
 use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 use crate::components::form_components::form_assembler_component::StatesData;
 //* You have to use 'ContextProvider' at the place where you want to create a context object.
@@ -4254,7 +4233,7 @@ pub fn app() -&gt; Html {
           {&quot;ContextProvider demo code mini-project&quot;}
         &lt;/p&gt;
 
-        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; /&gt;
+        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
         {
           //* &quot;ContextProvider&quot; with &quot;ContextData&quot; data type
           //* This time, instead of assigning an instance of &quot;ContextData&quot; to its 'context' attribute, like so;
@@ -4291,8 +4270,8 @@ fn main() {
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
      |-form_components
       |-form_input_component
       |-form_button_component
@@ -4322,33 +4301,33 @@ gloo = &quot;0.6.1&quot;
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
+<pre><code class="language-rust">pub mod sub_components_a;
 pub mod form-components;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/mod.rs'</pre>
 <pre><code class="language-rust">pub mod form_input_component;
 pub mod form_button_component;
 pub mod form_assembler_component;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
 #[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
       &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
@@ -4356,7 +4335,7 @@ pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
 
 }
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use wasm_bindgen::JsCast;
 use web_sys::HtmlInputElement;
@@ -4387,7 +4366,7 @@ fn form_input_component(props: &amp;Props) -&gt; Html {
   }
 }
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components/form_button_component'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_button_component.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
@@ -4403,7 +4382,7 @@ fn form_button_component(props: &amp;Props) -&gt; Html {
   }
 }
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components/form_assembler_component'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_assembler_component.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use crate::components::form_components::form_input_component;
 use crate::components::form_components::form_button_component;
@@ -4505,7 +4484,7 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a::LevelOneAComponent1;
+use crate::components::sub_components_a::SubComponentsAComponent1;
 use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 use crate::components::form_components::form_assembler_component::StatesData;
 // You create a 'ContextProvider' at the place where you want to create a context data / object.
@@ -4588,7 +4567,7 @@ pub fn app() -&gt; Html {
           {&quot;ContextProvider demo code mini-project&quot;}
         &lt;/p&gt;
 
-        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; /&gt;
+        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
 
         &lt;ContextProvider&lt;ContextData&gt; context={context_data_as_state.deref().clone()}&gt;
           &lt;FormAssemblerComponent
@@ -4622,8 +4601,8 @@ fn main() {
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
      |-form_components
       |-form_input_component
       |-form_button_component
@@ -4656,39 +4635,40 @@ stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 wasm-bindgen = &quot;0.2.79&quot;
 web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] }
 gloo = &quot;0.6.1&quot;
-yew-router = &quot;0.16.0&quot; # //* You need to depend on yew-router
+yew-router = &quot;0.16.0&quot; </p>
+<h1 id="-you-need-to-depend-on-yew-router"><a class="header" href="#-you-need-to-depend-on-yew-router">//* You need to depend on yew-router</a></h1>
 </pre>
-</code></p>
+</code>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
-pub mod form-components;
+<pre><code class="language-rust">pub mod sub_components_a;
+pub mod form_components;
 //* expose newly created &quot;routes&quot; dir
 pub mod routes;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/mod.rs'</pre>
 <pre><code class="language-rust">pub mod form_input_component;
 pub mod form_button_component;
 pub mod form_assembler_component;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
 #[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
       &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
@@ -4696,7 +4676,7 @@ pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
 
 }
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use wasm_bindgen::JsCast;
 use web_sys::HtmlInputElement;
@@ -4727,7 +4707,7 @@ fn form_input_component(props: &amp;Props) -&gt; Html {
   }
 }
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components/form_button_component'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_button_component.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
@@ -4743,7 +4723,7 @@ fn form_button_component(props: &amp;Props) -&gt; Html {
   }
 }
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components/form_assembler_component'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_assembler_component.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use crate::components::form_components::form_input_component;
 use crate::components::form_components::form_button_component;
@@ -4913,7 +4893,7 @@ pub fn switch(route: &amp;Route) -&gt; Html {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a::LevelOneAComponent1;
+use crate::components::sub_components_a::LevelOneAComponent1;
 use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 use crate::components::form_components::form_assembler_component::StatesData;
 // You create a 'ContextProvider' at the place where you want to create a context data / object.
@@ -4971,7 +4951,7 @@ pub fn app() -&gt; Html {
           {&quot;ContextProvider demo code mini-project&quot;}
         &lt;/p&gt;
 
-        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; /&gt;
+        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
 
         &lt;ContextProvider&lt;ContextData&gt; context={context_data_as_state.deref().clone()}&gt;
           &lt;FormAssemblerComponent
@@ -5018,8 +4998,8 @@ fn main() {
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
      |-form_components
       |-form_input_component
       |-form_button_component
@@ -5051,40 +5031,41 @@ yew = &quot;0.19.3&quot;
 stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 wasm-bindgen = &quot;0.2.79&quot;
 web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] }
-gloo = &quot;0.6.1&quot;
-yew-router = &quot;0.16.0&quot; # //* You need to depend on yew-router
+gloo = &quot;0.6.1&quot;</p>
+<h1 id="-you-need-to-depend-on-yew-router-1"><a class="header" href="#-you-need-to-depend-on-yew-router-1">//* You need to depend on yew-router</a></h1>
+<p>yew-router = &quot;0.16.0&quot; 
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
-pub mod form-components;
+<pre><code class="language-rust">pub mod sub_components_a;
+pub mod form_components;
 //* expose newly created &quot;routes&quot; dir
 pub mod routes;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/mod.rs'</pre>
 <pre><code class="language-rust">pub mod form_input_component;
 pub mod form_button_component;
 pub mod form_assembler_component;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
       &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
@@ -5141,8 +5122,8 @@ fn form_button_component(props: &amp;Props) -&gt; Html {
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components/form_assembler_component'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
-use crate::components::form_components::form_input_component;
-use crate::components::form_components::form_button_component;
+use crate::components::form_components::form_input_component::FormInputComponent;
+use crate::components::form_components::form_button_component::FormButtonComponent;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
@@ -5325,7 +5306,7 @@ pub fn switch(route: &amp;Route) -&gt; Html {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a::LevelOneAComponent1;
+use crate::components::sub_components_a::SubComponentsAComponent1;
 use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 use crate::components::form_components::form_assembler_component::StatesData;
 
@@ -5434,8 +5415,8 @@ fn main() {
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
      |-form_components
       |-form_input_component
       |-form_button_component
@@ -5468,39 +5449,40 @@ stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 wasm-bindgen = &quot;0.2.79&quot;
 web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] }
 gloo = &quot;0.6.1&quot;
-yew-router = &quot;0.16.0&quot; # // * You need to depedn on yew-router
+yew-router = &quot;0.16.0&quot; </p>
+<h1 id="--you-need-to-depedn-on-yew-router"><a class="header" href="#--you-need-to-depedn-on-yew-router">// * You need to depedn on yew-router</a></h1>
 </pre>
-</code></p>
+</code>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
-pub mod form-components;
+<pre><code class="language-rust">pub mod sub_components_a;
+pub mod form_components;
 //* expose newly created &quot;routes&quot; dir
 pub mod routes;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/mod.rs</pre>
 <pre><code class="language-rust">pub mod form_input_component;
 pub mod form_button_component;
 pub mod form_assembler_component;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
       &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
@@ -5508,7 +5490,7 @@ pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
 
 }
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use wasm_bindgen::JsCast;
 use web_sys::HtmlInputElement;
@@ -5539,7 +5521,7 @@ fn form_input_component(props: &amp;Props) -&gt; Html {
   }
 }
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components/form_button_component'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_button_component.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
@@ -5555,10 +5537,10 @@ fn form_button_component(props: &amp;Props) -&gt; Html {
   }
 }
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components/form_assembler_component'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_assembler_component.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
-use crate::components::form_components::form_input_component;
-use crate::components::form_components::form_button_component;
+use crate::components::form_components::form_input_component::FormInputComponent;
+use crate::components::form_components::form_button_component::FormButtonComponent;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
@@ -5764,7 +5746,7 @@ pub fn switch(route: &amp;Route) -&gt; Html {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a::LevelOneAComponent1;
+use crate::components::sub_components_a::LevelOneAComponent1;
 use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 use crate::components::form_components::form_assembler_component::StatesData;
 // You create a 'ContextProvider' at the place where you want to create a context data / object.
@@ -5868,8 +5850,8 @@ fn main() {
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
      |-form_components
       |-form_input_component
       |-form_button_component
@@ -5905,12 +5887,13 @@ stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 wasm-bindgen = &quot;0.2.79&quot;
 web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] }
 gloo = &quot;0.6.1&quot;
-yew-router = &quot;0.16.0&quot; # //* You need to depend on yew-router
+yew-router = &quot;0.16.0&quot; </p>
+<h1 id="-you-need-to-depend-on-yew-router-2"><a class="header" href="#-you-need-to-depend-on-yew-router-2">//* You need to depend on yew-router</a></h1>
 </pre>
-</code></p>
+</code>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
-pub mod form-components;
+<pre><code class="language-rust">pub mod sub_components_a;
+pub mod form_components;
 // Expose newly created &quot;routes&quot; DIR
 pub mod routes;
 //* Expose newly created &quot;struct_based_components&quot; DIR
@@ -5925,25 +5908,25 @@ pub mod form_assembler_component;
 <pre><code class="language-rust">//* Expose file 'yew_project_name::src::components::struct_based_components::struct_component_one;
 pub mod struct_component_one;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[pderive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
       &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
@@ -6000,8 +5983,8 @@ fn form_button_component(props: &amp;Props) -&gt; Html {
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components/form_assembler_component'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
-use crate::components::form_components::form_input_component;
-use crate::components::form_components::form_button_component;
+use crate::components::form_components::form_input_component::FormInputComponent;
+use crate::components::form_components::form_button_component::FormButtonComponent;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
@@ -6207,8 +6190,8 @@ pub fn switch(route: &amp;Route) -&gt; Html {
 use yew::prelude::*;
 
 //* Because of my interest in embedding another component inside the HTML rendered from this component,
-//* ..I have decided to use &quot;yew_project_name/src/components/level_one_a/level_one_a_component_1.rs&quot; component
-use crate::components::level_one_a::level_one_a_component_1::LevelOneAComponent1;
+//* ..I have decided to use &quot;yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs&quot; component
+use crate::components::sub_components_a::sub_components_a_component_1::SubComponentsAComponent1;
 
 //* Creation of a struct-based component called &quot;StructComponentOne&quot;
 pub struct StructComponentOne {
@@ -6232,7 +6215,7 @@ impl Component for StructComponentOne {
   fn view(&amp;self, _ctx: &amp;Context&lt;Self&gt;) -&gt; Html {
     html! {
       &lt;div&gt;
-        &lt;LevelOneAComponent1 prop_one={&quot;StructComponentOne has rendered LevelOneAComponent1!&quot;} /&gt;
+        &lt;SubComponentsAComponent1 prop_one={&quot;StructComponentOne has rendered SubComponentsAComponent1!&quot;} /&gt;
         &lt;p&gt;{&quot;I, StructComponentOne, has the followiing content_one: &quot;}{&amp;self.content_one}&lt;/p&gt;
       &lt;/div&gt;
     }
@@ -6243,7 +6226,7 @@ impl Component for StructComponentOne {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a::LevelOneAComponent1;
+use crate::components::sub_components_a::SubComponentsAComponent1;
 use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 use crate::components::form_components::form_assembler_component::StatesData;
 
@@ -6305,7 +6288,7 @@ pub fn app() -&gt; Html {
     &lt;&gt;
       &lt;div class={external_style}&gt;
 
-        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; /&gt;
+        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
 
         &lt;ContextProvider&lt;ContextData&gt; context={context_data_as_state.deref().clone()}&gt;
           &lt;FormAssemblerComponent
@@ -6318,7 +6301,7 @@ pub fn app() -&gt; Html {
             // Time to use 'BrowserRouter'. IMPORTANT: There is no way to pass properties into a Yew router, i.e 'BrowserRouter',
             // ..but.. you can use a Context as a proxy to pass data. Mind you every sibling component of the 'BrowserRouter' would also have access
             // ..to the data as well which may be undesireable.
-            // Also, imagine sibling component &quot;LevelOneAComponent1&quot; plausibly being used as a nav-menu component ;-)
+            // Also, imagine sibling component &quot;SubComponentsAComponent1&quot; plausibly being used as a nav-menu component ;-)
             // &quot;Route&quot; here is an enum, &quot;switch&quot; is a function which matches a &quot;Route&quot; variant to an actual route component.
           }
           &lt;BrowserRouter&gt;
@@ -6354,8 +6337,8 @@ fn main() {
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
      |-form_components
       |-form_input_component
       |-form_button_component
@@ -6391,12 +6374,13 @@ stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 wasm-bindgen = &quot;0.2.79&quot;
 web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] }
 gloo = &quot;0.6.1&quot;
-yew-router = &quot;0.16.0&quot; # //* You need to depend on yew-router
+yew-router = &quot;0.16.0&quot; </p>
+<h1 id="-you-need-to-depend-on-yew-router-3"><a class="header" href="#-you-need-to-depend-on-yew-router-3">//* You need to depend on yew-router</a></h1>
 </pre>
-</code></p>
+</code>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
-pub mod form-components;
+<pre><code class="language-rust">pub mod sub_components_a;
+pub mod form_components;
 // Expose newly created &quot;routes&quot; DIR
 pub mod routes;
 //* Expose newly created &quot;struct_based_components&quot; DIR
@@ -6411,25 +6395,25 @@ pub mod form_assembler_component;
 <pre><code class="language-rust">//* Expose file 'yew_project_name::src::components::struct_based_components::struct_component_one;
 pub mod struct_component_one;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
       &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
@@ -6486,8 +6470,8 @@ fn form_button_component(props: &amp;Props) -&gt; Html {
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components/form_assembler_component'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
-use crate::components::form_components::form_input_component;
-use crate::components::form_components::form_button_component;
+use crate::components::form_components::form_input_component::FormInputComponent;
+use crate::components::form_components::form_button_component::FormButtonComponent;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
@@ -6697,7 +6681,7 @@ use yew::prelude::*;
 //* You need to use stylist's 'style' and 'Style' to style a struct component too
 use stylist::{style, Style};
 
-use crate::components::level_one_a::level_one_a_component_1::LevelOneAComponent1;
+use crate::components::sub_components_a::sub_components_a_component_1::SubComponentsAComponent1;
 
 // Creation of a struct-based component called &quot;StructComponentOne&quot;
 pub struct StructComponentOne {
@@ -6746,7 +6730,7 @@ impl Component for StructComponentOne {
         //* ..in order for style to take effect
       }
       &lt;div class={self.struct_component_style.clone()}&gt;
-        &lt;LevelOneAComponent1 prop_one={&quot;StructComponentOne has rendered LevelOneAComponent1!&quot;} /&gt;
+        &lt;SubComponentsAComponent1 prop_one={&quot;StructComponentOne has rendered SubComponentsAComponent1!&quot;} /&gt;
         &lt;p class=&quot;p-class&quot;&gt;{&quot;I, StructComponentOne, has the followiing content_one: &quot;}{&amp;self.content_one}&lt;/p&gt;
       &lt;/div&gt;
     }
@@ -6757,7 +6741,7 @@ impl Component for StructComponentOne {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a::LevelOneAComponent1;
+use crate::components::sub_components_a::SubComponentsAComponent1;
 use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 use crate::components::form_components::form_assembler_component::StatesData;
 
@@ -6819,7 +6803,7 @@ pub fn app() -&gt; Html {
     &lt;&gt;
       &lt;div class={external_style}&gt;
 
-        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; /&gt;
+        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
 
         &lt;ContextProvider&lt;ContextData&gt; context={context_data_as_state.deref().clone()}&gt;
           &lt;FormAssemblerComponent
@@ -6832,7 +6816,7 @@ pub fn app() -&gt; Html {
             // Time to use 'BrowserRouter'. IMPORTANT: There is no way to pass properties into a Yew router, i.e 'BrowserRouter',
             // ..but.. you can use a Context as a proxy to pass data. Mind you every sibling component of the 'BrowserRouter' would also have access
             // ..to the data as well which may be undesireable.
-            // Also, imagine sibling component &quot;LevelOneAComponent1&quot; plausibly being used as a nav-menu component ;-)
+            // Also, imagine sibling component &quot;SubComponentsAComponent1&quot; plausibly being used as a nav-menu component ;-)
             // &quot;Route&quot; here is an enum, &quot;switch&quot; is a function which matches a &quot;Route&quot; variant to an actual route component.
           }
           &lt;BrowserRouter&gt;
@@ -6868,12 +6852,12 @@ fn main() {
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
      |-form_components
-      |-form_input_component
-      |-form_button_component
-      |-form_assembly_component
+      |-form_input_component.rs
+      |-form_button_component.rs
+      |-form_assembly_component.rs
       |-mod.rs
      |-routes
       |-mod.rs
@@ -6908,8 +6892,8 @@ gloo = &quot;0.6.1&quot;
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
-pub mod form-components;
+<pre><code class="language-rust">pub mod sub_components_a;
+pub mod form_components;
 // Expose newly created &quot;routes&quot; DIR
 pub mod routes;
 //* Expose newly created &quot;struct_based_components&quot; DIR
@@ -6924,25 +6908,25 @@ pub mod form_assembler_component;
 <pre><code class="language-rust">//* Expose file 'yew_project_name::src::components::struct_based_components::struct_component_one;
 pub mod struct_component_one;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
       &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
@@ -6950,7 +6934,7 @@ pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
 
 }
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use wasm_bindgen::JsCast;
 use web_sys::HtmlInputElement;
@@ -6981,7 +6965,7 @@ fn form_input_component(props: &amp;Props) -&gt; Html {
   }
 }
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components/form_button_component'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_button_component.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
@@ -6997,10 +6981,10 @@ fn form_button_component(props: &amp;Props) -&gt; Html {
   }
 }
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components/form_assembler_component'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_assembler_component.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
-use crate::components::form_components::form_input_component;
-use crate::components::form_components::form_button_component;
+use crate::components::form_components::form_input_component::FormInputComponent;
+use crate::components::form_components::form_button_component::FormButtonComponent;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
@@ -7210,7 +7194,7 @@ use yew::prelude::*;
 // You need to use stylist's 'style' and 'Style' to style a struct component too
 use stylist::{style, Style};
 
-use crate::components::level_one_a::level_one_a_component_1::LevelOneAComponent1;
+use crate::components::sub_components_a::sub_components_a_component_1::SubComponentsAComponent1;
 
 //* Create prop object (struct) that would be used in/with &quot;StructComponentOne&quot;
 #[derive(Properties, PartialEq)]
@@ -7271,7 +7255,7 @@ impl Component for StructComponentOne {
         // ..in order for style to take effect
       }
       &lt;div class={self.struct_component_style.clone()}&gt;
-        &lt;LevelOneAComponent1 prop_one={&quot;StructComponentOne has rendered LevelOneAComponent1!&quot;} /&gt;
+        &lt;SubComponentsAComponent1 prop_one={&quot;StructComponentOne has rendered SubComponentsAComponent1!&quot;} /&gt;
         {
           //* We'll be accessing property &quot;prop_one&quot; and make use of it here
           //* ..via a &quot;&amp;ctx.props().prop_one&quot;
@@ -7287,7 +7271,7 @@ impl Component for StructComponentOne {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a::LevelOneAComponent1;
+use crate::components::sub_components_a::SubComponentsAComponent1;
 use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 use crate::components::form_components::form_assembler_component::StatesData;
 
@@ -7349,7 +7333,7 @@ pub fn app() -&gt; Html {
     &lt;&gt;
       &lt;div class={external_style}&gt;
 
-        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; /&gt;
+        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
 
         &lt;ContextProvider&lt;ContextData&gt; context={context_data_as_state.deref().clone()}&gt;
           &lt;FormAssemblerComponent
@@ -7362,7 +7346,7 @@ pub fn app() -&gt; Html {
             // Time to use 'BrowserRouter'. IMPORTANT: There is no way to pass properties into a Yew router, i.e 'BrowserRouter',
             // ..but.. you can use a Context as a proxy to pass data. Mind you every sibling component of the 'BrowserRouter' would also have access
             // ..to the data as well which may be undesireable.
-            // Also, imagine sibling component &quot;LevelOneAComponent1&quot; plausibly being used as a nav-menu component ;-)
+            // Also, imagine sibling component &quot;SubComponentsAComponent1&quot; plausibly being used as a nav-menu component ;-)
             // &quot;Route&quot; here is an enum, &quot;switch&quot; is a function which matches a &quot;Route&quot; variant to an actual route component.
           }
           &lt;BrowserRouter&gt;
@@ -7402,8 +7386,8 @@ fn main() {
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
      |-form_components
       |-form_input_component
       |-form_button_component
@@ -7444,8 +7428,8 @@ yew-router = "0.16.0"
 </pre>
 </code>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
-pub mod form-components;
+<pre><code class="language-rust">pub mod sub_components_a;
+pub mod form_components;
 // Expose newly created &quot;routes&quot; DIR
 pub mod routes;
 //* Expose newly created &quot;struct_based_components&quot; DIR
@@ -7460,25 +7444,25 @@ pub mod form_assembler_component;
 <pre><code class="language-rust">//* Expose file 'yew_project_name::src::components::struct_based_components::struct_component_one;
 pub mod struct_component_one;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
       &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
@@ -7486,7 +7470,7 @@ pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
 
 }
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use wasm_bindgen::JsCast;
 use web_sys::HtmlInputElement;
@@ -7517,7 +7501,7 @@ fn form_input_component(props: &amp;Props) -&gt; Html {
   }
 }
 </code></pre>
-<p></pre>INSIDE 'yew_project_name/src/components/form_components/form_button_component'</pre></p>
+<p></pre>INSIDE 'yew_project_name/src/components/form_components/form_button_component.rs'</pre></p>
 <pre><code class="language-rust">use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
@@ -7742,8 +7726,8 @@ pub fn switch(route: &amp;Route) -&gt; Html {
 use yew::prelude::*;
 
 //* Because of my interest in embedding another component inside the HTML rendered from this component,
-//* ..I have decided to use &quot;yew_project_name/src/components/level_one_a/level_one_a_component_1.rs&quot; component
-use crate::components::level_one_a::level_one_a_component_1::LevelOneAComponent1;
+//* ..I have decided to use &quot;yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs&quot; component
+use crate::components::sub_components_a::sub_components_a_component_1::SubComponentsAComponent1;
 
 //* Creation of a struct-based component called &quot;StructComponentOne&quot;
 pub struct StructComponentOne {
@@ -7769,7 +7753,7 @@ impl Component for StructComponentOne {
   fn view(&amp;self, ctx: &amp;Context&lt;Self&gt;) -&gt; Html {
     html! {
       &lt;div&gt;
-        &lt;LevelOneAComponent1 prop_one={&quot;StructComponentOne has rendered LevelOneAComponent1!&quot;} /&gt;
+        &lt;SubComponentsAComponent1 prop_one={&quot;StructComponentOne has rendered SubComponentsAComponent1!&quot;} /&gt;
         &lt;p&gt;{&quot;I, StructComponentOne, has the followiing content_one: &quot;}{&amp;self.content_one}&lt;/p&gt;
       &lt;/div&gt;
     }
@@ -7809,7 +7793,7 @@ impl Component for StructComponentOne {
 
   //* destroy
   //* Do something when the component is being destroyed and all memory is being collected to be deallocated
-  fn destroy(&amp;mut self, ctx: &amp;Context&lt;Self&gt; {
+  fn destroy(&amp;mut self, ctx: &amp;Context&lt;Self&gt;) {
     // --
   }
 
@@ -7820,7 +7804,7 @@ impl Component for StructComponentOne {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a::LevelOneAComponent1;
+use crate::components::sub_components_a::SubComponentsAComponent1;
 use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 use crate::components::form_components::form_assembler_component::StatesData;
 
@@ -7882,7 +7866,7 @@ pub fn app() -&gt; Html {
     &lt;&gt;
       &lt;div class={external_style}&gt;
 
-        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; /&gt;
+        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
 
         &lt;ContextProvider&lt;ContextData&gt; context={context_data_as_state.deref().clone()}&gt;
           &lt;FormAssemblerComponent
@@ -7895,7 +7879,7 @@ pub fn app() -&gt; Html {
             // Time to use 'BrowserRouter'. IMPORTANT: There is no way to pass properties into a Yew router, i.e 'BrowserRouter',
             // ..but.. you can use a Context as a proxy to pass data. Mind you every sibling component of the 'BrowserRouter' would also have access
             // ..to the data as well which may be undesireable.
-            // Also, imagine sibling component &quot;LevelOneAComponent1&quot; plausibly being used as a nav-menu component ;-)
+            // Also, imagine sibling component &quot;SubComponentsAComponent1&quot; plausibly being used as a nav-menu component ;-)
             // &quot;Route&quot; here is an enum, &quot;switch&quot; is a function which matches a &quot;Route&quot; variant to an actual route component.
           }
           &lt;BrowserRouter&gt;
@@ -7933,8 +7917,8 @@ fn main() {
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
      |-form_components
       |-form_input_component
       |-form_button_component
@@ -7974,8 +7958,8 @@ gloo = &quot;0.6.1&quot;
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
-pub mod form-components;
+<pre><code class="language-rust">pub mod sub_components_a;
+pub mod form_components;
 // Expose newly created &quot;routes&quot; DIR
 pub mod routes;
 //* Expose newly created &quot;struct_based_components&quot; DIR
@@ -7991,25 +7975,25 @@ pub mod form_assembler_component;
 //* Expose file 'yew_project_name::src::components::struct_based_components::struct_component_two;
 pub mod struct_component_two;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
+<span class="boring">derive[(Properties, PartialEq)]
 </span>pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
       &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
@@ -8273,8 +8257,8 @@ pub fn switch(route: &amp;Route) -&gt; Html {
 use yew::prelude::*;
 
 // Because of my interest in embedding another component inside the HTML rendered from this component,
-// ..I have decided to use &quot;yew_project_name/src/components/level_one_a/level_one_a_component_1.rs&quot; component
-use crate::components::level_one_a::level_one_a_component_1::LevelOneAComponent1;
+// ..I have decided to use &quot;yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs&quot; component
+use crate::components::sub_components_a::sub_components_a_component_1::SubComponentsAComponent1;
 
 // Creation of a struct-based component called &quot;StructComponentOne&quot;
 pub struct StructComponentOne {
@@ -8300,7 +8284,7 @@ impl Component for StructComponentOne {
   fn view(&amp;self, ctx: &amp;Context&lt;Self&gt;) -&gt; Html {
     html! {
       &lt;div&gt;
-        &lt;LevelOneAComponent1 prop_one={&quot;StructComponentOne has rendered LevelOneAComponent1!&quot;} /&gt;
+        &lt;SubComponentsAComponent1 prop_one={&quot;StructComponentOne has rendered SubComponentsAComponent1!&quot;} /&gt;
         &lt;p&gt;{&quot;I, StructComponentOne, has the followiing content_one: &quot;}{&amp;self.content_one}&lt;/p&gt;
       &lt;/div&gt;
     }
@@ -8340,7 +8324,7 @@ impl Component for StructComponentOne {
 
   // destroy
   // Do something when the component is being destroyed and all memory is being collected to be deallocated
-  fn destroy(&amp;mut self, ctx: &amp;Context&lt;Self&gt; {
+  fn destroy(&amp;mut self, ctx: &amp;Context&lt;Self&gt;) {
     // --
   }
 
@@ -8425,7 +8409,7 @@ impl Component for StructComponentTwo {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a::LevelOneAComponent1;
+use crate::components::sub_components_a::SubComponentsAComponent1;
 use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 use crate::components::form_components::form_assembler_component::StatesData;
 
@@ -8490,7 +8474,7 @@ pub fn app() -&gt; Html {
     &lt;&gt;
       &lt;div class={external_style}&gt;
 
-        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; /&gt;
+        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
 
         &lt;ContextProvider&lt;ContextData&gt; context={context_data_as_state.deref().clone()}&gt;
           &lt;FormAssemblerComponent
@@ -8503,7 +8487,7 @@ pub fn app() -&gt; Html {
             // Time to use 'BrowserRouter'. IMPORTANT: There is no way to pass properties into a Yew router, i.e 'BrowserRouter',
             // ..but.. you can use a Context as a proxy to pass data. Mind you every sibling component of the 'BrowserRouter' would also have access
             // ..to the data as well which may be undesireable.
-            // Also, imagine sibling component &quot;LevelOneAComponent1&quot; plausibly being used as a nav-menu component ;-)
+            // Also, imagine sibling component &quot;SubComponentsAComponent1&quot; plausibly being used as a nav-menu component ;-)
             // &quot;Route&quot; here is an enum, &quot;switch&quot; is a function which matches a &quot;Route&quot; variant to an actual route component.
           }
           &lt;BrowserRouter&gt;
@@ -8566,10 +8550,12 @@ edition = "2021"
 yew = &quot;0.19.3&quot;
 stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 wasm-bindgen = &quot;0.2.79&quot;
-gloo = &quot;0.8.0&quot; # //* It would see that no logging is done in this demo
-yewdux = &quot;0.8.2&quot; # //* You must depend on 'yewdux'
+gloo = &quot;0.8.0&quot; </p>
+<h1 id="-it-would-see-that-no-logging-is-done-in-this-demo"><a class="header" href="#-it-would-see-that-no-logging-is-done-in-this-demo">//* It would see that no logging is done in this demo</a></h1>
+<p>yewdux = &quot;0.8.2&quot; </p>
+<h1 id="-you-must-depend-on-yewdux"><a class="header" href="#-you-must-depend-on-yewdux">//* You must depend on 'yewdux'</a></h1>
 </pre>
-</code></p>
+</code>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
 <pre><code class="language-rust">mod sample_store_one_user_component; //* file
 mod sample_store_one_button_component; //* file
@@ -9589,9 +9575,11 @@ edition = "2021"
 <p>[dependencies]
 yew = &quot;0.19.3&quot;
 wasm-bindgen = &quot;0.2.79&quot;
-web-sys = { version=&quot;0.3.60&quot;, features = [&quot;HtmlInputElement&quot;] } # //* You must depend on 'web-sys'
-yewdux = &quot;0.8.2&quot; # //* You must depend on 'yewdux'
-yewdux-functional = &quot;8.1.0&quot;
+web-sys = { version=&quot;0.3.60&quot;, features = [&quot;HtmlInputElement&quot;] } </p>
+<h1 id="-you-must-depend-on-web-sys"><a class="header" href="#-you-must-depend-on-web-sys">//* You must depend on 'web-sys'</a></h1>
+<p>yewdux = &quot;0.8.2&quot; </p>
+<h1 id="-you-must-depend-on-yewdux-1"><a class="header" href="#-you-must-depend-on-yewdux-1">//* You must depend on 'yewdux'</a></h1>
+<p>yewdux-functional = &quot;8.1.0&quot;
 serde = &quot;1.0.136&quot;
 </pre>
 </code></p>

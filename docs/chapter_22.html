@@ -143,8 +143,8 @@
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
      |-form_components
       |-form_input_component
       |-form_button_component
@@ -169,38 +169,39 @@ edition = "2021"
 yew = &quot;0.19.3&quot;
 stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 wasm-bindgen = &quot;0.2.79&quot;
-web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] } # //* Note this important feature.
-gloo = &quot;0.6.1&quot;
+web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] } </p>
+<h1 id="-note-this-important-feature"><a class="header" href="#-note-this-important-feature">//* Note this important feature.</a></h1>
+<p>gloo = &quot;0.6.1&quot;
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
-pub mod form-components;
+<pre><code class="language-rust">pub mod sub_components_a;
+pub mod form_components;
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components</pre>
 <pre><code class="language-rust">pub mod form_input_component;
 pub mod form_button_component;
 pub mod form_assembler_component;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
       &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
@@ -285,7 +286,7 @@ pub struct Props {
 }
 
 #[function_component(FormAssemblerComponent)]
-pub fn function_assembler(props: &amp;Props) -&gt; Html {
+pub fn function_assembler_component(props: &amp;Props) -&gt; Html {
 
   let sample_state = use_state( || &quot;Initial state&quot;.to_owned()); // You have to apply 'to_owned()' to the &amp;str as done herein
   let sample_state_clone = sample_state.clone();
@@ -341,8 +342,8 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a/LevelOneAComponent1;
-use crate::components::form_components/form_assembler_component;
+use crate::components::sub_components_a::SubComponentsAComponent1;
+use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 
 mod components;
 
@@ -364,7 +365,7 @@ pub fn app() -&gt; Html {
           {&quot;cool eh!&quot;}
         &lt;/span&gt;
 
-        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; /&gt;
+        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
         &lt;FormAssemblerComponent input_one=&quot;Input 1&quot; button_one=&quot;Button 1&quot; /&gt;
 
       &lt;/div&gt;

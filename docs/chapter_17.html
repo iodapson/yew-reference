@@ -134,7 +134,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="passing-data-from-a-child-embedded-component-to-a-parent-component-via-callbacks"><a class="header" href="#passing-data-from-a-child-embedded-component-to-a-parent-component-via-callbacks">Passing data from a child (embedded) component to a parent component via callbacks</a></h2>
+                        <h2 id="passing-data-from-a-child-embedded-component-to-its-parent-component-via-callbacks"><a class="header" href="#passing-data-from-a-child-embedded-component-to-its-parent-component-via-callbacks">Passing data from a child (embedded) component to its parent component via callbacks</a></h2>
 <p>N.B: There is struct 'Callback' available to you inside yew's prelude which allows you to pass data up from a child component to a parent element.</p>
 <p>N.B: You create a callback by setting a property to be a type Callback<T>, and then calling '.emit' on it. Read on for more details.</p>
 <p>Yew folder structure::</p>
@@ -144,8 +144,8 @@
    |-src
     |-components
      |-mod.rs
-     |-level-one-a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1
       |-mod.rs
     |-lib.rs
     |-main.rs
@@ -157,49 +157,51 @@
 </pre>
 <pre>INSIDE 'Cargo.toml'</pre>
 <code>
-</pre>
+<pre>
 [package]
 name = "yew_project_name"
 version = "0.1.0"
 edition = "2021"
 <p>[dependencies]
 yew = &quot;0.19.3&quot;
+gloo = &quot;0.6.1&quot;
 stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
+<pre><code class="language-rust">pub mod sub_components_a;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level-one-a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level-one-a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-//* The callback's to-be-sent data must be present inside the prop object (ie, struct) for the child element
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+// * The callback's to-be-sent data must be present inside the prop object (ie, struct) for the child element
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
-  //* Here we are defining the to-be-sent data for our callback
+  // * Here we are defining the to-be-sent data for our callback
   pub to_be_sent_data: Callback&lt;String&gt;,
 }
 
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(prop: &amp;Props) -&gt; Html {
 
-  //* Time to send 'to_be_sent_data' up from this component
-  //* ..into whatever component it is being embedded in
-  //* ..as a child component
+  // * Time to send 'to_be_sent_data' up from this component
+  // * ..into whatever component it is being embedded in
+  // * ..as a child component
   prop.to_be_sent_data.emit(
-    &quot;Sent from child component 'LevelOneAComponent1' to parent element&quot;.to_owned()
-  )
+    &quot;' Sent as callback data from child component 'SubComponentsAComponent1' to parent component 'App' '&quot;.to_owned(),
+  );
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level-one-a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
-      &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_owned()}&lt;/p&gt;
+      &lt;p&gt;{&quot;Please open your Dev Tools to see the logged callback data.&quot;}&lt;/p&gt;
 
     &lt;/div&gt;
   }
@@ -208,41 +210,31 @@ pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
-// Use the stylist functions/macros/namespaces required
-use stylist::yew::{styled_component, Style};
+use gloo::console::log;
+use components::sub_components_a::sub_components_a_component_1::SubComponentsAComponent1;
 
 mod components;
 
-const EXTERNAL_STYLE = include_str!(&quot;main.css&quot;);
-
-#[styled_component(App)]
+#[function_component(App)]
 pub fn app() -&gt; Html {
 
-  let external_style = Style::new(EXTERNAL_STYLE).unwrap(); // Style::new returns a result
-
-  //* Create a callback (action) using 'Callback::from' available in yew's prelude
+  // * Create a callback (action) using 'Callback::from' available in yew's prelude
   let callback_receipient_action = Callback::from (
     |received_from_child_component: String| {
       //* Perform some action with data received from child component
       // ..I have decided to simply log it
-      log!(&quot;Here is what I &quot;, received_from_child_component)
+      log!(&quot;Here is what was &quot;, received_from_child_component)
     }
   );
 
-  //* You also need to assign the callback action of the parent element
-  //* ..to the callback property of the child component emitting
-  //* ..data to the parent component.
-  //* Basically, the parent components needs to acknowledge the child component's callback like so;
+  // * You also need to assign the callback action of the parent element
+  // * ..to the callback property of the child component emitting
+  // * ..data to the parent component.
+  // * Basically, the parent components needs to acknowledge the child component's callback like so;
   html! {
     &lt;&gt;
-      &lt;div class={external_style}&gt;
-        &lt;p&gt;
-          {&quot;Texting with style!&quot;}
-        &lt;/p&gt;
-        &lt;span&gt;
-          {&quot;cool eh!&quot;}
-        &lt;/span&gt;
-        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; to_be_sent_data={callback_receipient_action} /&gt;
+      &lt;div&gt;
+        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; to_be_sent_data={callback_receipient_action} /&gt;
       &lt;/div&gt;
     &lt;/&gt;
   }

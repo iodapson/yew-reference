@@ -134,7 +134,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="styling-yew-apps-with-an-external-stylesheet-with-macro-include_str"><a class="header" href="#styling-yew-apps-with-an-external-stylesheet-with-macro-include_str">Styling Yew apps with an external stylesheet with macro include_str!()</a></h2>
+                        <h2 id="styling-yew-apps-with-an-external-css-stylesheet-with-macro-include_str"><a class="header" href="#styling-yew-apps-with-an-external-css-stylesheet-with-macro-include_str">Styling Yew apps with an external .css stylesheet with macro include_str!()</a></h2>
 <p>Yew folder structure::</p>
 <pre>
   |-yew_project_name
@@ -157,17 +157,30 @@ version = "0.1.0"
 edition = "2021"
 <p>[dependencies]
 yew = &quot;0.19.3&quot;
-stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
+stylist = {version = &quot;0.10.1&quot; features = [&quot;yew&quot;]}
 </pre>
 </code></p>
+<pre>INSIDE 'yew_project_name/src/main.css'</pre>
+<pre><code class="language-css">p {
+	background-color: yellowgreen;
+	color: beige;
+	border: 1px solid pink;
+	border-radius: 50px;
+	text-align: center;
+	font-style: italic;
+	font-size: 18px;
+	padding: 5px;
+}
+</code></pre>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 //* Use the stylist functions/macros/namespaces required
-//* ..Note the 'Style' instead of 'style' used here
-use stylist::yew::{styled_component, Style};
+use stylist::yew::{styled_component};
+//* ..Note 'Style' instead of 'style' used here
+use stylist::Style;
 
 //* Create a variable that holds a reference to the external css stylesheet using 'include_str!'
-const EXTERNAL_STYLE = include_str!(&quot;main.css&quot;);
+const EXTERNAL_STYLE: &amp;str = include_str!(&quot;main.css&quot;);
 
 //* To use stylist, you must used a 'styled_component' rather than 'function_component'
 #[styled_component(App)]
@@ -180,13 +193,14 @@ pub fn app() -&gt; Html {
     &lt;&gt;
       {
         //* Now you make use of the external style 'external_style' in this case
+        // Please delete me and my enclosing block to make this module compile.
       }
       &lt;div class={external_style}&gt;
         &lt;p&gt;
           {&quot;Texting with style!&quot;}
         &lt;/p&gt;
         &lt;span&gt;
-          {&quot;cool eh!&quot;}
+          {&quot;External style!&quot;}
         &lt;/span&gt;
       &lt;/div&gt;
     &lt;/&gt;

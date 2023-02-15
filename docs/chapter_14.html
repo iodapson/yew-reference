@@ -142,8 +142,8 @@
    |-src
     |-components
      |-mod.rs
-     |-level-one-a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
       |-mod.rs
     |-lib.rs
     |-main.rs
@@ -155,7 +155,7 @@
 </pre>
 <pre>INSIDE 'Cargo.toml'</pre>
 <code>
-</pre>
+<pre>
 [package]
 name = "yew_project_name"
 version = "0.1.0"
@@ -166,65 +166,57 @@ stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
+<pre><code class="language-rust">pub mod sub_components_a;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level-one-a/mod.rs'</pre>
-<pre><code>pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level-one-a/level_one_a_component_1.rs'</pre>
-<pre><code class="language-rust">// This is a sub-component inside dir 'src/components/level-one-a'
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
+<pre><code class="language-rust">// This is a sub-component inside dir 'src/components/sub_components_a'
 use yew::prelude::*;
 
-//* You need to create a prop struct which would hold/represent the passed in properties
-//* You must also derive 'Properties' and 'PartialEq' on the struct, like so;
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+// * You need to create a prop struct which would hold/represent the passed in properties
+// * You must also derive 'Properties' and 'PartialEq' on the struct, like so;
+#[derive(Properties, PartialEq, Default, Clone)]
+pub struct Props {
   pub prop_one: String,
-  //* Time to create an optional property
-  pub prop_two: Option&lt;String&gt;, // &quot;prop_two&quot; is optional, thus may not be passed into embedded component &quot;LevelOneAComponent1&quot;
+  // * Time to create an optional property
+  pub prop_two: Option&lt;String&gt;, // * &quot;prop_two&quot; is optional, thus may not be passed into embedded component &quot;SubComponentsAComponent1&quot;
 }
 
-//* You must pass a reference of the prop struct to your component's function definition
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+//* You must pass a reference of the Prop struct to your component's function definition
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(_props: &amp;Props) -&gt; Html {
+  // * Please note that in order to access optional field(s) inside Props, you would need to implement Clone on Props itself
   html! {
     &lt;div&gt;
-      &lt;p&gt;&quot;Hi! I am from component file 'src/components/level-one-a/level_one_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;I am 'components::sub_components_a::sub_components_a_component_1::SubComponentAComponent1'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;I have a require property 'prop_one' (i.e Prop field 'prop_one')&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;And I have an optional prop too called 'prop_two'. See next chapter to see how I can be accessed.&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;You can see how required and non-required/optional Properties fields can be accessed in the following chapter&quot;}&lt;/p&gt;
     &lt;/div&gt;
   }
 }
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
-// Use the stylist functions/macros/namespaces required
-use stylist::yew::{styled_component, Style};
 
 // Specify 'components' directory (which is a sibling of 'lib.rs') as a mod, like so;
 mod components;
 
 // ..then use the subcomponent of choice inside components dir
-use components::level-one-a::level_one_a_component_1::LevelOneAComponent1;
+use components::sub_components_a::sub_components_a_component_1::SubComponentsAComponent1;
 
-const EXTERNAL_STYLE = include_str!(&quot;main.css&quot;);
-
-#[styled_component(App)]
+#[function_component(App)]
 pub fn app() -&gt; Html {
-
-  let external_style = Style::new(EXTERNAL_STYLE).unwrap(); //* Style::new returns a result
-
   html! {
     &lt;&gt;
-      &lt;div class={external_style}&gt;
-        &lt;p&gt;
-          {&quot;Texting with style!&quot;}
-        &lt;/p&gt;
-        &lt;span&gt;
-          {&quot;cool eh!&quot;}
-        &lt;/span&gt;
+      &lt;div&gt;
         {
-          //* Time to pass property'prop_one' of struct 'Prop' inside LevelOneAComponent1 into embeded component LevelOneAComponent1 itself
+          //* Time to pass property'prop_one' of struct 'Prop' inside SubComponentsAComponent1 into embeded component SubComponentsAComponent1 itself
+          // * Please remove this comment block to make this module actually compile
         }
-        &lt;LevelOneAComponent1 prop_one=&quot;Confirming prop one value&quot; /&gt; {/*Notice that &quot;prop_two&quot; is not passed any value because doing so is absolutely optional*/}
+        &lt;SubComponentsAComponent1 prop_one=&quot;String value for SubComponentsAComponent1's 'prop_one'&quot; /&gt; {/*Notice that &quot;prop_two&quot; is not passed any value because doing so is absolutely optional.*/}
       &lt;/div&gt;
     &lt;/&gt;
   }

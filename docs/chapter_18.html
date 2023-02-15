@@ -144,12 +144,13 @@ However, it does cause the page to reload. Bare this in mind.</p>
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
+      |-mod.rs
      |-form_components
       |-form_input_component
       |-form_button_component
-      |-form_assembly_component
+      |-form_assembler_component
       |-mod.rs
     |-lib.rs
     |-main.rs
@@ -172,35 +173,35 @@ stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
-pub mod form-components; //* Take note of this
+<pre><code class="language-rust">pub mod sub_components_a;
+pub mod form_components; // * Take note of this
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components</pre>
-<pre><code class="language-rust">//* Take note of these:
+<pre>INSIDE 'yew_project_name/src/components/form_components/mod.rs</pre>
+<pre><code class="language-rust">// * Take note of these:
 pub mod form_input_component;
 pub mod form_button_component;
 pub mod form_assembler_component;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(props: &amp;Props) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
-      &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;props.prop_one.to_owned()}&lt;/p&gt;
 
     &lt;/div&gt;
   }
@@ -208,7 +209,7 @@ pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
 }
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component'</pre>
-<pre><code class="language-rust">//* Create file code
+<pre><code class="language-rust">//* Create input component code
 use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
@@ -217,19 +218,20 @@ pub struct Props {
 }
 
 #[function_component(FormInputComponent)]
-fn form_input_component(props: &amp;Props) -&gt; Html {
+pub fn form_input_component(props: &amp;Props) -&gt; Html {
   html! {
     {
-      //* Notice how you had to clone the property &quot;input_one&quot; in order
+      // * Notice how you had to clone the property &quot;input_one&quot; in order
       //* ..to assign it as the value to html element 'input' 's attribute
-      //* ..'name' 's value
+      // * ..'name' 's value
+      // * Also, remember to clean up this comment block so the code can compile locally on your machine
     }
     &lt;input type=&quot;text&quot; name={props.input_one.clone()} /&gt;
   }
 }
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components/form_button_component'</pre>
-<pre><code class="language-rust">//* Create file code
+<pre><code class="language-rust">// * Create button component code
 use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
@@ -238,19 +240,19 @@ pub struct Props {
 }
 
 #[function_component(FormButtonComponent)]
-fn form_button_component(props: &amp;Props) -&gt; Html {
+pub fn form_button_component(props: &amp;Props) -&gt; Html {
   html! {
     &lt;button&gt;{&amp;props.button_one}&lt;/button&gt;
   }
 }
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components/form_assembler_component'</pre>
-<pre><code class="language-rust">//* Learn from this file
+<pre><code class="language-rust">// * Here we create a component to assemble form component pieces
 
 use yew::prelude::*;
-//* Use &quot;form_input_component&quot; and &quot;form_button_component&quot;
-use crate::components::form_components::form_input_component;
-use crate::components::form_components::form_button_component;
+// * Use &quot;form_input_component&quot; and &quot;form_button_component&quot;
+use crate::components::form_components::form_input_component::FormInputComponent;
+use crate::components::form_components::form_button_component::FormButtonComponent;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
@@ -262,8 +264,8 @@ pub struct Props {
 pub fn function_assembler(props: &amp;Props) -&gt; Html {
   html! {
     &lt;form&gt;
-      &lt;FormInputComponent input_one={&amp;props.input_one_value.clone()} /&gt;
-      &lt;FormButtonComponent button_one={&amp;props.button_name.clone()} /&gt;
+      &lt;FormInputComponent input_one={props.input_one_value.clone()} /&gt;
+      &lt;FormButtonComponent button_one={props.button_name.clone()} /&gt;
     &lt;/form&gt;
   }
 }
@@ -271,14 +273,15 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 // Use the stylist functions/macros/namespaces required
-use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a/LevelOneAComponent1;
-//* Use &quot;form_assembler_component&quot;
-use crate::components::form_components/form_assembler_component;
+use stylist::yew::{styled_component};
+use stylist::Style;
+use crate::components::sub_components_a::sub_components_a_component_1::SubComponentsAComponent1;
+// * Use &quot;form_assembler_component&quot;
+use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 
 mod components;
 
-const EXTERNAL_STYLE = include_str!(&quot;main.css&quot;);
+const EXTERNAL_STYLE: &amp;str = include_str!(&quot;main.css&quot;);
 
 #[styled_component(App)]
 pub fn app() -&gt; Html {
@@ -289,16 +292,18 @@ pub fn app() -&gt; Html {
     &lt;&gt;
       &lt;div class={external_style}&gt;
         &lt;p&gt;
-          {&quot;Texting with style!&quot;}
+          {&quot;Forms Demo!&quot;}
         &lt;/p&gt;
         &lt;span&gt;
-          {&quot;cool eh!&quot;}
+          {&quot;...with a little bit of style ^_^&quot;}
         &lt;/span&gt;
-        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; /&gt;
+
+        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
         {
           //* Time to use FormAssembler
+          //* Again, please remember to remove this comment block.
         }
-        &lt;FormAssemblerComponent input_one=&quot;Input 1&quot; button_one=&quot;Button 1&quot; /&gt;
+        &lt;FormAssemblerComponent input_one_value=&quot;Input 1&quot; button_name=&quot;Button 1&quot; /&gt;
       &lt;/div&gt;
     &lt;/&gt;
   }

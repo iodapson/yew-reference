@@ -164,6 +164,7 @@ serde_json = &quot;1.0.79&quot;</pre>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use gloo::console::log;
 use yew::prelude::*;
+use serde::{Serialize, Deserialize};
 
 // * First make sure struct is serialized using serde by use of #[derive(Serialize)]
 // ..optionally also deserialize
@@ -180,7 +181,7 @@ pub fn app() -&gt; Html {
   let a_struct_var_binding = AStruct {
     first_field: some_str.to_owned(),
     second_field: &quot;another str&quot;.to_owned(),
-  }
+  };
   // * Time to log target struct 'a_struct_var_binding'
   log!(serde_json::to_string_pretty(&amp;a_struct_var_binding).unwrap());
   html! {

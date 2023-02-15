@@ -155,9 +155,8 @@ name = "yew_project_name"
 version = "0.1.0"
 edition = "2021"
 <p>[dependencies]
-yew = &quot;0.19.3&quot;</p>
-</pre>
-</code>
+yew = &quot;0.19.3&quot;</pre>
+</code></p>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
@@ -170,7 +169,8 @@ pub fn app() -&gt; Html {
       &lt;ol&gt;
         {
           //* The iteration is below:
-          //* ..Note that you can extract the iteration code below into a function which you then simply call
+          //* ..Note that you can extract the iteration code below into a function which you then simply call.
+          //* And please delete me and my block to make this code compile.
         }
         {
           the_list.iter().map( |item| html!{

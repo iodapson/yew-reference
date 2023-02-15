@@ -142,8 +142,8 @@
    |-src
     |-components
      |-mod.rs
-     |-level-one-a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
       |-mod.rs
     |-lib.rs
     |-main.rs
@@ -162,24 +162,24 @@ version = "0.1.0"
 edition = "2021"
 <p>[dependencies]
 yew = &quot;0.19.3&quot;
-stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
+stylist = {version = &quot;0.10.1&quot; features = [&quot;yew&quot;]}
 </pre>
 </code></p>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
+<pre><code class="language-rust">pub mod sub_components_a;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level-one-a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level-one-a/level_one_a_component_1.rs'</pre>
-<pre><code class="language-rust">//* This is a sub-component inside dir 'src/components/level-one-a'
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
+<pre><code class="language-rust">//* This is a sub-component inside dir 'src/components/sub_components_a'
 use yew::prelude::*;
 // Decide whether or not you want a styled component or a function component. I chose function component
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1() -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1() -&gt; Html {
   html! {
     &lt;div&gt;
-      &lt;p&gt;Hi! I am from component file 'src/components/level-one-a/level_one_a_component_1.rs'&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src::components::sub_components_a::sub_components_a_component_1'&quot;}&lt;/p&gt;
     &lt;/div&gt;
   }
 }
@@ -190,8 +190,8 @@ pub fn level_one_a_component_1() -&gt; Html {
 //* Specify 'components' directory (which is a sibling of 'lib.rs') as a mod, like so;
 mod components;
 
-//* ..then use the subcomponent of choice inside components dir
-use components::level-one-a::level_one_a_component_1::LevelOneAComponent1;
+//* ..then use the subcomponent of choice inside sub_components_a directory
+use components::sub_components_a::sub_components_a_component_1::SubComponentsAComponent1;
 
 #[function_component(App)]
 pub fn app() -&gt; Html {
@@ -199,15 +199,16 @@ pub fn app() -&gt; Html {
     &lt;&gt;
       &lt;div&gt;
         &lt;p&gt;
-          {&quot;Texting with style!&quot;}
+          {&quot;I'm a paragraph in component 'App' created in lib.rs.&quot;}
         &lt;/p&gt;
         &lt;span&gt;
-          {&quot;cool eh!&quot;}
+          {&quot;I'm a span text in component 'App' too.&quot;}
         &lt;/span&gt;
         {
-          //* Time to embed component 'LevelOneAComponent1' inside this component
+          //* Time to embed component 'SubComponentsAComponent1' inside this component
+          // Please delete me and my enclosing block to make this module compile.
         }
-        &lt;LevelOneAComponent1 /&gt;
+        &lt;SubComponentsAComponent1 /&gt;
       &lt;/div&gt;
     &lt;/&gt;
   }

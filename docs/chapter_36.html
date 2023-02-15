@@ -145,8 +145,8 @@
    |-src
     |-components
      |-mod.rs
-     |-level_one_a
-      |-level_one_a_component_1.rs
+     |-sub_components_a
+      |-sub_components_a_component_1.rs
      |-form_components
       |-form_input_component
       |-form_button_component
@@ -187,8 +187,8 @@ yew-router = "0.16.0"
 </pre>
 </code>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level-one-a;
-pub mod form-components;
+<pre><code class="language-rust">pub mod sub_components_a;
+pub mod form_components;
 // Expose newly created &quot;routes&quot; DIR
 pub mod routes;
 //* Expose newly created &quot;struct_based_components&quot; DIR
@@ -203,25 +203,25 @@ pub mod form_assembler_component;
 <pre><code class="language-rust">//* Expose file 'yew_project_name::src::components::struct_based_components::struct_component_one;
 pub mod struct_component_one;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/mod.rs'</pre>
-<pre><code class="language-rust">pub mod level_one_a_component_1;
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/mod.rs'</pre>
+<pre><code class="language-rust">pub mod sub_components_a_component_1;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/level_one_a/level_one_a_component_1.rs'</pre>
+<pre>INSIDE 'yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
-<span class="boring">derive(Properties, PartialEq)]
-</span>pub struct Props {
+#[derive(Properties, PartialEq)]
+pub struct Props {
   pub prop_one: String,
   pub prop_two: Option&lt;String&gt;,
 }
 
-#[function_component(LevelOneAComponent1)]
-pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentsAComponent1)]
+pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/level_one_a/level_one_a_component_1.rs'&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
       &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
 
     &lt;/div&gt;
@@ -229,7 +229,7 @@ pub fn level_one_a_component_1(prop: &amp;Prop) -&gt; Html {
 
 }
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use wasm_bindgen::JsCast;
 use web_sys::HtmlInputElement;
@@ -260,7 +260,7 @@ fn form_input_component(props: &amp;Props) -&gt; Html {
   }
 }
 </code></pre>
-<p></pre>INSIDE 'yew_project_name/src/components/form_components/form_button_component'</pre></p>
+<p></pre>INSIDE 'yew_project_name/src/components/form_components/form_button_component.rs'</pre></p>
 <pre><code class="language-rust">use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
@@ -485,8 +485,8 @@ pub fn switch(route: &amp;Route) -&gt; Html {
 use yew::prelude::*;
 
 //* Because of my interest in embedding another component inside the HTML rendered from this component,
-//* ..I have decided to use &quot;yew_project_name/src/components/level_one_a/level_one_a_component_1.rs&quot; component
-use crate::components::level_one_a::level_one_a_component_1::LevelOneAComponent1;
+//* ..I have decided to use &quot;yew_project_name/src/components/sub_components_a/sub_components_a_component_1.rs&quot; component
+use crate::components::sub_components_a::sub_components_a_component_1::SubComponentsAComponent1;
 
 //* Creation of a struct-based component called &quot;StructComponentOne&quot;
 pub struct StructComponentOne {
@@ -512,7 +512,7 @@ impl Component for StructComponentOne {
   fn view(&amp;self, ctx: &amp;Context&lt;Self&gt;) -&gt; Html {
     html! {
       &lt;div&gt;
-        &lt;LevelOneAComponent1 prop_one={&quot;StructComponentOne has rendered LevelOneAComponent1!&quot;} /&gt;
+        &lt;SubComponentsAComponent1 prop_one={&quot;StructComponentOne has rendered SubComponentsAComponent1!&quot;} /&gt;
         &lt;p&gt;{&quot;I, StructComponentOne, has the followiing content_one: &quot;}{&amp;self.content_one}&lt;/p&gt;
       &lt;/div&gt;
     }
@@ -552,7 +552,7 @@ impl Component for StructComponentOne {
 
   //* destroy
   //* Do something when the component is being destroyed and all memory is being collected to be deallocated
-  fn destroy(&amp;mut self, ctx: &amp;Context&lt;Self&gt; {
+  fn destroy(&amp;mut self, ctx: &amp;Context&lt;Self&gt;) {
     // --
   }
 
@@ -563,7 +563,7 @@ impl Component for StructComponentOne {
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use stylist::yew::{styled_component, Style};
-use crate::components::level_one_a::LevelOneAComponent1;
+use crate::components::sub_components_a::SubComponentsAComponent1;
 use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 use crate::components::form_components::form_assembler_component::StatesData;
 
@@ -625,7 +625,7 @@ pub fn app() -&gt; Html {
     &lt;&gt;
       &lt;div class={external_style}&gt;
 
-        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; /&gt;
+        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
 
         &lt;ContextProvider&lt;ContextData&gt; context={context_data_as_state.deref().clone()}&gt;
           &lt;FormAssemblerComponent
@@ -638,7 +638,7 @@ pub fn app() -&gt; Html {
             // Time to use 'BrowserRouter'. IMPORTANT: There is no way to pass properties into a Yew router, i.e 'BrowserRouter',
             // ..but.. you can use a Context as a proxy to pass data. Mind you every sibling component of the 'BrowserRouter' would also have access
             // ..to the data as well which may be undesireable.
-            // Also, imagine sibling component &quot;LevelOneAComponent1&quot; plausibly being used as a nav-menu component ;-)
+            // Also, imagine sibling component &quot;SubComponentsAComponent1&quot; plausibly being used as a nav-menu component ;-)
             // &quot;Route&quot; here is an enum, &quot;switch&quot; is a function which matches a &quot;Route&quot; variant to an actual route component.
           }
           &lt;BrowserRouter&gt;
