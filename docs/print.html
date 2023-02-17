@@ -1839,7 +1839,7 @@ gloo = &quot;0.6.1&quot;
 <pre><code class="language-rust">pub mod sub_components_a;
 pub mod form_components;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/mod.rs'</pre>
 <pre><code class="language-rust">pub mod form_assembler_component;
 pub mod form_button_component;
 pub mod form_input_component;
@@ -2242,9 +2242,9 @@ fn main() {
       |-sub_components_a_component_1.rs
       |-mod.rs
      |-form_components
-      |-form_input_component
-      |-form_button_component
-      |-form_assembly_component
+      |-form_input_component.rs
+      |-form_button_component.rs
+      |-form_assembly_component.rs
       |-mod.rs
     |-lib.rs
     |-main.rs
@@ -2374,9 +2374,7 @@ pub fn form_button_component(props: &amp;Props) -&gt; Html {
 use crate::components::form_components::form_button_component::FormButtonComponent;
 use crate::components::form_components::form_input_component::FormInputComponent;
 
-use gloo::console::log;
-
-#[derive(Properties, PartialEq)]
+#[derive(Properties, PartialEq, Clone)]
 pub struct Props {
   pub input_one_value: String,
   pub button_name: String,
@@ -2390,31 +2388,28 @@ pub fn function_assembler_component(props: &amp;Props) -&gt; Html {
 
   //* Create a use_state to monitor and change counter for each time &quot;FormButtonComponent&quot; is clicked
   let form_button_click_count = use_state ( || 0_u32);
-  //* Clone the use_state &quot;form_button_click&quot; created above
+  //* Clone the use_state &quot;form_button_click_count&quot; created above
   let form_button_click_count_clone = form_button_click_count.clone();
 
   // Create a callback that will respond to (input) data received from another component's callback property
   let callback_receipient = Callback::from(
-    move |received_input| {
+    move |received_input: String| {
       // Now set your cloned state to its new value
-      sample_state_clone.set(&amp;*recieved_input);
+      sample_state_clone.set((&amp;*received_input).to_string());
     }
   );
 
-  //* Time to create a 'Callback::from' for receiving the counter of/from the &quot;FormButtonComponent&quot; defined earlier
+  //* Time to create a callback with 'Callback::from' for receiving the counter of/from the &quot;FormButtonComponent&quot; defined earlier
   //* Note that since this Callback::from does not need any event
   //* ..from its child component, its closure argument
   //* ..uses a '_' to ignore args
   let click_count_receipient = Callback::from(
-    |_| {
+    move |_| {
 
       //* In order to change the use_state &quot;form_button_click_count_clone&quot; as &quot;FormButtonComponent&quot; is being clicked,
       //* ..you need to call 'set' on it, see below;
-      let click_count = * form_button_click_count_clone;
+      let click_count = *form_button_click_count_clone;
       form_button_click_count_clone.set(click_count + 1);
-
-      //* For now, logging is also acceptable since it is good enough
-      log!(&quot;Current count is &quot;, form_button_click_count_state_clone);
     }
   );
 
@@ -2422,23 +2417,25 @@ pub fn function_assembler_component(props: &amp;Props) -&gt; Html {
   //* ..because using &lt;form&gt;&lt;/form&gt; as it is right now would lead to an endless recursive re-render of the screen
   html! {
     &lt;div&gt;
-      &lt;FormInputComponent input_one={&amp;props.input_one_value.clone()} handle_call_back_action={callback_receipient} /&gt;
+      &lt;FormInputComponent input_one={props.input_one_value.clone()} callback_data={callback_receipient} /&gt;
       {
         //* Now you need to pass in your Callback::from to your child component's Callback property &quot;click_count&quot;
+        // * Please remember to remove this code comment block to make this module run
       }
-      &lt;FormButtonComponent button_one={&amp;props.button_name.clone()} click_count={click_count_receipient}/&gt;
+      &lt;FormButtonComponent button_one={props.button_name.clone()} click_count={click_count_receipient}/&gt;
       {
         //* A simply display of the count for &quot;FormButtonComponent&quot; clicks
         //* Also remember to derefence the use_state &quot;form_button_count&quot; or &quot;form_button_count_clone&quot;
+        // * Please remember to clear this code comment block too.
       }
-      &lt;p&gt;{&quot;FormButtonComponent's click count is at: &quot;}{*form_button_count_clone}&lt;/p&gt;
+      &lt;p&gt;{&quot;FormButtonComponent's click count is at: &quot;}{*form_button_click_count}&lt;/p&gt;
     &lt;/div&gt;
   }
 }
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
-use stylist::yew::{styled_component, Style};
+use stylist::{yew::styled_component, Style};
 use crate::components::sub_components_a::SubComponentsAComponent1;
 use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 
@@ -2456,11 +2453,11 @@ pub fn app() -&gt; Html {
       &lt;div class={external_style}&gt;
 
         &lt;p&gt;
-          {&quot;Texting with style!&quot;}
+          {&quot;Another Form Demo with a click counter!&quot;}
         &lt;/p&gt;
-        &lt;span&gt;
-          {&quot;cool eh!&quot;}
-        &lt;/span&gt;
+        &lt;b&gt;
+          {&quot;Please note that the html 'form' element is not used anywhere in this demo&quot;}
+        &lt;/b&gt;
 
         &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
         &lt;FormAssemblerComponent input_one=&quot;Input 1&quot; button_one=&quot;Button 1&quot; /&gt;
@@ -2479,6 +2476,7 @@ fn main() {
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="hook---use_state-singular-complex-struct-state-instead-of-multiple-states-think-buttons-and-counters"><a class="header" href="#hook---use_state-singular-complex-struct-state-instead-of-multiple-states-think-buttons-and-counters">Hook - 'use_state' (singular complex struct state instead of multiple states, think buttons and counters)</a></h2>
 <p>Using 'use_state' to update screen to show how many times a particular button was clicked.</p>
+<p>Please note that the code in this chapter when run leads to nothing particularly very interesting. To see a complex state struct in action (via a click counter demo) proceed to the next chapter.</p>
 <p>Yew folder structure::</p>
 <pre>
   |-yew_project_name
@@ -2490,9 +2488,9 @@ fn main() {
       |-sub_components_a_component_1.rs
       |-mod.rs
      |-form_components
-      |-form_input_component
-      |-form_button_component
-      |-form_assembly_component
+      |-form_input_component.rs
+      |-form_button_component.rs
+      |-form_assembly_component.rs
       |-mod.rs
     |-lib.rs
     |-main.rs
@@ -2513,7 +2511,7 @@ edition = "2021"
 yew = &quot;0.19.3&quot;
 stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 wasm-bindgen = &quot;0.2.79&quot;
-web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] } # //* Note this important feature.
+web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] } // * Note this important feature.
 gloo = &quot;0.6.1&quot;
 </pre>
 </code></p>
@@ -2521,7 +2519,7 @@ gloo = &quot;0.6.1&quot;
 <pre><code class="language-rust">pub mod sub_components_a;
 pub mod form_components;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/mod.rs'</pre>
 <pre><code class="language-rust">pub mod form_input_component;
 pub mod form_button_component;
 pub mod form_assembler_component;
@@ -2538,14 +2536,14 @@ pub struct Props {
   pub prop_two: Option&lt;String&gt;,
 }
 
-#[function_component(LevelOneAComponent1)]
-pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
+#[function_component(SubComponentAComponent1)]
+pub fn sub_components_a_component_1(props: &amp;Props) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
       &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
-      &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
+      &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;props.prop_one.to_owned()}&lt;/p&gt;
 
     &lt;/div&gt;
   }
@@ -2560,28 +2558,28 @@ use web_sys::HtmlInputElement;
 #[derive(Properties, PartialEq)]
 pub struct Props {
   pub input_one: String,
-  pub handle_call_to_action: Callback&lt;String&gt;,
+  pub callback_data: Callback&lt;String&gt;,
 }
 
 #[function_component(FormInputComponent)]
 fn form_input_component(props: &amp;Props) -&gt; Html {
 
-  let handle_call_to_action_clone = props.handle_call_to_action.clone();
+  let callback_data_clone = props.callback_data.clone();
 
-  let call_to_action = Callback::from(
+  let handle_callback_data = Callback::from(
 
     move | input_event | {
       let input_event_target = input_event.target().unwrap();
       let current_input_text = input_event_target.unchecked_into::&lt;HtmlInputElement&gt;();
 
-      handle_call_to_action_clone.emit(current_input_text.value());
+      callback_data_clone.emit(current_input_text.value());
 
     }
 
   );
 
   html! {
-    &lt;input type=&quot;text&quot; name={props.input_one.clone()} onchange={call_to_action} /&gt;
+    &lt;input type=&quot;text&quot; name={props.input_one.clone()} onchange={handle_callback_data} /&gt;
   }
 }
 </code></pre>
@@ -2611,6 +2609,7 @@ fn form_button_component(props: &amp;Props) -&gt; Html {
     {
       //* In order to perform count when clicked, you need to assign a Callback::from to the
       //* ..button's 'onclick' attribute
+      // * Please remember to delete this code comment block to make this module compile
     }
     &lt;button onclick={counter_action}&gt;{&amp;props.button_one}&lt;/button&gt;
   }
@@ -2618,11 +2617,12 @@ fn form_button_component(props: &amp;Props) -&gt; Html {
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components/form_assembler_component'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
-use crate::components::form_components::form_input_component;
-use crate::components::form_components::form_button_component;
-use gloo::console::log;
+use crate::components::form_components::form_input_component::FormInputComponent;
+use crate::components::form_components::form_button_component::FormButtonComponent;
 
-#[derive(Properties, PartialEq)]
+use std::ops::Deref;
+
+#[derive(Properties, PartialEq, Clone)]
 pub struct Props {
   pub input_one_value: String,
   pub button_name: String,
@@ -2636,7 +2636,7 @@ pub struct Props {
 #[derive(Default, Clone)]
 pub struct StatesData {
   pub state_one: String,
-  put state_two: u32,
+  pub state_two: u32,
 }
 
 #[function_component(FormAssemblerComponent)]
@@ -2655,9 +2655,9 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
 
   // Create a callback that will respond to (input) data received from another component's callback property
   let callback_receipient = Callback::from(
-    move |received_input| {
+    move |received_input: String| {
       // Now set your cloned state to its new value
-      sample_state_clone.set(&amp;*recieved_input);
+      sample_state_clone.set((&amp;*received_input).to_string());
     }
   );
 
@@ -2667,7 +2667,7 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
   let states_data_as_state_clone = states_data_as_state.clone();
 
   //* Callback::from() for states_data_as_state_clone's &quot;state_one&quot; property
-  let states_data_as_state_clone_callback_receipient = Callback::from(
+  let _states_data_as_state_clone_callback_receipient = Callback::from(
     move |received_state_one| {
       //* deref &quot;states_data_as_state_clone&quot;, and clone it again :/ lol
       let mut states_data = states_data_as_state_clone.deref().clone();
@@ -2682,16 +2682,12 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
   // Note that since this Callback::from does not need any event
   // ..from its child component, its closure arg
   // ..uses a '_' to ignore args
-  let click_count_receipient = Callback::from(
-    |_| {
+  let click_count_receipient = Callback::from(move |_| {
 
       // In order to change the use_state &quot;form_button_click_count_clone&quot; as &quot;FormButtonComponent&quot; is being clicked,
       // ..you need to call 'set' on it, see below;
       let click_count = *form_button_click_count_clone;
       form_button_click_count_clone.set(click_count + 1);
-
-      // For now, logging is also acceptable since it is good enough
-      log!(&quot;Current count is &quot;, form_button_click_count_state_clone);
     }
   );
 
@@ -2701,9 +2697,9 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
   let states_data_as_state_clone = states_data_as_state.clone();
 
   //* Callback::from() for states_data_as_state_clone's &quot;state_two&quot; property
-  let states_data_as_state_clone_button_count_callback_receipient = Callback::from(
+  let _states_data_as_state_clone_callback_receipient = Callback::from(
     //* This time we ignore closure arguments for 'Callback::from since we are not expecting nor working with any from its child component
-    move |_| {
+    move |_: StatesData| {
       //* deref &quot;states_data_as_state_clone&quot;, and clone it again
       let mut states_data = states_data_as_state_clone.deref().clone();
       states_data.state_two += 1;
@@ -2716,21 +2712,17 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
   // ..because using &lt;form&gt;&lt;/form&gt; as it is right now would lead to an endless recursive re-render of the screen
   html! {
     &lt;div&gt;
-      &lt;FormInputComponent input_one={&amp;props.input_one_value.clone()} handle_call_back_action={callback_receipient} /&gt;
+      &lt;FormInputComponent input_one={props.input_one_value.clone()} callback_data={callback_receipient} /&gt;
       {
         // Now you need to pass in your Callback::from to your child component's Callback property &quot;click_count&quot;
       }
-      &lt;FormButtonComponent button_one={&amp;props.button_name.clone()} click_count={click_count_receipient}/&gt;
+      &lt;FormButtonComponent button_one={props.button_name.clone()} click_count={click_count_receipient}/&gt;
+
       {
-        // A simple display of the count for &quot;FormButtonComponent&quot; clicks
-        // Also remember to derefence the use_state &quot;form_button_count&quot; or &quot;form_button_count_clone&quot;
-      }
-      &lt;p&gt;{&quot;FormButtonComponent's click count is at: &quot;}{*form_button_count_clone}&lt;/p&gt;
-      {
-        //* Time to ouput our complex state struct's properties (which inversely themselves now states)
+        //* Time to ouput our complex state struct's properties (which inversely are themselves now states). Remember nothing noteful happens yet.
       }
       &lt;p&gt;{&quot;State 1 is: &quot;}{&amp;states_data_as_state.state_one}&lt;/p&gt;
-      &lt;p&gt;{&quot;State 2 has &quot;{&amp;states_data_as_state.state_two}{ &quot;clicks!&quot;}&lt;/p&gt;
+      &lt;p&gt;{&quot;State 2 has &quot;}{&amp;states_data_as_state.state_two}{ &quot;clicks!&quot;}&lt;/p&gt;
     &lt;/div&gt;
   }
 }
