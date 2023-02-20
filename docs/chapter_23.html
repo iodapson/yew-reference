@@ -228,7 +228,7 @@ fn form_input_component(props: &amp;Props) -&gt; Html {
 
   let handle_callback_data = Callback::from(
 
-    move | input_event | {
+    move | input_event: Event | {
       let input_event_target = input_event.target().unwrap();
       let current_input_text = input_event_target.unchecked_into::&lt;HtmlInputElement&gt;();
 
@@ -256,13 +256,12 @@ pub struct Props {
 #[function_component(FormButtonComponent)]
 fn form_button_component(props: &amp;Props) -&gt; Html {
 
-  // Clone &quot;click_count&quot; callback property. It's just good practice
-  let click_count_clone = click_count.clone();
+  let click_count_clone = props.click_count.clone();
 
   // Take note of &quot;counter_action&quot;
   let counter_action = Callback::from(
     move |_| {
-      conter_action_clone.emit(()); //* 'emit(())' because &quot;click_count&quot; is a Callback&lt;()&gt;
+      conter_action_clone.emit(());
     }
   );
   html! {

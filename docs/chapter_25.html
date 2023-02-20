@@ -168,7 +168,7 @@ edition = "2021"
 yew = &quot;0.19.3&quot;
 stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 wasm-bindgen = &quot;0.2.79&quot;
-web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] } //* Note this important feature.
+web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] } // * Note this important feature.
 gloo = &quot;0.6.1&quot;
 </pre>
 </code></p>
@@ -176,7 +176,7 @@ gloo = &quot;0.6.1&quot;
 <pre><code class="language-rust">pub mod sub_components_a;
 pub mod form_components;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/mod.rs'</pre>
 <pre><code class="language-rust">pub mod form_input_component;
 pub mod form_button_component;
 pub mod form_assembler_component;
@@ -194,13 +194,13 @@ pub struct Props {
 }
 
 #[function_component(SubComponentsAComponent1)]
-pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
+pub fn sub_components_a_component_1(props: &amp;Props) -&gt; Html {
 
   html! {
     &lt;div&gt;
 
       &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
-      &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
+      &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;props.prop_one.owned()}&lt;/p&gt;
 
     &lt;/div&gt;
   }
@@ -214,22 +214,22 @@ use web_sys::HtmlInputElement;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
-  pub input: String,
-  pub handle_call_to_action: Callback&lt;String&gt;,
+  pub input_one: String,
+  pub string_data_callback: Callback&lt;String&gt;,
 }
 
 #[function_component(FormInputComponent)]
 fn form_input_component(props: &amp;Props) -&gt; Html {
 
-  let handle_call_to_action_clone = props.handle_call_to_action.clone();
+  let string_data_callback_clone = props.string_data_callback.clone();
 
-  let call_to_action = Callback::from(
+  let emit_string_data_callback = Callback::from(
 
-    move | input_event | {
+    move | input_event: Event | {
       let input_event_target = input_event.target().unwrap();
       let current_input_text = input_event_target.unchecked_into::&lt;HtmlInputElement&gt;();
 
-      handle_call_to_action_clone.emit(current_input_text.value());
+      string_data_callback_clone.emit(current_input_text.value());
 
     }
 
@@ -239,7 +239,7 @@ fn form_input_component(props: &amp;Props) -&gt; Html {
     {
       //* Notice how the input has a placeholder text which is the name you give to the input itself.
     }
-    &lt;input type=&quot;text&quot; name={props.input_one.clone()} onchange={call_to_action} placeholder={props.name.clone} /&gt;
+    &lt;input type=&quot;text&quot; name={props.input_one.clone()} onchange={call_to_action} /&gt;
   }
 }
 </code></pre>
