@@ -3084,10 +3084,11 @@ fn main() {
      |-mod.rs
      |-sub_components_a
       |-sub_components_a_component_1.rs
+      |-mod.rs
      |-form_components
-      |-form_input_component
-      |-form_button_component
-      |-form_assembly_component
+      |-form_input_component.rs
+      |-form_button_component.rs
+      |-form_assembly_component.rs
       |-mod.rs
     |-lib.rs
     |-main.rs
@@ -3147,7 +3148,7 @@ pub fn sub_components_a_component_1(props: &amp;Props) -&gt; Html {
 
 }
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 use wasm_bindgen::JsCast;
 use web_sys::HtmlInputElement;
@@ -3179,11 +3180,11 @@ fn form_input_component(props: &amp;Props) -&gt; Html {
     {
       //* Notice how the input has a placeholder text which is the name you give to the input itself.
     }
-    &lt;input type=&quot;text&quot; name={props.input_one.clone()} onchange={call_to_action} /&gt;
+    &lt;input type=&quot;text&quot; name={props.input_one.clone()} onchange={emit_string_data_callback} /&gt;
   }
 }
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components/form_button_component'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_button_component.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
@@ -3197,12 +3198,12 @@ pub struct Props {
 fn form_button_component(props: &amp;Props) -&gt; Html {
 
   // Clone &quot;click_count&quot; callback property. It's just good practice
-  let click_count_clone = click_count.clone();
+  let click_count_clone = props.click_count.clone();
 
   // Take note of &quot;counter_action&quot;
   let counter_action = Callback::from(
     move |_| {
-      conter_action_clone.emit(()); //* 'emit(())' because &quot;click_count&quot; is a Callback&lt;()&gt;
+      click_count_clone.emit(()); //* 'emit(())' because &quot;click_count&quot; is a Callback&lt;()&gt;
     }
   );
   html! {
@@ -3214,86 +3215,76 @@ fn form_button_component(props: &amp;Props) -&gt; Html {
   }
 }
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components/form_assembler_component'</pre>
-<pre><code class="language-rust">use yew::prelude::*;
-use crate::components::form_components::form_input_component;
-use crate::components::form_components::form_button_component;
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_assembler_component.rs'</pre>
+<pre><code class="language-rust">use crate::components::form_components::form_button_component::FormButtonComponent;
+use crate::components::form_components::form_input_component::FormInputComponent;
+use yew::prelude::*;
+
+use std::ops::Deref;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
-  pub input_one_value: String,
-  //* Another property to satisfy second &quot;FormInputComponent&quot; 'name' attribute value requirement
-  pub input_two_value: String,
-  pub button_name: String,
+    pub input_one_value: String,
+    //* Another property to satisfy second &quot;FormInputComponent&quot; 'name' attribute value requirement
+    pub input_two_value: String,
+    pub button_name: String,
 }
 
 //* A struct &quot;StatesData&quot; to be managed as a state
 #[derive(Default, Clone)]
 pub struct StatesData {
-  pub state_one: String,
-  pub state_two: String,
-  put state_three: u32,
+    pub input_state: String,
+    pub clicks_count_state: u32,
 }
 
 #[function_component(FormAssemblerComponent)]
 pub fn function_assembler(props: &amp;Props) -&gt; Html {
+    // Pass in your &quot;StatesData&quot; struct as a 'use_state'.
+    let states_data_as_state = use_state(|| StatesData::default());
 
-  // Pass in your &quot;StatesData&quot; struct as a 'use_state'.
-  let states_data_as_state = use_state( || StatesData::default() );
+    let states_data_as_state_clone = states_data_as_state.clone(); //* For &quot;input_callback_receipient&quot;
 
-  let states_data_as_state_clone = states_data_as_state.clone(); //* For &quot;input_callback_receipient&quot;
+    //* Here, &quot;input_1_callback_receipient&quot; was fomerly named &quot;states_data_as_state_clone_input_callback_receipient&quot;
+    //* ..and it will respond to input data received from another component
+    let input_callback_receipient = Callback::from(move |received_current_input_text| {
+        states_data_as_state_clone.set(StatesData {
+            input_state: received_current_input_text,
+            ..states_data_as_state_clone.deref().clone()
+        });
+    });
 
-  //* Here, &quot;input_1_callback_receipient&quot; was fomerly named &quot;states_data_as_state_clone_input_callback_receipient&quot;
-  //* ..and it will respond to input data received from another component
-  let input_1_callback_receipient = Callback::from(
-    move |received_current_input_text| {
-      states_data_as_state_clone.set(StatesData {
-        received_current_input_text,
-        ..states_data_as_state_clone.deref().clone(),
-      });
+    let states_data_as_state_clone = states_data_as_state.clone(); //* For &quot;click_count_callback_receipient&quot; below
+
+    let click_count_callback_receipient = Callback::from(move |_| {
+        let current_click_counts = states_data_as_state_clone.clicks_count_state.clone();
+        states_data_as_state_clone.set(StatesData {
+            clicks_count_state: current_click_counts + 1,
+            ..states_data_as_state_clone.deref().clone()
+        })
+    });
+
+    // &lt;FormInputComponent input={&amp;props.input_two_value.clone()} callback_data={input_2_callback_receipient} /&gt;
+    html! {
+      &lt;div&gt;
+        &lt;hr/&gt;
+        &lt;p&gt;{&quot;This component 'FormAssemblerComponent' has Props with the following initial field values received from its parent component 'App' :&quot;}&lt;/p&gt;
+
+        &lt;div&gt;
+          &lt;ul&gt;
+            &lt;li&gt;{&quot;input_one_value: &quot;}{&amp;props.input_one_value}&lt;/li&gt;
+            &lt;li&gt;{&quot;input_two_value: &quot;}{&amp;props.input_two_value}&lt;/li&gt;
+            &lt;li&gt;{&quot;button_name: &quot;}{&amp;props.button_name}&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+
+        &lt;FormInputComponent input_one={props.input_one_value.clone()} string_data_callback={input_callback_receipient} /&gt;
+        &lt;FormButtonComponent button_one={props.button_name.clone()} click_count_callback={click_count_callback_receipient}/&gt;
+
+        &lt;p&gt;{&quot;State 1 is: &quot;}{&amp;*states_data_as_state.input_state}&lt;/p&gt;
+        &lt;p&gt;{&quot;State 2 has &quot;}{&amp;states_data_as_state.clicks_count_state}{&quot; clicks!&quot;}&lt;/p&gt;
+        &lt;hr style=&quot;border: 1px solid green;&quot;/&gt;
+      &lt;/div&gt;
     }
-  );
-
-  let states_data_as_state_clone = states_data_as_state.clone(); //* For &quot;input_2_callback_receipient&quot;
-
-  //* Another input callback receipient, feel free to name into something appropriate, e.g. &quot;last_name&quot; or &quot;extra_query&quot;
-  // Un-enhanced version
-  let input_2_callback_receipient = Callback::from(
-    move |received_current_input_text| {
-      // Deref &quot;states_data_as_state_clone&quot;, and clone it again
-      let mut states_data = states_data_as_state_clone.deref().clone();
-      // Assign states_data's &quot;state_two&quot; to &quot;received_current_input_text&quot;
-      states_data.state_two = received_current_input_text;
-      // Remember to set new &quot;StatesData&quot; struct clone changes as new state, like so;
-      states_data_as_state_clone.set(states_data);
-    }
-  );
-
-  let states_data_as_state_clone = states_data_as_state.clone(); //* For &quot;click_count_callback_receipient&quot;
-
-  // Callback::from() for &quot;states_data_as_state_clone&quot; 's &quot;count_state&quot; property (the button click counter)
-  let click_count_callback_receipient = Callback::from(
-    // This time we ignore closure arguments for 'Callback::from since we are not expecting nor working with any from its child component
-    move |_| {
-      // Deref &quot;states_data_as_state_clone&quot;, and clone it again :/ lol
-      let mut states_data = states_data_as_state_clone.deref().clone();
-      states_data.count_state += 1;
-      // Remember to set new &quot;StatesData&quot; struct clone changes as new state, like so;
-      states_data_as_state_clone.set(states_data);
-    }
-  );
-
-  html! {
-    &lt;div&gt;
-      &lt;FormInputComponent input={&amp;props.input_one_value.clone()} handle_call_back_action={input_1_callback_receipient} /&gt;
-      &lt;FormInputComponent input={&amp;props.input_two_value.clone()} handle_call_back_action={input_2_callback_receipient} /&gt;
-
-      &lt;FormButtonComponent button_one={&amp;props.button_name.clone()} click_count={click_count_callback_receipient}/&gt;
-
-      &lt;p&gt;{&quot;State 1 is: &quot;}{&amp;states_data_as_state.state_one}&lt;/p&gt;
-      &lt;p&gt;{&quot;State 2 has &quot;{&amp;states_data_as_state.count_state}{ &quot;clicks!&quot;}&lt;/p&gt;
-    &lt;/div&gt;
-  }
 }
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
