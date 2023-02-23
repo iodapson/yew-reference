@@ -149,9 +149,9 @@ Also, when you change data inside a context, all the children or descendants wit
      |-sub_components_a
       |-sub_components_a_component_1.rs
      |-form_components
-      |-form_input_component
-      |-form_button_component
-      |-form_assembly_component
+      |-form_input_component.rs
+      |-form_button_component.rs
+      |-form_assembly_component.rs
       |-mod.rs
     |-lib.rs
     |-main.rs
@@ -180,7 +180,7 @@ gloo = &quot;0.6.1&quot;
 <pre><code class="language-rust">pub mod sub_components_a;
 pub mod form_components;
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/mod.rs'</pre>
 <pre><code class="language-rust">pub mod form_input_component;
 pub mod form_button_component;
 pub mod form_assembler_component;
@@ -193,244 +193,264 @@ pub mod form_assembler_component;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
-  pub prop_one: String,
-  pub prop_two: Option&lt;String&gt;,
+    pub prop_one: String,
+    pub prop_two: Option&lt;String&gt;,
 }
 
 #[function_component(SubComponentsAComponent1)]
-pub fn sub_components_a_component_1(prop: &amp;Prop) -&gt; Html {
-
-  html! {
-    &lt;div&gt;
-
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
-      &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;prop.prop_one.to_onwed()}&lt;/p&gt;
-
-    &lt;/div&gt;
-  }
-
+pub fn sub_components_a_component_1(props: &amp;Props) -&gt; Html {
+    html! {
+      &lt;div&gt;
+        &lt;hr/&gt;
+        &lt;p&gt;{&quot;This is component 'SubComponentsAComponent1' from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'. It received the following Props field values from its parent component 'App' :&quot;}&lt;/p&gt;
+        &lt;div&gt;
+          &lt;ul&gt;
+            &lt;li&gt;{&amp;props.prop_one}&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+        &lt;hr style=&quot;border: 1px solid green;&quot;/&gt;
+      &lt;/div&gt;
+    }
 }
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component'</pre>
-<pre><code class="language-rust">use yew::prelude::*;
-use wasm_bindgen::JsCast;
+<pre><code class="language-rust">use wasm_bindgen::JsCast;
 use web_sys::HtmlInputElement;
+use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
-  pub input: String,
-  pub handle_call_to_action: Callback&lt;String&gt;,
+    pub input: String,
+    pub string_data_callback: Callback&lt;String&gt;,
+    pub input_placeholder_text: Option&lt;String&gt;,
 }
 
 #[function_component(FormInputComponent)]
-fn form_input_component(props: &amp;Props) -&gt; Html {
+pub fn form_input_component(props: &amp;Props) -&gt; Html {
+    let string_data_callback_clone = props.string_data_callback.clone();
 
-  let handle_call_to_action_clone = props.handle_call_to_action.clone();
+    let emit_string_data_callback = Callback::from(move |input_event: Event| {
+        let input_event_target = input_event.target().unwrap();
+        let current_input_text = input_event_target.unchecked_into::&lt;HtmlInputElement&gt;();
 
-  let call_to_action = Callback::from(
+        string_data_callback_clone.emit(current_input_text.value());
+    });
 
-    move | input_event | {
-      let input_event_target = input_event.target().unwrap();
-      let current_input_text = input_event_target.unchecked_into::&lt;HtmlInputElement&gt;();
-      handle_call_to_action_clone.emit(current_input_text.value());
+    html! {
+      &lt;input type=&quot;text&quot; name={props.input.clone()} onchange={emit_string_data_callback} placeholder={props.input_placeholder_text.clone()} /&gt;
     }
-
-  );
-
-  html! {
-    &lt;input type=&quot;text&quot; name={props.input.clone()} onchange={call_to_action} placeholder={props.input.clone} /&gt;
-  }
 }
+
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components/form_button_component'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
-  pub button_one: String,
+    pub button_one: String,
+    // Create a Callback property to power click counts
+    pub click_count: Callback&lt;()&gt;,
 }
 
 #[function_component(FormButtonComponent)]
-fn form_button_component(props: &amp;Props) -&gt; Html {
+pub fn form_button_component(props: &amp;Props) -&gt; Html {
+    // Clone &quot;click_count&quot; callback property. It's just good practice
+    let click_count_clone = props.click_count.clone();
 
-  html! {
-    &lt;button&gt;{&amp;props.button_one}&lt;/button&gt;
-  }
+    // Take note of &quot;counter_action&quot;
+    let counter_action = Callback::from(move |_| {
+        click_count_clone.emit(()); //* 'emit(())' because &quot;click_count&quot; is a Callback&lt;()&gt;
+    });
+    html! {
+      &lt;button onclick={counter_action}&gt;{&amp;props.button_one}&lt;/button&gt;
+    }
 }
+
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components/form_assembler_component'</pre>
-<pre><code class="language-rust">use yew::prelude::*;
-use crate::components::form_components::form_input_component;
-use crate::components::form_components::form_button_component;
+<pre><code class="language-rust">use crate::components::form_components::form_button_component::FormButtonComponent;
+use crate::components::form_components::form_input_component::FormInputComponent;
+use crate::ContextData;
+use yew::prelude::*;
+
+use gloo::console::log;
+use std::ops::Deref;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
-  pub input_one_value: String,
-  pub input_two_value: String,
-  pub button_name: String,
-  pub on_submit_callback_property: Callback&lt;StatesData&gt;
+    pub input_one_value: String,
+    pub input_two_value: String,
+    pub button_one_name: String,
+    pub button_two_name: Option&lt;String&gt;,
+    pub on_submit_callback_property: Callback&lt;StatesData&gt;,
 }
 
 // A struct &quot;StatesData&quot; to be managed as a state
 #[derive(Default, Clone)]
 pub struct StatesData {
-  pub state_one: String,
-  pub state_two: String,
+    pub state_one: String,
+    pub state_two: String,
 }
 
 #[function_component(FormAssemblerComponent)]
 pub fn function_assembler(props: &amp;Props) -&gt; Html {
+    // Pass in your &quot;StatesData&quot; struct as a 'use_state'.
+    let states_data_as_state = use_state(|| StatesData::default());
 
-  // Pass in your &quot;StatesData&quot; struct as a 'use_state'.
-  let states_data_as_state = use_state( || StatesData::default() );
+    //* For receiving a context, you need to apply a 'use_context' like so;
+    let use_context_for_context_data = use_context::&lt;ContextData&gt;(); //* It will automatically now have access to &quot;ContextData&quot; because you opted in for access.
 
-  //* For receiving a context, you need to apply a 'use_context' like so;
-  let use_context_for_context_data = use_context::&lt;ContextData&gt;(); //* It will automatically now have access to &quot;ContextData&quot; because you opted in for access.
+    let states_data_as_state_clone = states_data_as_state.clone(); // For &quot;input_callback_receipient&quot;
 
-  let states_data_as_state_clone = states_data_as_state.clone(); // For &quot;input_callback_receipient&quot;
+    let input_1_callback_receipient = Callback::from(move |received_current_input_text| {
+        let mut states_data = states_data_as_state_clone.deref().clone();
+        states_data.state_one = received_current_input_text;
+        states_data_as_state_clone.set(states_data);
+    });
 
-  let input_1_callback_receipient = Callback::from(
-    move |received_current_input_text| {
+    let states_data_as_state_clone = states_data_as_state.clone(); // For &quot;input_2_callback_receipient&quot;
 
-      let mut states_data = states_data_as_state_clone.deref().clone();
-      states_data.state_one = received_current_input_text;
-      states_data_as_state_clone.set(states_data);
+    let input_2_callback_receipient = Callback::from(move |received_current_input_text| {
+        let mut states_data = states_data_as_state_clone.deref().clone();
+        states_data.state_two = received_current_input_text;
+        states_data_as_state_clone.set(states_data);
+    });
 
+    // * For 'click_callback_receipient_1' below
+    let states_data_as_state_clone = states_data_as_state.clone();
+
+    let click_callback_receipient_1 = Callback::from(move |_: ()| {
+        log!(&quot;1st button clicked&quot;);
+        //let states_data_value = *states_data_as_state_clone.clone();
+        // ***
+        //let current_click_counts = states_data_as_state_clone.clicks_count_state.clone();
+        states_data_as_state_clone.set(StatesData {
+            //clicks_count_state: current_click_counts + 1, // * Please delete
+            ..states_data_as_state_clone.deref().clone()
+        })
+    });
+
+    // * For 'click_callback_receipient_2' below
+    let states_data_as_state_clone = states_data_as_state.clone();
+
+    let click_callback_receipient_2 = Callback::from(move |_: ()| {
+        log!(&quot;2nd button clicked&quot;);
+        // ***
+        //let current_click_counts = states_data_as_state_clone.clicks_count_state.clone(); // * Please delete
+        states_data_as_state_clone.set(StatesData {
+            //clicks_count_state: current_click_counts + 1,
+            ..states_data_as_state_clone.deref().clone()
+        })
+    });
+
+    // Clone received &quot;props&quot; 's &quot;on_submit_callback_property&quot; since you would be emitting it eventually
+    let prop_on_submit_callback_property_clone = props.on_submit_callback_property.clone();
+
+    // Also clone state &quot;StatesData&quot; - &quot;states_data_as_state&quot;
+    let states_data_as_state_clone = states_data_as_state.clone();
+
+    // This is a critical code piece in this code demo
+    let on_submit_callback = Callback::from(move |onsubmit_event_trigger: FocusEvent| {
+        onsubmit_event_trigger.prevent_default();
+        let states_data = states_data_as_state_clone.deref().clone();
+        // emit &quot;states_data&quot;
+        prop_on_submit_callback_property_clone.emit(states_data);
+    });
+
+    //* Unlike before, now you can use &lt;form&gt;&lt;/form&gt; instead of &lt;div&gt;&lt;/div&gt;
+    html! {
+      &lt;form onsubmit={on_submit_callback}&gt;
+
+        &lt;FormInputComponent input={props.input_one_value.clone()} string_data_callback={input_1_callback_receipient} /&gt;
+        &lt;FormInputComponent input={props.input_two_value.clone()} string_data_callback={input_2_callback_receipient} /&gt;
+
+        &lt;FormButtonComponent button_name={props.button_one_name.clone()} click_callback={click_callback_receipient_1} /&gt;
+        &lt;FormButtonComponent button_name={
+            match props.button_two_name.clone() {
+                Some(string_value) =&gt; string_value.clone(),
+                _ =&gt; &quot;&quot;.to_string()
+            }
+        } click_callback={click_callback_receipient_2} /&gt;
+
+        &lt;p&gt;{&quot;State 1 is: &quot;}{&amp;states_data_as_state.state_one}&lt;/p&gt;
+        &lt;p&gt;{&quot;State 2 is: &quot;}{&amp;states_data_as_state.state_two}&lt;/p&gt;
+
+        &lt;p&gt;
+          {&quot;use_context_for_context_data's context_data_one is: &quot;}
+          {use_context_for_context_data.clone().unwrap_or_default().context_data_one}
+        &lt;/p&gt;
+        &lt;p&gt;
+          {&quot;use_context_for_context_data's context_data_two is: &quot;}
+          {use_context_for_context_data.clone().unwrap_or_default().context_data_two}
+        &lt;/p&gt;
+
+      &lt;/form&gt;
     }
-  );
-
-  let states_data_as_state_clone = states_data_as_state.clone(); // For &quot;input_2_callback_receipient&quot;
-
-  let input_2_callback_receipient = Callback::from(
-    move |received_current_input_text| {
-
-      let mut states_data = states_data_as_state_clone.deref().clone();
-      states_data.state_two = received_current_input_text;
-      states_data_as_state_clone.set(states_data);
-
-    }
-  );
-
-  // Clone received &quot;props&quot; 's &quot;on_submit_callback_property&quot; since you would be emitting it eventually
-  let prop_on_submit_callback_property_clone = props.on_submit_callback_property.clone();
-
-  // Also clone state &quot;StatesData&quot; - &quot;states_data_as_state&quot;
-  let states_data_as_state_clone = states_data_as_state.clone();
-
-  // This is a critical code piece in this code demo
-  let on_submit_callback = Callback::from(
-
-    move |onsubmit_event_trigger: FocusEvent| {
-
-      onsubmit_event_trigger.preventDefault();
-      let states_data = states_data_as_state_clone.deref().clone();
-      // emit &quot;states_data&quot;
-      prop_on_submit_callback_property_clone.emit(states_data);
-
-    }
-  );
-
-  //* Unlike before, now you can use &lt;form&gt;&lt;/form&gt; instead of &lt;div&gt;&lt;/div&gt;
-  html! {
-    &lt;form onsubmit={on_submit_callback}&gt;
-
-      &lt;FormInputComponent input={&amp;props.input_one_value.clone()} handle_call_back_action={input_1_callback_receipient} /&gt;
-      &lt;FormInputComponent input={&amp;props.input_two_value.clone()} handle_call_back_action={input_2_callback_receipient} /&gt;
-
-      {
-        //* &quot;click_count&quot; in code below not needed anymore
-      }
-      &lt;FormButtonComponent button_one={&amp;props.button_name.clone()} click_count={click_count_callback_receipient}/&gt;
-      {
-        //* Here is the replacement
-      }
-      &lt;FormButtonComponent button_one={&amp;props.button_name.clone()} /&gt;
-
-      &lt;p&gt;{&quot;State 1 is: &quot;}{&amp;states_data_as_state.state_one}&lt;/p&gt;
-
-      {
-        //* Time to use context data trickled down from parent component
-        //* ..and remember calling 'unwrap_or_default()' on &quot;use_context_for_context_data&quot; 's clone
-      }
-      &lt;p&gt;
-        {&quot;use_context_for_context_data's context_data_one is: &quot;}
-        {use_context_for_context_data.clone().unwrap_or_default()context_data_one}
-      &lt;/p&gt;
-      &lt;p&gt;
-        {&quot;use_context_for_context_data's context_data_two is: &quot;}
-        {use_context_for_context_data.clone().unwrap_or_default().context_data_two}
-      &lt;/p&gt;
-
-    &lt;/form&gt;
-  }
 }
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
-<pre><code class="language-rust">use yew::prelude::*;
-use stylist::yew::{styled_component, Style};
-use crate::components::sub_components_a::SubComponentsAComponent1;
-use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
+<pre><code class="language-rust">use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 use crate::components::form_components::form_assembler_component::StatesData;
+use crate::components::sub_components_a::sub_components_a_component_1::SubComponentsAComponent1;
+use stylist::{yew::styled_component, Style};
+use yew::prelude::*;
 //* You have to use 'ContextProvider' at the place where you want to create a context object.
 //* ..and you would then wrap your target context data with ContextProvider; as in: &quot;ContextProvider&lt;MyContextWhichIsAStruct&gt;
 use yew::ContextProvider;
+use gloo::console::log;
 
 mod components;
 
-const EXTERNAL_STYLE = include_str!(&quot;main.css&quot;);
+const EXTERNAL_STYLE: &amp;str = include_str!(&quot;main.css&quot;);
 
 //* Create data (in this chosen case, a struct) which will be a context data available to sub-components (child components and/or descendant components of a child component)
 //* Your context data struct must implement 'Clone' and 'PartialEq'
 //* Also optionally derive &quot;Default&quot;
 #[derive(Clone, PartialEq, Default)]
 pub struct ContextData {
-  pub context_data_one: String,
-  pub context_data_two: String,
+    pub context_data_one: String,
+    pub context_data_two: String,
 }
 
 #[styled_component(App)]
 pub fn app() -&gt; Html {
+    let external_style = Style::new(EXTERNAL_STYLE).unwrap();
 
-  let external_style = Style::new(EXTERNAL_STYLE).unwrap();
+    //* Instantiate &quot;ContextData&quot;
+    let context_data_instance = ContextData {
+        context_data_one: &quot;context data 1&quot;.to_owned(),
+        context_data_two: &quot;context data 2&quot;.to_owned(),
+    };
 
-  //* Instantiate &quot;ContextData&quot;
-  let context_data_instance = ContextData {
-    context_data_one: &quot;context data 1&quot;.to_owned(),
-    context_data_two: &quot;context data 2&quot;.to_owned(),
-  }
+    let on_submit_callback_property_receipient =
+        Callback::from(|received_states_data: StatesData| {
+            log!(&quot;State 1 is: &quot;, received_states_data.state_one);
+            log!(&quot;State 2 is: &quot;, received_states_data.state_two);
+        });
 
-  let on_submit_callback_property_receipient = Callback::from(
-    |received_states_data: StatesData| {
-      log!(&quot;State 1 is: &quot;, received_states_data.state_one);
-      log!(&quot;State 2 is: &quot;, received_states_data.state_two);
+    html! {
+      &lt;&gt;
+        &lt;div class={external_style}&gt;
+
+          &lt;p&gt;
+            {&quot;ContextProvider demo code mini-project&quot;}
+          &lt;/p&gt;
+
+          &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
+
+          &lt;ContextProvider&lt;ContextData&gt; context={context_data_instance}&gt;
+            &lt;FormAssemblerComponent
+              input_one_value = &quot;Input 1&quot;
+              input_two_value =&quot;Input 2&quot;
+              button_one_name = &quot;Submit&quot;
+              button_two_name = {Some(&quot;Check&quot;.to_string())}
+              on_submit_callback_property = {on_submit_callback_property_receipient}
+            /&gt;
+          &lt;/ContextProvider&lt;ContextData&gt;&gt;
+
+        &lt;/div&gt;
+      &lt;/&gt;
     }
-  );
-
-  html! {
-    &lt;&gt;
-      &lt;div class={external_style}&gt;
-
-        &lt;p&gt;
-          {&quot;ContextProvider demo code mini-project&quot;}
-        &lt;/p&gt;
-
-        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
-        {
-          //* &quot;ContextProvider&quot; with &quot;ContextData&quot; data type
-          //* You must assign an instance of &quot;ContextData&quot; to its 'context' attribute
-        }
-        &lt;ContextProvider&lt;ContextData&gt; context={context_data_instance}&gt;
-          &lt;FormAssemblerComponent
-            input_one_value = &quot;Input 1&quot;
-            input_two_value =&quot;Input 2&quot;
-            button_one = &quot;Button 1&quot;
-            on_submit_callback_property = {on_submit_callback_property_receipient}
-          /&gt;
-        &lt;/ContextProvider&lt;ContextData&gt;&gt;
-
-      &lt;/div&gt;
-    &lt;/&gt;
-  }
 }
 </code></pre>
 <pre>INSIDE 'yew-project-name/src/main.rs'</pre>

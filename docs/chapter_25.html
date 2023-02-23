@@ -170,9 +170,20 @@ yew = &quot;0.19.3&quot;
 stylist = {version = &quot;0.10.8&quot; features = [&quot;yew&quot;]}
 wasm-bindgen = &quot;0.2.79&quot;
 web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] } // * Note this important feature.
-gloo = &quot;0.6.1&quot;
 </pre>
 </code></p>
+<pre>INSIDE 'yew_project_name/src/main.css'</pre>
+<pre><code class="language-css">p {
+	background-color: yellowgreen;
+	color: beige;
+	border: 1px solid pink;
+	border-radius: 50px;
+	text-align: center;
+	font-style: italic;
+	font-size: 18px;
+	padding: 5px;
+}
+</code></pre>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
 <pre><code class="language-rust">pub mod sub_components_a;
 pub mod form_components;
@@ -190,22 +201,27 @@ pub mod form_assembler_component;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
-  pub prop_one: String,
-  pub prop_two: Option&lt;String&gt;,
+    pub prop_one: String,
+    pub prop_two: Option&lt;String&gt;,
 }
 
 #[function_component(SubComponentsAComponent1)]
 pub fn sub_components_a_component_1(props: &amp;Props) -&gt; Html {
+    html! {
+      &lt;div&gt;
 
-  html! {
-    &lt;div&gt;
+        &lt;hr/&gt;
+        &lt;p&gt;{&quot;This is component 'SubComponentsAComponent1' from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'. It received the following Props field values from its parent component 'App' :&quot;}&lt;/p&gt;
 
-      &lt;p&gt;{&quot;Hi! I am from component file 'src/components/sub_components_a/sub_components_a_component_1.rs'&quot;}&lt;/p&gt;
-      &lt;p&gt;{&quot;...and I was passed property/properties: &quot;} {&amp;props.prop_one.owned()}&lt;/p&gt;
+        &lt;div&gt;
+          &lt;ul&gt;
+            &lt;li&gt;{&amp;props.prop_one}&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+        &lt;hr style=&quot;border: 1px solid green;&quot;/&gt;
 
-    &lt;/div&gt;
-  }
-
+      &lt;/div&gt;
+    }
 }
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component.rs'</pre>
@@ -251,14 +267,14 @@ fn form_input_component(props: &amp;Props) -&gt; Html {
 pub struct Props {
   pub button_one: String,
   // Create a Callback property to power click counts
-  pub click_count: Callback&lt;()&gt;,
+  pub click_count_callback: Callback&lt;()&gt;,
 }
 
 #[function_component(FormButtonComponent)]
-fn form_button_component(props: &amp;Props) -&gt; Html {
+pub fn form_button_component(props: &amp;Props) -&gt; Html {
 
   // Clone &quot;click_count&quot; callback property. It's just good practice
-  let click_count_clone = props.click_count.clone();
+  let click_count_callback_clone = props.click_count.clone();
 
   // Take note of &quot;counter_action&quot;
   let counter_action = Callback::from(
@@ -299,28 +315,36 @@ pub struct StatesData {
 
 #[function_component(FormAssemblerComponent)]
 pub fn function_assembler(props: &amp;Props) -&gt; Html {
+
     // Pass in your &quot;StatesData&quot; struct as a 'use_state'.
     let states_data_as_state = use_state(|| StatesData::default());
 
     let states_data_as_state_clone = states_data_as_state.clone(); //* For &quot;input_callback_receipient&quot;
 
-    //* Here, &quot;input_1_callback_receipient&quot; was fomerly named &quot;states_data_as_state_clone_input_callback_receipient&quot;
-    //* ..and it will respond to input data received from another component
     let input_callback_receipient = Callback::from(move |received_current_input_text| {
-        states_data_as_state_clone.set(StatesData {
+
+        states_data_as_state_clone.set(
+          StatesData {
             input_state: received_current_input_text,
             ..states_data_as_state_clone.deref().clone()
-        });
+          }
+        );
+
     });
 
     let states_data_as_state_clone = states_data_as_state.clone(); //* For &quot;click_count_callback_receipient&quot; below
 
     let click_count_callback_receipient = Callback::from(move |_| {
+
         let current_click_counts = states_data_as_state_clone.clicks_count_state.clone();
-        states_data_as_state_clone.set(StatesData {
+
+        states_data_as_state_clone.set(
+          StatesData {
             clicks_count_state: current_click_counts + 1,
             ..states_data_as_state_clone.deref().clone()
-        })
+          }
+        )
+
     });
 
     // &lt;FormInputComponent input={&amp;props.input_two_value.clone()} callback_data={input_2_callback_receipient} /&gt;
@@ -345,41 +369,43 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
         &lt;hr style=&quot;border: 1px solid green;&quot;/&gt;
       &lt;/div&gt;
     }
+
 }
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
-<pre><code class="language-rust">use yew::prelude::*;
-use stylist::yew::{styled_component, Style};
-use crate::components::sub_components_a::SubComponentsAComponent1;
-use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
+<pre><code class="language-rust">use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
+use crate::components::sub_components_a::sub_components_a_component_1::SubComponentsAComponent1;
+use stylist::{yew::styled_component, Style};
+use yew::prelude::*;
 
 mod components;
 
-const EXTERNAL_STYLE = include_str!(&quot;main.css&quot;);
+const EXTERNAL_STYLE: &amp;str = include_str!(&quot;main.css&quot;);
 
 #[styled_component(App)]
 pub fn app() -&gt; Html {
+    let external_style = Style::new(EXTERNAL_STYLE).unwrap();
 
-  let external_style = Style::new(EXTERNAL_STYLE).unwrap();
+    html! {
+      &lt;&gt;
+        &lt;div class={external_style}&gt;
 
-  html! {
-    &lt;&gt;
-      &lt;div class={external_style}&gt;
+          &lt;p&gt;
+            {&quot;A Form Demo!&quot;}
+          &lt;/p&gt;
 
-        &lt;p&gt;
-          {&quot;Texting with style!&quot;}
-        &lt;/p&gt;
-        &lt;span&gt;
-          {&quot;cool eh!&quot;}
-        &lt;/span&gt;
+          &lt;b&gt;
+            {&quot;Please note that the html 'form' element is not used anywhere in this demo.&quot;}
+          &lt;/b&gt;
 
-        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
-        &lt;FormAssemblerComponent input_one_value = &quot;Input 1&quot; input_two_value=&quot;Input 2&quot; button_one=&quot;Button 1&quot; /&gt;
+          &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
+          &lt;FormAssemblerComponent input_one_value=&quot;Input 1&quot; input_two_value=&quot;Input 2&quot; button_name=&quot;Button 1&quot; /&gt;
 
-      &lt;/div&gt;
-    &lt;/&gt;
-  }
+        &lt;/div&gt;
+      &lt;/&gt;
+    }
 }
+
 </code></pre>
 <pre>INSIDE 'yew-project-name/src/main.rs'</pre>
 <pre><code class="language-rust">use yew_project_name::App;
