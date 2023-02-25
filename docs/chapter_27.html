@@ -148,6 +148,7 @@ Also, when you change data inside a context, all the children or descendants wit
      |-mod.rs
      |-sub_components_a
       |-sub_components_a_component_1.rs
+      |-mod.rs
      |-form_components
       |-form_input_component.rs
       |-form_button_component.rs
@@ -176,6 +177,18 @@ web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] }
 gloo = &quot;0.6.1&quot;
 </pre>
 </code></p>
+<pre>INSIDE 'yew_project_name/src/main.css'</pre>
+<pre><code class="language-css">p {
+	background-color: yellowgreen;
+	color: beige;
+	border: 1px solid pink;
+	border-radius: 50px;
+	text-align: center;
+	font-style: italic;
+	font-size: 18px;
+	padding: 5px;
+}
+</code></pre>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
 <pre><code class="language-rust">pub mod sub_components_a;
 pub mod form_components;
@@ -213,7 +226,7 @@ pub fn sub_components_a_component_1(props: &amp;Props) -&gt; Html {
     }
 }
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_input_component.rs'</pre>
 <pre><code class="language-rust">use wasm_bindgen::JsCast;
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
@@ -240,34 +253,32 @@ pub fn form_input_component(props: &amp;Props) -&gt; Html {
       &lt;input type=&quot;text&quot; name={props.input.clone()} onchange={emit_string_data_callback} placeholder={props.input_placeholder_text.clone()} /&gt;
     }
 }
-
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components/form_button_component'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_button_component.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
-    pub button_one: String,
+    pub button_name: String,
     // Create a Callback property to power click counts
-    pub click_count: Callback&lt;()&gt;,
+    pub click_callback: Callback&lt;()&gt;,
 }
 
 #[function_component(FormButtonComponent)]
 pub fn form_button_component(props: &amp;Props) -&gt; Html {
-    // Clone &quot;click_count&quot; callback property. It's just good practice
-    let click_count_clone = props.click_count.clone();
+    // Clone &quot;click_callback&quot; callback property. It's just good practice (I think)
+    let click_callback_clone = props.click_callback.clone();
 
-    // Take note of &quot;counter_action&quot;
-    let counter_action = Callback::from(move |_| {
-        click_count_clone.emit(()); //* 'emit(())' because &quot;click_count&quot; is a Callback&lt;()&gt;
+    // Take note of &quot;click_callback_action&quot;
+    let click_callback_action = Callback::from(move |_| {
+        click_callback_clone.emit(()); //* 'emit(())' because &quot;click_count&quot; is a Callback&lt;()&gt;
     });
     html! {
-      &lt;button onclick={counter_action}&gt;{&amp;props.button_one}&lt;/button&gt;
+      &lt;button onclick={click_callback_action}&gt;{&amp;props.button_name}&lt;/button&gt;
     }
 }
-
 </code></pre>
-<pre>INSIDE 'yew_project_name/src/components/form_components/form_assembler_component'</pre>
+<pre>INSIDE 'yew_project_name/src/components/form_components/form_assembler_component.rs'</pre>
 <pre><code class="language-rust">use crate::components::form_components::form_button_component::FormButtonComponent;
 use crate::components::form_components::form_input_component::FormInputComponent;
 use crate::ContextData;

@@ -174,6 +174,18 @@ wasm-bindgen = &quot;0.2.79&quot;
 web-sys = { version = &quot;0.3.56&quot;, features = [&quot;HtmlInputElement] } # //* Note this important feature.
 </pre>
 </code></p>
+<pre>INSIDE 'yew_project_name/src/main.css'</pre>
+<pre><code class="language-css">p {
+	background-color: yellowgreen;
+	color: beige;
+	border: 1px solid pink;
+	border-radius: 50px;
+	text-align: center;
+	font-style: italic;
+	font-size: 18px;
+	padding: 5px;
+}
+</code></pre>
 <pre>INSIDE 'yew_project_name/src/components/mod.rs'</pre>
 <pre><code class="language-rust">pub mod sub_components_a;
 pub mod form_components;
@@ -402,7 +414,7 @@ pub fn function_assembler(props: &amp;Props) -&gt; Html {
 </code></pre>
 <pre>INSIDE 'yew_project_name/src/lib.rs'</pre>
 <pre><code class="language-rust">use yew::prelude::*;
-use stylist::yew::{styled_component, Style};
+use stylist::{yew::styled_component, Style};
 use crate::components::sub_components_a::SubComponentsAComponent1;
 use crate::components::form_components::form_assembler_component::FormAssemblerComponent;
 
@@ -420,13 +432,13 @@ pub fn app() -&gt; Html {
       &lt;div class={external_style}&gt;
 
         &lt;p&gt;
-          {&quot;Texting with style!&quot;}
+          {&quot;Still learning with form&quot;}
         &lt;/p&gt;
-        &lt;span&gt;
-          {&quot;cool eh!&quot;}
-        &lt;/span&gt;
+        &lt;b&gt;
+          {&quot;Please note that the html 'form' element is not used anywhere in this demo. The HTML 'form' tag will be used in an upcoming chapter with title: 'Form 2 - Submitting form data'&quot;}
+        &lt;/b&gt;
 
-        &lt;LevelOneAComponent1 prop_one=&quot;hi&quot; /&gt;
+        &lt;SubComponentsAComponent1 prop_one=&quot;hi&quot; /&gt;
         &lt;FormAssemblerComponent input_one=&quot;Input 1&quot; button_one=&quot;Button 1&quot; /&gt;
 
       &lt;/div&gt;
